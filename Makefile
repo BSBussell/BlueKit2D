@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = src/main.cpp
+OBJS = main.cpp
 
 #CC specifies which compiler we're using
 CC = g++
@@ -19,5 +19,5 @@ all : $(OBJ_NAME)
 clean: 
 	rm -f a.out bin/*
 
-bin/main: src/main.cpp
+bin/main: main.cpp
 	$(CC) $(OBJS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
