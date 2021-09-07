@@ -1,3 +1,3 @@
 [submodule "src/bSDL"]
-	path = src/bSDL
+	path = bSDL/
 	url = https://github.com/BSBussell/bSDL
