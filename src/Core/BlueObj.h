@@ -12,6 +12,7 @@
 #define BlueObj_h
 
 #include "../main.h"
+#include <bitset>
 #include <cstdint>
 
 using BlueObj = uint32_t;
@@ -21,13 +22,6 @@ const BlueObj MAX_ENTITIES = 1000;
 const ComponentType MAX_COMPONENTS = 32;
 
 using Signature = std::bitset<MAX_COMPONENTS>;
-
-struct Transform {
-
-	bRect position;
-	double rotation;
-	double scale;
-};
 
 class BlueObjManager {
 
@@ -51,7 +45,7 @@ private:
 
 	// Total living entities - used for keeping limits
 	uint32_t mLivingEntityCount{};
-}
+};
 
 
 /*

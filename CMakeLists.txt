@@ -7,6 +7,7 @@ project(BlueKit2D)
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/bin)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
+set(CMAKE_BUILD_TYPE Debug)
 
 
 # The following folder will be included
@@ -51,4 +52,4 @@ target_link_libraries(
 	-lSDL2
 	-lSDL2_image
 	-lSDL2_mixer
-	-lBML)#
+	-lBML)

@@ -1,3 +1,6 @@
 
 *.o
 src/.DS_Store
+*.cmake
+
+builds/*
