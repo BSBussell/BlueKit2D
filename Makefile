@@ -9,6 +9,7 @@ CC = g++
 
 # Grabs all the files in src
 src = $(wildcard src/*.cpp)
+src := $(wildcard src/*/*.cpp)
 
 obj := $(notdir $(src))
 obj := $(addprefix $(OBJDIR)/, $(obj))

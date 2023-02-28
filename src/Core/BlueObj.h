@@ -11,24 +11,23 @@
 #ifndef BlueObj_h
 #define BlueObj_h
 
-#include "main.h"
+#include "../main.h"
 #include <cstdint>
 
-// Type Alias
 using BlueObj = uint32_t;
 using ComponentType = uint8_t;
 
-const BlueEntity MAX_ENTITIES = 1000;
+const BlueObj MAX_ENTITIES = 1000;
 const ComponentType MAX_COMPONENTS = 32;
 
-using Signature = std::bitset<MAX_COMPONENTS>
+using Signature = std::bitset<MAX_COMPONENTS>;
 
 struct Transform {
 
 	bRect position;
 	double rotation;
 	double scale;
-}
+};
 
 class BlueObjManager {
 
