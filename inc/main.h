@@ -5,6 +5,6 @@
 #include <string>
 #include <stdint.h>
 #include <BML/BML.h>
-#include "BlueObj.h"
+#include "BlueEnt.h"
 
 #endif
