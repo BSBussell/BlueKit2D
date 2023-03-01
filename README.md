@@ -1,2 +1,2 @@
 # BlueKit2D
-A Framework written on top of SDL2 meant to be used with BlueEngine
+The Core Engine that works off of BML
