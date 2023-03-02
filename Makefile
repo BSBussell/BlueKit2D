@@ -8,8 +8,8 @@ OBJDIR = obj
 CC = g++
 
 # Grabs all the files in src
-src = $(wildcard src/*.cpp)
 src := $(wildcard src/*/*.cpp)
+src += $(wildcard src/*.cpp)
 
 obj := $(notdir $(src))
 obj := $(addprefix $(OBJDIR)/, $(obj))
@@ -19,7 +19,7 @@ obj := $(obj:.cpp=.o)
 CFLAGS := -Wall -Wextra -std=c++17 -O3
 
 #IFLAGS specifies which directory to check for include
-IFLAGS := -Iinc
+IFLAGS := -Isrc
 
 #LFLAGS specify the libraries we're linking against
 LFLAGS  := -lSDL2 -lSDL2_image -lSDL2_mixer -lBML
@@ -52,14 +52,16 @@ OBJ: $(obj)
 # Building the Actual Executable
 .PHONY: build
 build: OBJ
+	@printf "$(src)"
 	@printf "\n$(bold)----------COMPILING EXECUTABLE: $@----------$(sgr0)\n"
 	$(CC) $(CFLAGS) $(IFLAGS) $(LFLAGS)  -o bin/$(BUILDNAME) $(obj)
 
 
 # Rules for obj files
-$(OBJDIR)/%.o: src/%.cpp
+$(OBJDIR)/%.o: $(src)
 	@printf "\n$(bold)----------COMPILING OBJ FILE: $(notdir $@)----------$(sgr0)\n"
-	$(CC) $^ $(CFLAGS) $(IFLAGS) -c -o $@ 
+	@printf "$(src)"
+	$(CC) $< $(CFLAGS) $(IFLAGS) -c -o $@ 
 
 .PHONY: clean
 clean: 

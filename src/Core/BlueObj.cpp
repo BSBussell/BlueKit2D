@@ -4,8 +4,9 @@
 // Blue Object
 
 #include "BlueObj.h"
+#include "Transform.h"
 
-/*
+
 BlueObj::BlueObj() {
 
 	pos = {0,0,0,0};
@@ -24,4 +25,3 @@ void BlueObj::set_pos(bRect update) {
 
 	pos = update;
 }
-*/

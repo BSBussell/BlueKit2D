@@ -11,7 +11,8 @@
 #ifndef BlueObj_h
 #define BlueObj_h
 
-#include "../main.h"
+#include "main.h"
+#include "Transform.h"
 #include <bitset>
 #include <cstdint>
 
@@ -48,7 +49,7 @@ private:
 };
 
 
-/*
+
 class BlueObj {
 
 
@@ -66,6 +67,5 @@ private:
 
 
 };
-*/
 
 #endif

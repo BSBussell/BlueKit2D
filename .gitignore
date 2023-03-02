@@ -3,4 +3,4 @@
 src/.DS_Store
 *.cmake
 
-builds/*
+build/*
