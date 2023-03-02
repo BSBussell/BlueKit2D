@@ -8,12 +8,15 @@ OBJDIR = obj
 CC = g++
 
 # Grabs all the files in src
-src := $(wildcard src/*/*.cpp)
-src += $(wildcard src/*.cpp)
+#src := $(wildcard src/*/*.cpp)
+#src += $(wildcard src/*.cpp)
 
-obj := $(notdir $(src))
-obj := $(addprefix $(OBJDIR)/, $(obj))
-obj := $(obj:.cpp=.o)
+#obj := $(src)
+#obj := $(obj:src=obj)
+#obj := $(obj:.cpp=.o)
+srcdirs := $(shell find src -type d)
+src := $(foreach dir,$(srcdirs),$(wildcard $(dir)/*.cpp))
+obj := $(patsubst src/%.cpp,$(OBJDIR)/%.o,$(src))
 		 
 #CFLAGS specifies the additional compilation options we're using
 CFLAGS := -Wall -Wextra -std=c++17 -O3
@@ -51,17 +54,24 @@ OBJ: $(obj)
 
 # Building the Actual Executable
 .PHONY: build
-build: OBJ
-	@printf "$(src)"
+build: $(obj)
 	@printf "\n$(bold)----------COMPILING EXECUTABLE: $@----------$(sgr0)\n"
-	$(CC) $(CFLAGS) $(IFLAGS) $(LFLAGS)  -o bin/$(BUILDNAME) $(obj)
+	$(CC) $(CFLAGS) $(IFLAGS) $(LFLAGS) -o bin/$(BUILDNAME) $(obj)
 
 
 # Rules for obj files
-$(OBJDIR)/%.o: $(src)
+$(OBJDIR)/%.o: %.cpp
 	@printf "\n$(bold)----------COMPILING OBJ FILE: $(notdir $@)----------$(sgr0)\n"
-	@printf "$(src)"
-	$(CC) $< $(CFLAGS) $(IFLAGS) -c -o $@ 
+	@printf "$@\n"
+	@mkdir -p $(dir $@)
+	g++ $< $(CFLAGS) $(IFLAGS) -c -o $@
+
+$(OBJDIR)/%.o: src/%.cpp
+	@printf "\n$(bold)----------COMPILING OBJ FILE: $(notdir $@)----------$(sgr0)\n"
+	@printf "$@\n"
+	@mkdir -p $(dir $@)
+	g++ $< $(CFLAGS) $(IFLAGS) -c -o $@ 
+
 
 .PHONY: clean
 clean: 

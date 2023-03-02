@@ -4,7 +4,6 @@
 // Blue Object
 
 #include "BlueObj.h"
-#include "Transform.h"
 
 
 BlueObj::BlueObj() {

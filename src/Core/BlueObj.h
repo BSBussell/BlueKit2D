@@ -8,14 +8,15 @@
  */ 
 
 
-#ifndef BlueObj_h
-#define BlueObj_h
+#ifndef BLUEOBJ_H
+#define BLUEOBJ_H
 
 #include "main.h"
-#include "Transform.h"
+#include "Components/Transform.h"
 #include <bitset>
 #include <cstdint>
 
+/*
 using BlueObj = uint32_t;
 using ComponentType = uint8_t;
 
@@ -48,7 +49,7 @@ private:
 	uint32_t mLivingEntityCount{};
 };
 
-
+*/
 
 class BlueObj {
 
