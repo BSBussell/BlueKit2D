@@ -6,6 +6,9 @@
 #ifndef BLUETYPES_H
 #define BLUETYPES_H
 
+#include <bitset>
+#include <cstdint>
+
 using BlueEnt = uint32_t;
 using ComponentType = uint8_t;
 

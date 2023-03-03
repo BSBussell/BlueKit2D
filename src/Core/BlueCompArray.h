@@ -1,17 +1,20 @@
 
 // Bee Bussell
 // March 3, 2023
-// Component Array
+// Blue Component Array
 
 /* 
 	Heavily Inspired by:
 		https://austinmorlan.com/posts/entity_component_system/
 */
 
-#ifndef COMPARRAY_H
-#define COMPARRAY_H
+#ifndef BLUE_COMP_ARRAY_H
+#define BLUE_COMP_ARRAY_H
 
-#include "BlueTypes.h"
+#include <stdint.h>
+#include <unordered_map>
+
+#include "Core/BlueTypes.h"
 
 // Virtual Inheritance
 class _blue_comp_array {
@@ -21,16 +24,26 @@ public:
 	virtual void BlueEntDestroyed(BlueEnt entity) = 0;
 };
 
+/*
+ * So essentially this template allows use to create a component array for each unique component
+ */
+
 template<typename T>
 class BlueCompArray : public _blue_comp_array {
 
 public:
 
+	/*
+		InsertComponent() Essentially adds the component to the array of components and manages the maps
+
+		@param BlueEnt entity: The entity the component belongs to
+		@param T component: The component struct we're attatching
+	 */
 	void InsertComponent(BlueEnt entity, T component) {
 
 		if (_EntityToIndexMap.find(entity) == _EntityToIndexMap.end()) {
 
-			perror("Girly, you already added this component...")
+			perror("Girly, you already added this component...");
 			exit(1);
 		}
 
@@ -48,6 +61,11 @@ public:
 		_Size++;
 	}
 
+	/*
+		RemoveData() Essentially just removes the component from the entity
+
+		@param BlueEnt entity: the entity the component is removed from
+	 */
 	void RemoveData(BlueEnt entity) {
 
 		if (_EntityToIndexMap.find(entity) == _EntityToIndexMap.end()) {
@@ -73,11 +91,40 @@ public:
 		_Size--;
 	}
 
+	/*
+		GetData() Returns the component given an entity
+
+		@param BlueEnt entity: the entity we're grabbing
+	 */
+	T& GetData(BlueEnt entity) {
+
+		if (_EntityToIndexMap.find(entity) == _EntityToIndexMap.end()) {
+
+			perror("Girl, you trynna get info about a component don't have");
+			exit(1);
+		}
+
+		// Return a reference to the BlueEnt's component
+		return _ComponentArray[_EntityToIndexMap[entity]];
+	}
+
+	/*
+		BlueEntDestroyed() overrides the initial method and catches when an entity is destroyed
+
+		@param BlueEnt entity: The entity that was destroyed
+	 */
+	void BlueEntDestroyed(BlueEnt entity) override {
+
+		if (_EntityToIndexMap.find(entity) != _EntityToIndexMap.end()) {
+
+			RemoveData(entity);
+		}
+	}
+
 private:
 
 	// Packed array of components
 	// Set to a specified max amount, matching the maximum number
-	// IDK why we use std::array
 	std::array<T, MAX_ENTITIES> _ComponentArray;
 
 	std::unordered_map<BlueEnt, size_t> _EntityToIndexMap;
@@ -86,6 +133,6 @@ private:
 
 	// Total size of the valid entries in the array
 	size_t _Size;
-}
+};
 
 #endif

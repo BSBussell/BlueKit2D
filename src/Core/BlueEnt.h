@@ -3,18 +3,19 @@
 // Feb 27, 2023
 // Blue Object
 
-/*
- * Essentially the Entity for our ECS
- */ 
+/* 
+	Heavily Inspired by:
+		https://austinmorlan.com/posts/entity_component_system/
+*/
 
 
 #ifndef BLUEENT_H
 #define BLUEENT_H
 
-#include <bitset>
-#include <cstdint>
+#include <array>
+#include <queue>
 
-#include "BlueTypes.h"
+#include "Core/BlueTypes.h"
 
 class BlueEntManager {
 
