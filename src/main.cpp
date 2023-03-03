@@ -18,8 +18,6 @@ int main() {
     BML_Init();
     
     bWindow* window = new bWindow("JSON Test", 0, 0, 800, 450);
-
-    BlueObj* obj = new BlueObj();
     
     // Ok looking at this a year after I developed this, I hate it
     // This should be something that should be set, like maybe a bool?

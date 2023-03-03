@@ -6,9 +6,12 @@
 
 struct Transform {
 
-	bRect position;
-	double rotation;
-	double scale;
+	bPoint position;
+	
+	// Added as needed
+	
+	//double rotation;
+	//double scale;
 };
 
 #endif

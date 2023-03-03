@@ -6,6 +6,6 @@
 #include <stdint.h>
 #include <BML/BML.h>
 
-#include "Core/BlueObj.h"
+#include "Core/BlueEnt.h"
 
 #endif

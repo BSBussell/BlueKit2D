@@ -34,12 +34,15 @@ target_compile_options(
 target_sources(
 	BlueKit2D
 	PRIVATE
+
+	# .cpp files
 	src/main.cpp
+
+	# .h files
 	src/main.h
-	src/Core/BlueObj.cpp
-	src/Core/BlueObj.h
+	src/Core/BlueEnt.h
 	src/Components/Transform.h
-	)
+)
 
 target_include_directories(
 	BlueKit2D
