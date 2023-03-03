@@ -41,6 +41,8 @@ target_sources(
 	# .h files
 	src/main.h
 	src/Core/BlueEnt.h
+	src/Core/BlueTypes.h
+	src/Core/BlueCompArray.h
 	src/Components/Transform.h
 )
 

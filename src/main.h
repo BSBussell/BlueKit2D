@@ -6,6 +6,9 @@
 #include <stdint.h>
 #include <BML/BML.h>
 
+// Including Core Files
+#include "Core/BlueTypes.h"
+#include "Core/CompArray.h"
 #include "Core/BlueEnt.h"
 
 #endif
