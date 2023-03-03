@@ -5,3 +5,4 @@ src/.DS_Store
 
 # I have no idea how i managed this
 build/*
+builds/*
