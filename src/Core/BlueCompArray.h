@@ -66,11 +66,11 @@ public:
 
 		@param BlueEnt entity: the entity the component is removed from
 	 */
-	void RemoveData(BlueEnt entity) {
+	void RemoveComponent(BlueEnt entity) {
 
 		if (_EntityToIndexMap.find(entity) == _EntityToIndexMap.end()) {
 
-			perror("Girly, you gotta add the component first!...")
+			perror("Girly, you gotta add the component before you can remove it...")
 			exit(1);
 		}
 
@@ -100,7 +100,7 @@ public:
 
 		if (_EntityToIndexMap.find(entity) == _EntityToIndexMap.end()) {
 
-			perror("Girl, you trynna get info about a component don't have");
+			perror("Girl, you trynna get info about a component you don't have");
 			exit(1);
 		}
 
@@ -117,7 +117,7 @@ public:
 
 		if (_EntityToIndexMap.find(entity) != _EntityToIndexMap.end()) {
 
-			RemoveData(entity);
+			RemoveComponent(entity);
 		}
 	}
 

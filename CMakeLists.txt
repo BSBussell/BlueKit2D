@@ -35,14 +35,17 @@ target_sources(
 	BlueKit2D
 	PRIVATE
 
-	# .cpp files
+	# Main
 	src/main.cpp
-
-	# .h files
 	src/main.h
+
+	# Core Files
 	src/Core/BlueEnt.h
 	src/Core/BlueTypes.h
 	src/Core/BlueCompArray.h
+	src/Core/BlueSys.h
+
+	# Components
 	src/Components/Transform.h
 )
 

@@ -1,6 +1,8 @@
 
-#ifndef transform_h
-#define transform_h
+
+
+#ifndef TRANSFORM_H
+#define TRANSFORM_H
 
 #include <BML/bRect.h>
 

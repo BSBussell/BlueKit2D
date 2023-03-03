@@ -10,10 +10,10 @@
 #include <cstdint>
 
 using BlueEnt = uint32_t;
-using ComponentType = uint8_t;
+using BlueCompType = uint8_t;
 
 const BlueEnt MAX_ENTITIES = 1000;
-const ComponentType MAX_COMPONENTS = 32;
+const BlueCompType MAX_COMPONENTS = 32;
 
 using Signature = std::bitset<MAX_COMPONENTS>;
 
