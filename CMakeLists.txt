@@ -49,10 +49,16 @@ target_include_directories(
 	PRIVATE
 	src)
 
+#find_package(BML REQUIRED)
+#include_directories(${BML_INCLUDE_DIRS})
+
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
+
 target_link_libraries(
 	BlueKit2D
 	PRIVATE
-	-lSDL2
+	${SDL2_LIBRARIES}
 	-lSDL2_image
 	-lSDL2_mixer
-	-lBML)
+	BML)
