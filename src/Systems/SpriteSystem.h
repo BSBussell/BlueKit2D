@@ -21,10 +21,11 @@ public:
 	void Init();
 	void Update();
 
+	// Call this as rarely as possible
 	void RefreshLayers();
 
 	SpriteSystem() {
-		
+
 	}
 
 private:

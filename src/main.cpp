@@ -4,16 +4,25 @@
 
 #include "main.h"
 
-BlueBridge g_BlueBridge;
+std::weak_ptr<BlueBridge> g_WeakBlueBridge;
 
 int main() {
  
     // Setup BML :3
     BML_Init();
+    BlueSceneManager SceneManager;
+
+    auto BasicScene = std::make_shared<Template_Scene>("Basic");
+    auto SecondScene = std::make_shared<Second_Scene>("Second");
+    
+    SceneManager.AddScene(BasicScene);
+    SceneManager.AddScene(SecondScene);
+    SceneManager.LoadScene("Basic");
 
     // Our loop variable
     bool run = true;
 
+    /*
     // Setup the Bridge
     g_BlueBridge.Init();
 
@@ -86,7 +95,7 @@ int main() {
     }
     // Initialize
     sprites->Init();
-
+    */
     bRect dest = {10,10,128,128};
     
     // Audio Component / System
@@ -118,20 +127,23 @@ int main() {
         }
         if (bEvent::keyDown('D')) {
             dest.x++;
+            SceneManager.LoadScene("Second");
         }
         if (bEvent::keyDown('Q')) {
             run = false;
         }
 
+        SceneManager.Update(0);
+        SceneManager.Render();
         // Sprite Component
         //window->drawRect(dest, 255, 255, 255);
         
 
         // Window Component
-        graphics -> Update(0);
+        //graphics -> Update(0);
 
         // Update Sprites
-        sprites -> Update();
+        //sprites -> Update();
     }
     //spriteSheet.stopAnimation();
     //

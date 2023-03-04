@@ -50,8 +50,10 @@ target_sources(
 	src/Core/BlueEntManager.h
 	src/Core/BlueSysManager.h
 	src/Core/BlueCompManager.h
+	src/Core/BlueScene.h
+	src/Core/BlueSceneManager.h
 	
-	
+
 	# Systems
 	src/Systems/GraphicsSystem.cpp
 	src/Systems/GraphicsSystem.h
@@ -62,6 +64,11 @@ target_sources(
 	src/Components/Transform.h
 	src/Components/Window.h
 	src/Components/Sprite.h
+
+	# Scenes
+	src/Scenes/TemplateScene.h
+	src/Scenes/SecondScene.h
+
 )
 
 target_include_directories(

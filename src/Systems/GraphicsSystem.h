@@ -6,6 +6,8 @@
 #ifndef GRAPHICS_SYSTEM_H
 #define GRAPHICS_SYSTEM_H
 
+#include <memory>
+#include <algorithm>
 #include <BML/bWindow.h>
 
 #include "Core/BlueBridge.h"
@@ -16,6 +18,7 @@ class Graphics : public BlueSys {
 public:
 	void Init();
 	void Update();
+	void Close();
 
 };
 
