@@ -61,6 +61,7 @@ void Graphics::Update() {
 		Window &window = g_BlueBridgePtr -> GetComponent<Window>(entity);
 
 		window.window -> drawBuffer();
+		window.window -> drawRect({0,0,1920,1080}, 255, 255, 255);
 	}
 	// Draw Buffer command goes here, along with whatever else
 }
@@ -78,6 +79,7 @@ void Graphics::Close() {
 		//Transform &transform = g_BlueBridge.GetComponent<Transform>(entity);
 		Window &window = g_BlueBridgePtr -> GetComponent<Window>(entity);
 
+		
 		window.window -> closeWindow();
 	}
 

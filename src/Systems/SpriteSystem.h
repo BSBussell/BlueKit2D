@@ -20,6 +20,7 @@ class SpriteSystem : public BlueSys {
 public:
 	void Init();
 	void Update();
+	void Close();
 
 	// Call this as rarely as possible
 	void RefreshLayers();

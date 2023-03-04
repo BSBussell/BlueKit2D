@@ -68,6 +68,36 @@ void SpriteSystem::Update() {
 	}
 }
 
+void SpriteSystem::Close() {
+
+	std::shared_ptr g_BlueBridgePtr = g_WeakBlueBridge.lock();
+	if (!g_BlueBridgePtr) {
+
+		perror("GIRL WHERE'D THE BRIDGE GO!!!");
+		exit(1);
+	}
+
+	for (auto const& entity : BlueEntities) {
+
+		Sprite &sprite = g_BlueBridgePtr -> GetComponent<Sprite>(entity);
+		sprite.sprite_sheet.stopAnimation();
+
+
+		auto context = sprite.context.lock();
+		if (context) {
+			
+			context -> freeSpriteSheet(sprite.sprite_sheet);
+
+		} else {
+			perror("They deleted your window :0\n");
+			exit(1);
+		}
+	}
+
+	
+    
+}
+
 void SpriteSystem::RefreshLayers() {
 
 	// Sort the entities by layer

@@ -77,6 +77,7 @@ public:
         // implementation
         // HAHA what you want me to clean???
         graphics -> Close();
+        sprites -> Close();
     }
 
     void Update(float deltaTime) override {
