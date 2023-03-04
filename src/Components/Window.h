@@ -13,7 +13,8 @@
 
 struct Window {
 
-	std::shared_ptr<bWindow> window;	
+	std::shared_ptr<bWindow> window;
+	std::string name;	
 };
 
 #endif

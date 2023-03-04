@@ -55,6 +55,8 @@ target_sources(
 	# Systems
 	src/Systems/GraphicsSystem.cpp
 	src/Systems/GraphicsSystem.h
+	src/Systems/SpriteSystem.cpp
+	src/Systems/SpriteSystem.h
 
 	# Components
 	src/Components/Transform.h

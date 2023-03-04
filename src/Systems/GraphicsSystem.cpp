@@ -24,7 +24,7 @@ void Graphics::Init() {
 
 		// This is where we initialize the window, set any flags, etc.
 		// Window component
-	    window.window = std::make_shared<bWindow>("BlueEngine", position.x, position.y, position.width, position.height);
+	    window.window = std::make_shared<bWindow>(window.name.c_str(), position.x, position.y, position.width, position.height);
 	    
 	    // Ok looking at this a year after I developed this, I hate it
 	    // This should be something that should be set, like maybe a bool?
@@ -40,14 +40,13 @@ void Graphics::Init() {
 	
 }
 
-void Graphics::Update(float dt) {
+void Graphics::Update() {
 	
 
 
 	for (auto const& entity : BlueEntities) {
 		//Transform &transform = g_BlueBridge.GetComponent<Transform>(entity);
 		Window &window = g_BlueBridge.GetComponent<Window>(entity);
-
 
 		window.window -> drawBuffer();
 	}

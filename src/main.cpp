@@ -8,51 +8,85 @@ BlueBridge g_BlueBridge;
 
 int main() {
  
+    // Setup BML :3
+    BML_Init();
+
+    // Our loop variable
+    bool run = true;
+
     // Setup the Bridge
     g_BlueBridge.Init();
+
+
+    // Registering Components
     g_BlueBridge.RegisterComponent<Window>();
     g_BlueBridge.RegisterComponent<Transform>();
+    g_BlueBridge.RegisterComponent<Sprite>();
 
+    // Register Graphics System
     auto graphics = g_BlueBridge.RegisterSystem<Graphics>();    
     
-    Signature signature;
-    signature.set(g_BlueBridge.GetComponentType<Window>());
-    signature.set(g_BlueBridge.GetComponentType<Transform>());
-    g_BlueBridge.SetSystemSignature<Graphics>(signature);
-    
+    // Give System Required Components of Entities
+    {
+        Signature signature;
+        signature.set(g_BlueBridge.GetComponentType<Window>());
+        signature.set(g_BlueBridge.GetComponentType<Transform>());
+        g_BlueBridge.SetSystemSignature<Graphics>(signature);
+    }
 
-    bool run = true;
+    // Register Sprite System
+    auto sprites = g_BlueBridge.RegisterSystem<SpriteSystem>();
+
+    // Tell the Sprite System what components to look for :3
+    {
+        Signature signature;
+        signature.set(g_BlueBridge.GetComponentType<Sprite>());
+        signature.set(g_BlueBridge.GetComponentType<Transform>());
+        g_BlueBridge.SetSystemSignature<SpriteSystem>(signature);
+    }
     
-    BML_Init();
-    
-    // Window component
+    // Making the Window Entity
     BlueEnt Window_Entity = g_BlueBridge.CreateEntity();
 
+    // Component Transform and Window for the entity
     Transform box;
     box.position = {0, 0, 1920, 1080};
 
     Window window;
+    window.name = "BlueKit2D ECS Integration";
 
+    // Adding the components to the entity
     g_BlueBridge.AddComponent( Window_Entity, box);
     g_BlueBridge.AddComponent( Window_Entity, window);
 
-    graphics -> BlueEntities.insert(Window_Entity);
 
+    // Call the graphics systems initialization
     graphics->Init();
 
-/*
-    bWindow* window = new bWindow("JSON Test", 0, 0, 800, 450);
-    
-    // Ok looking at this a year after I developed this, I hate it
-    // This should be something that should be set, like maybe a bool?
-    // However now that I've peaked at bit more at this function... I get it a bit more...
-    window->toggleResizeable();
-    window->toggleHardwareRender();
-    window->toggleVSync();
-    window->toggleHighDPI();
+    // Draw a fuck ton of animated sprites (this is a stress test :3)
+    for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 10; j++) {
+        // Making the sprite entity
+        BlueEnt Sprite_Entity = g_BlueBridge.CreateEntity();
 
-    window->createWindow();
-*/ 
+        // Setup Transform Component
+        Transform loc;
+        loc.position = { 175*i, 175*j, 700, 700};
+
+        // Setup Sprite Component
+        Sprite image;
+        image.filePath = "../user/resources/MCaniHIGH-Start_walk.json";
+        image.context = std::weak_ptr(g_BlueBridge.GetComponent<Window>(Window_Entity).window);
+        image.layer = i*(j+1);
+
+        // Add the two Components
+        g_BlueBridge.AddComponent(Sprite_Entity, loc);
+        g_BlueBridge.AddComponent(Sprite_Entity, image);
+    }
+    }
+    // Initialize
+    sprites->Init();
+
     bRect dest = {10,10,128,128};
     
     // Audio Component / System
@@ -64,14 +98,6 @@ int main() {
     //bSound::loadMUS("../resources/BLUE-Compress.wav");
     //bSound::playMUS(5);
 
-    
-    // I think this should be something handled in the sheet function
-    // SpriteComponent
-    //bSheet spriteSheet;
-    //readSheetFromJSON(BML_GetPath("../resources /NoelAssets/MCaniHIGH-Start_walk.json").c_str(), spriteSheet);
-    //spriteSheet.startAnimation("default");
-
-    //window->initSpriteSheet(spriteSheet);
     
     while(run) {
 
@@ -99,12 +125,13 @@ int main() {
 
         // Sprite Component
         //window->drawRect(dest, 255, 255, 255);
-        //window->drawSprite(spriteSheet, dest);
         
 
         // Window Component
         graphics -> Update(0);
-        //run = false;
+
+        // Update Sprites
+        sprites -> Update();
     }
     //spriteSheet.stopAnimation();
     //

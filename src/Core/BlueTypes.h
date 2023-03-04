@@ -12,7 +12,7 @@
 using BlueEnt = uint32_t;
 using BlueCompType = uint8_t;
 
-const BlueEnt MAX_ENTITIES = 1000;
+const BlueEnt MAX_ENTITIES = 1024;
 const BlueCompType MAX_COMPONENTS = 32;
 
 using Signature = std::bitset<MAX_COMPONENTS>;

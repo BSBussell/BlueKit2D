@@ -11,13 +11,17 @@
 #include <memory>
 
 #include "Components/Transform.h"
-#include "Components/Window.h"
 
 struct Sprite {
 
+	std::string filePath;
+
 	bSheet sprite_sheet;
 	
-	std::weak_ptr<bWindow> window;
+	// Which layer to render on
+	int layer;
+
+	std::weak_ptr<bWindow> context;
 };
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef MAIN_h
-#define MAIN_h
+#ifndef MAIN_H
+#define MAIN_H
 
 #include <iostream>
 #include <string>
@@ -16,13 +16,7 @@
 
 // System Includes
 #include "Systems/GraphicsSystem.h"
-/*
-#include "Core/BlueCompArray.h"
-#include "Core/BlueCompManager.h"
-#include "Core/BlueEntManager.h"
-#include "Core/BlueSys.h"
-#include "Core/BlueSysManager"
-#include "Core/BlueTypes.h"
-*/
+#include "Systems/SpriteSystem.h"
+
 
 #endif

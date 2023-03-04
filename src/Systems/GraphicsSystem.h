@@ -15,7 +15,7 @@ class Graphics : public BlueSys {
 	
 public:
 	void Init();
-	void Update(float dt);
+	void Update();
 
 };
 

@@ -74,7 +74,7 @@ public:
 			/*
 				If I ever wana Handle Entity Overflow. . .
 			*/
-			perror("BlueEnts outta range girly");
+			perror("BlueEnts outta range girly\n");
 			exit(1);
 		}
 		_Signatures[entity] = signature;
@@ -87,7 +87,7 @@ public:
 			/*
 				If I ever wana Handle Entity Overflow. . .
 			*/
-			perror("BlueEnts outta range girly");
+			perror("BlueEnts outta range girly\n");
 			exit(1);
 		}
 		return _Signatures[entity];		
