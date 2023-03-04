@@ -21,7 +21,7 @@ class _blue_comp_array {
 
 public:
 	virtual ~_blue_comp_array() = default;
-	virtual void BlueEntDestroyed(BlueEnt entity) = 0;
+	virtual void EntityDestroyed(BlueEnt entity) = 0;
 };
 
 /*
@@ -41,10 +41,10 @@ public:
 	 */
 	void InsertComponent(BlueEnt entity, T component) {
 
-		if (_EntityToIndexMap.find(entity) == _EntityToIndexMap.end()) {
+		if (_EntityToIndexMap.find(entity) != _EntityToIndexMap.end()) {
 
 			perror("Girly, you already added this component...");
-			exit(1);
+			exit(0);
 		}
 
 		// Setting our components index to be the size
@@ -70,7 +70,7 @@ public:
 
 		if (_EntityToIndexMap.find(entity) == _EntityToIndexMap.end()) {
 
-			perror("Girly, you gotta add the component before you can remove it...")
+			perror("Girly, you gotta add the component before you can remove it...");
 			exit(1);
 		}
 
@@ -113,7 +113,7 @@ public:
 
 		@param BlueEnt entity: The entity that was destroyed
 	 */
-	void BlueEntDestroyed(BlueEnt entity) override {
+	void EntityDestroyed(BlueEnt entity) override {
 
 		if (_EntityToIndexMap.find(entity) != _EntityToIndexMap.end()) {
 

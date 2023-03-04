@@ -9,8 +9,8 @@
 */
 
 
-#ifndef BLUEENT_H
-#define BLUEENT_H
+#ifndef BLUE_ENT_H
+#define BLUE_ENT_H
 
 #include <array>
 #include <queue>
@@ -32,9 +32,8 @@ public:
 			_AvailableEnts.push(ent);
 		}
 	}
-	~BlueEntManager();
 
-	BlueEnt CreateEnt() {
+	BlueEnt CreateEntity() {
 
 		if (_LivingEntityCount >= MAX_ENTITIES) {
 
@@ -51,7 +50,7 @@ public:
 
 		return id;
 	}
-	void DestroyEnt(BlueEnt entity) {
+	void DestroyEntity(BlueEnt entity) {
 
 		if (_LivingEntityCount >= MAX_ENTITIES) {
 

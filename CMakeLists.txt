@@ -9,6 +9,9 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(CMAKE_BUILD_TYPE Debug)
 
+# MAKEFILE TELL US YOUR SECRETS!!!
+set(CMAKE_VERBOSE_MAKEFILE ON)
+
 
 # The following folder will be included
 
@@ -40,19 +43,30 @@ target_sources(
 	src/main.h
 
 	# Core Files
-	src/Core/BlueEnt.h
-	src/Core/BlueTypes.h
-	src/Core/BlueCompArray.h
 	src/Core/BlueSys.h
+	src/Core/BlueTypes.h
+	src/Core/BlueBridge.h
+	src/Core/BlueCompArray.h
+	src/Core/BlueEntManager.h
+	src/Core/BlueSysManager.h
+	src/Core/BlueCompManager.h
+	
+	
+	# Systems
+	src/Systems/GraphicsSystem.cpp
+	src/Systems/GraphicsSystem.h
 
 	# Components
 	src/Components/Transform.h
+	src/Components/Window.h
+	src/Components/Sprite.h
 )
 
 target_include_directories(
 	BlueKit2D
 	PRIVATE
-	src)
+	src
+)
 
 #find_package(BML REQUIRED)
 #include_directories(${BML_INCLUDE_DIRS})

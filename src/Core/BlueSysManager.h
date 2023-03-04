@@ -11,8 +11,6 @@
 #ifndef BLUE_SYS_MANAGER_H
 #define BLUE_SYS_MANAGER_H
 
-#include <set>
-
 #include "Core/BlueSys.h"
 #include "Core/BlueTypes.h"
 
@@ -32,7 +30,7 @@ public:
 
 		if (_Systems.find(typeName) != _Systems.end()) {
 
-			perror("Girl you trynna register a system more than once");
+			perror("Girly, you can't register a system more than once💅😇");
 			exit(1);
 		}
 
@@ -44,17 +42,60 @@ public:
 	template<typename T>
 	void SetSignature(Signature signature) {
 
-		const char *typeName = typeid(t).name();
+		const char *typeName = typeid(T).name();
+
+		if (_Systems.find(typeName) == _Systems.end()) {
+
+			perror("Girl you gotta register the system first.");
+			exit(1);
+		}
+
+		_Signatures.insert({typeName, signature});
 	}
+
+	void EntityDestroyed(BlueEnt entity)
+	{
+		// Erase a destroyed entity from all system lists
+		// mEntities is a set so no check needed
+		for (auto const& pair : _Systems)
+		{
+			auto const& system = pair.second;
+
+			system -> BlueEntities.erase(entity);
+		}
+	}
+
+	void EntitySignatureChanged(BlueEnt entity, Signature entitySignature)
+	{
+		// Notify each system that an entity's signature changed
+		for (auto const& pair : _Systems)
+		{
+			auto const& type = pair.first;
+			auto const& system = pair.second;
+			auto const& systemSignature = _Signatures[type];
+
+			// Entity signature matches system signature - insert into set
+			if ((entitySignature & systemSignature) == systemSignature)
+			{
+				system->BlueEntities.insert(entity);
+			}
+			// Entity signature does not match system signature - erase from set
+			else
+			{
+				system->BlueEntities.erase(entity);
+			}
+		}
+	}
+
 
 private:
 
 	// Map from system type string pointer to a signature
-	std::unordered_map<const char*, Signature> _Signatures{};
+	std::unordered_map <const char*, Signature> _Signatures{};
 
 	// Map from system type string pointer to a system pointer
-	std::unordered_map<const char*, std::shared_ptr<BlueSys>> _Systems{};
+	std::unordered_map <const char*, std::shared_ptr<BlueSys> > _Systems{};
 
-}
+};
 
 #endif

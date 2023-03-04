@@ -1,4 +1,7 @@
 
+// Bee Bussell
+// Mar 4 2023
+// Transform Component
 
 
 #ifndef TRANSFORM_H
@@ -8,12 +11,8 @@
 
 struct Transform {
 
-	bPoint position;
+	bRect position;
 	
-	// Added as needed
-	
-	//double rotation;
-	//double scale;
 };
 
 #endif

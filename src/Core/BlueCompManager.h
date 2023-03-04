@@ -60,7 +60,6 @@ public:
 	template<typename T>
 	void AddComponent(BlueEnt entity, T component) {
 
-		// I absolutly hate thi
 		GetComponentArray<T>() -> InsertComponent(entity,component);
 	}
 
@@ -74,6 +73,15 @@ public:
 	T& GetComponent(BlueEnt entity) {
 
 		return GetComponentArray<T>() -> GetData(entity);
+	}
+
+	void EntityDestroyed(BlueEnt entity) {
+
+		for (auto const &pair : _ComponentArrays) {
+
+			auto const &component = pair.second;
+			component->EntityDestroyed(entity);
+		}
 	}
 
 private:
@@ -97,7 +105,7 @@ private:
 			exit(1);
 		}
 
-		return std::static_pointer_cast<ComponentArray<T>>(mComponentArrays[typeName]);
+		return std::static_pointer_cast<BlueCompArray<T>>(_ComponentArrays[typeName]);
 	}
 
 };

@@ -8,12 +8,11 @@
 		https://austinmorlan.com/posts/entity_component_system/
 */
 
-#ifndef BLUESYS_H
-#define BLUESYS_H
-
-#include <set>
+#ifndef BLUE_SYS_H
+#define BLUE_SYS_H
 
 #include "Core/BlueTypes.h"
+#include <set>
 
 
 // Every System will inherit from this and have a list of entities called
@@ -23,6 +22,6 @@ class BlueSys {
 public:
 	std::set<BlueEnt> BlueEntities;
 
-}
+};
 
 #endif

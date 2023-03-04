@@ -3,8 +3,8 @@
 // March 3, 2023
 // Types Used throughout the Engine
 
-#ifndef BLUETYPES_H
-#define BLUETYPES_H
+#ifndef BLUE_TYPES_H
+#define BLUE_TYPES_H
 
 #include <bitset>
 #include <cstdint>
