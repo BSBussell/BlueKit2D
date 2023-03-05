@@ -3,8 +3,8 @@
 // March 4, 2023
 // Example Scene
 
-#ifndef SECOND_SCENE_H
-#define SECOND_SCENE_H
+#ifndef SIMPLE_SCENE_H
+#define SIMPLE_SCENE_H
 
 #include "Core/BlueBridge.h"
 #include "Core/BlueTypes.h"
@@ -16,14 +16,14 @@
 */
 
 
-class Second_Scene : public BlueScene {
+class Simple_Scene : public BlueScene {
 
 public:
-    Second_Scene(std::string name) : BlueScene(name) {
 
-        //_bridge = std::make_shared<BlueBridge>();
-    }
+    Simple_Scene(std::string name, std::shared_ptr<bWindow> context) : 
+        BlueScene(name, context) {}
 
+    // This is called when a scene is first started up
     void Load() override {
 
         // ALWAYS DO THIS
@@ -32,24 +32,6 @@ public:
         // Loading Essentials :3
         _Register_Components();
         _Register_Systems();
-
-        // Making the Window Entity
-        BlueEnt Window_Entity = _bridge -> CreateEntity();
-
-        // Component Transform and Window for the entity
-        Transform box;
-        box.position = {0, 0, 1920, 1080};
-
-        Window window;
-        window.name = "BlueKit2D ECS Integration";
-
-        // Adding the components to the entity
-        _bridge -> AddComponent( Window_Entity, box);
-        _bridge -> AddComponent( Window_Entity, window);
-
-
-        // Call the graphics systems initialization
-        graphics->Init();
 
         // Making the sprite entity
         BlueEnt Sprite_Entity = _bridge -> CreateEntity();
@@ -61,7 +43,7 @@ public:
         // Setup Sprite Component
         Sprite image;
         image.filePath = "../user/resources/MCaniHIGH-Start_walk.json";
-        image.context = std::weak_ptr(_bridge -> GetComponent<Window>(Window_Entity).window);
+        image.context = _context;
         image.layer = 0;
 
         // Add the two Components
@@ -73,45 +55,40 @@ public:
 
     }
 
+    // Called when a scene is being unloaded
     void Unload() override {
         // implementation
         // HAHA what you want me to clean???
-        graphics -> Close();
         sprites -> Close();
     }
 
     void Update(float deltaTime) override {
         // implementation
-        graphics -> Update();
+        
+        if (bEvent::keyDown('A')) {
+
+            // TODO: Implement a checker
+            _stage.lock() -> LoadScene("Stress");
+        }
         sprites -> Update();
+        
     }
 
     void Render() override {
         // implementation
+        sprites -> Render();
     }
 
 private:
     void _Register_Components() override {
         
         // Registering Components
-        _bridge -> RegisterComponent<Window>();
         _bridge -> RegisterComponent<Transform>();
         _bridge -> RegisterComponent<Sprite>();
     }
 
     void _Register_Systems() override {
         // implementation
-
-        // Register Graphics System
-        graphics = _bridge -> RegisterSystem<Graphics>();    
-        
-        // Give System Required Components of Entities
-        {
-            Signature signature;
-            signature.set(_bridge -> GetComponentType<Window>());
-            signature.set(_bridge -> GetComponentType<Transform>());
-            _bridge -> SetSystemSignature<Graphics>(signature);
-        }
 
         // Register Sprite System
         sprites = _bridge -> RegisterSystem<SpriteSystem>();
@@ -125,8 +102,7 @@ private:
         }
     }
 
-    // Our Systems
-    std::shared_ptr<Graphics> graphics;
+    // List our Systems
     std::shared_ptr<SpriteSystem> sprites;
 
 };

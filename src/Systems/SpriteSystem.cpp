@@ -12,7 +12,7 @@ void SpriteSystem::Init() {
 	std::shared_ptr g_BlueBridgePtr = g_WeakBlueBridge.lock();
 	if (!g_BlueBridgePtr) {
 
-		perror("GIRL WHERE'D THE BRIDGE GO!!!");
+		perror("GIRL WHERE'D THE BRIDGE GO!!!\n ( Error in SpriteSystem )\n");
 		exit(1);
 	}
 
@@ -23,9 +23,9 @@ void SpriteSystem::Init() {
 
 
 		// Grab needed components
-		//Transform &transform = g_BlueBridge.GetComponent<Transform>(entity);
 		Sprite &sprite = g_BlueBridgePtr -> GetComponent<Sprite>(entity);
 
+    	// BML function for reading ASEPRITE json to bSheet
     	readSheetFromJSON(BML_GetPath(sprite.filePath).c_str(), sprite.sprite_sheet);
     	sprite.sprite_sheet.startAnimation("default");
 
@@ -42,10 +42,16 @@ void SpriteSystem::Init() {
 
 void SpriteSystem::Update() {
 
+	// Yeah this isn't gonna be in the final build haha
+	RefreshLayers();
+}
+
+void SpriteSystem::Render() {
+
 	std::shared_ptr g_BlueBridgePtr = g_WeakBlueBridge.lock();
 	if (!g_BlueBridgePtr) {
 
-		perror("GIRL WHERE'D THE BRIDGE GO!!!");
+		perror("GIRL WHERE'D THE BRIDGE GO!!!\n ( Error in SpriteSystem )\n");
 		exit(1);
 	}
 
@@ -73,7 +79,7 @@ void SpriteSystem::Close() {
 	std::shared_ptr g_BlueBridgePtr = g_WeakBlueBridge.lock();
 	if (!g_BlueBridgePtr) {
 
-		perror("GIRL WHERE'D THE BRIDGE GO!!!");
+		perror("GIRL WHERE'D THE BRIDGE GO!!!\n ( Error in SpriteSystem )\n");
 		exit(1);
 	}
 
@@ -112,7 +118,7 @@ bool SpriteSystem::compare_layer(const BlueEnt &a, const BlueEnt &b) {
 	std::shared_ptr g_BlueBridgePtr = g_WeakBlueBridge.lock();
 	if (!g_BlueBridgePtr) {
 
-		perror("GIRL WHERE'D THE BRIDGE GO!!!");
+		perror("GIRL WHERE'D THE BRIDGE GO!!!\n ( Error in SpriteSystem )\n");
 		exit(1);
 	}
 

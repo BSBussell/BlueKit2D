@@ -10,28 +10,47 @@ int main() {
  
     // Setup BML :3
     BML_Init();
-    BlueSceneManager SceneManager;
 
-    auto BasicScene = std::make_shared<Template_Scene>("Basic");
-    auto SecondScene = std::make_shared<Second_Scene>("Second");
+    // Our Scene Manager
+    auto SceneManager = std::make_shared<BlueSceneManager>() ;
+
+    // Create our bWindow
+    auto window = std::make_shared<bWindow>(
+        "BlueKit2D Scene Management",
+        0, 0, 1920, 1080
+    );
     
-    SceneManager.AddScene(BasicScene);
-    SceneManager.AddScene(SecondScene);
-    SceneManager.LoadScene("Basic");
+    // Set Flags
+    window->toggleResizeable();
+    window->toggleHardwareRender();
+    window->toggleVSync();
+    //window->toggleHighDPI();
+
+    // Load the window
+    window->createWindow();
+
+    // Create our scenes and tell them they render to the window
+    auto BasicScene = std::make_shared<Stress_Scene>("Stress", window);
+    auto SimpleScene = std::make_shared<Simple_Scene>("Simple", window);
+    
+    // Add the scenes to the manager
+    SceneManager -> AddScene(BasicScene);
+    SceneManager -> AddScene(SimpleScene);
+
+    // Load in our starting scenes
+    SceneManager -> LoadScene("Simple");
 
     // Our loop variable
     bool run = true;
-
-    bRect dest = {10,10,128,128};
     
     // Audio Component / System
     if (!bSound::openAudio())
         printf(":(");
 
-    //  bSound music; 
+    // bSound music; 
     // Music Component
-    //bSound::loadMUS("../resources/BLUE-Compress.wav");
-    //bSound::playMUS(5);
+    // bSound::loadMUS("../resources/BLUE-Compress.wav");
+    // bSound::playMUS(5);
 
     
     while(run) {
@@ -42,26 +61,15 @@ int main() {
         run = bEvent::eventLoop();
 
         // Playable System
-        if (bEvent::keyDown('W')) {
-            dest.y--;
-        } 
-        if (bEvent::keyDown('S')) {
-            dest.y++;
-        }
-        if (bEvent::keyDown('A')) {
-            dest.x--;
-            SceneManager.LoadScene("Basic");
-        }
-        if (bEvent::keyDown('D')) {
-            dest.x++;
-            SceneManager.LoadScene("Second");
-        }
-        if (bEvent::keyDown('Q')) {
-            run = false;
-        }
 
-        SceneManager.Update(0);
-        SceneManager.Render();
+
+
+        SceneManager -> Update(0);
+        SceneManager -> Render();
+
+        // Draw rendered things to window
+        window -> drawBuffer();
+        window -> drawRect({0,0,1920,1080}, 255, 255, 255);
     }
     //spriteSheet.stopAnimation();
     //
@@ -71,7 +79,7 @@ int main() {
     bSound::freeMUS();
     bSound::closeAudio();
     
-    //window->closeWindow();
+    window->closeWindow();
     
     BML_Close();
     

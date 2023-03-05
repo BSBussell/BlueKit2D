@@ -3,27 +3,33 @@
 // March 4, 2023
 // BlueScene.h
 
-
 #ifndef BLUE_SCENE_H
 #define BLUE_SCENE_H
 
-#include "BlueBridge.h"
-#include "BlueTypes.h"
+
+#include "Core/BlueSceneManager.h"
+#include "Core/BlueBridge.h"
+#include "Core/BlueTypes.h"
 
 #include <string>
 #include <memory>
 #include <vector>
 
 
+// Yeah I genuienly don't know why I need to do this, 
+// it should be included, but i guess sometimes things go that way
+class BlueSceneManager;
+
 // Abstract BlueScene
 class BlueScene {
 public:
 
     // THE SCENE IS THE OWNER OF THE BRIDGES
-    BlueScene(std::string name) : _name(name) {
+    BlueScene(std::string name, std::shared_ptr<bWindow> context) : _name(name) {
 
-        printf("Creating a brand new ECS instance\n");
+        // Adding the Scene
         _bridge = std::make_shared<BlueBridge>();
+        _context = std::weak_ptr<bWindow>(context);
     }
 
     void AddEntity(BlueEnt entity) {
@@ -33,6 +39,12 @@ public:
     std::string GetName() {
 
         return _name;
+    }
+
+    // Used by SceneManager, nothing else plz
+    void AssignStage(std::weak_ptr<BlueSceneManager> stage) {
+
+        _stage = stage;
     }
 
     // Give us your bridge and make it weak!
@@ -59,10 +71,9 @@ public:
     virtual void Render() = 0;
 
 
-    std::vector<BlueEnt> _entities;
-    std::shared_ptr<BlueBridge> _bridge;
 
-private:
+
+protected:
 
     // This is where you need to register all the componets your Scene needs
     virtual void _Register_Components() = 0;
@@ -71,8 +82,19 @@ private:
     virtual void _Register_Systems() = 0;
 
     std::string _name;
-    // std::shared_ptr<BlueBridge> _bridge;
-    // std::vector<BlueEnt> _entities;
+
+    // The entities in our scene
+    std::vector<BlueEnt> _entities;
+
+    // The Scenes ECS instance shared because bridges are stored with the scene
+    std::shared_ptr<BlueBridge> _bridge;
+    
+    // The window our scene will exist on 
+    std::weak_ptr<bWindow> _context;
+
+    // The SceneManager that our scene exists in :3
+    std::weak_ptr<BlueSceneManager> _stage;
+
 };
 
 #endif // BLUE_SCENE_H

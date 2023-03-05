@@ -10,19 +10,10 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(CMAKE_BUILD_TYPE Debug)
 
 # MAKEFILE TELL US YOUR SECRETS!!!
-set(CMAKE_VERBOSE_MAKEFILE ON)
-
-
-# The following folder will be included
+set(CMAKE_VERBOSE_MAKEFILE OFF)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lSDL2")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lSDL2_image")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lSDL2_mixer")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lBML")
-
 
 add_executable(BlueKit2D)
 
@@ -32,7 +23,7 @@ target_compile_options(
 	-Wall
 	-Wextra
 	-std=c++17
-	-O3)
+	-g)
 
 target_sources(
 	BlueKit2D
@@ -53,7 +44,6 @@ target_sources(
 	src/Core/BlueScene.h
 	src/Core/BlueSceneManager.h
 	
-
 	# Systems
 	src/Systems/GraphicsSystem.cpp
 	src/Systems/GraphicsSystem.h
@@ -66,8 +56,8 @@ target_sources(
 	src/Components/Sprite.h
 
 	# Scenes
-	src/Scenes/TemplateScene.h
-	src/Scenes/SecondScene.h
+	src/Scenes/StressScene.h
+	src/Scenes/SimpleScene.h
 
 )
 

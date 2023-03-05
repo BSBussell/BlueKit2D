@@ -1,10 +1,10 @@
 
 // Bee Bussell
 // March 4, 2023
-// BlueSceneManager.cpp
+// BlueSceneManager.h
 
-#ifndef BLUE_Scene_MANAGER_H
-#define BLUE_Scene_MANAGER_H
+#ifndef BLUE_SCENE_MANAGER_H
+#define BLUE_SCENE_MANAGER_H
 
 #include <memory>
 #include <unordered_map>
@@ -14,9 +14,10 @@
 
 extern std::weak_ptr<BlueBridge> g_WeakBlueBridge;
 
-class BlueSceneManager {
+class BlueSceneManager : public std::enable_shared_from_this<BlueSceneManager> {
 public:
-    //BlueSceneManager(BlueBridge& bridge) : _bridge(bridge) {}
+
+    BlueSceneManager() {}
 
     // Adds a Blue Scene to the StageManager as a week pointer
     void AddScene(std::shared_ptr<BlueScene> scene) {
@@ -25,6 +26,9 @@ public:
             scene -> GetName(),
             std::weak_ptr(scene)
         );
+
+        auto smart_this = std::weak_ptr(shared_from_this());
+        scene -> AssignStage(smart_this);
 
         _scenes.insert(newScene);
     }

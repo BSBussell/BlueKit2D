@@ -1,10 +1,13 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+// System Libraries we want
 #include <iostream>
 #include <string>
 #include <stdint.h>
 #include <memory>
+
+// BML is a wrapper for SDL
 #include <BML/BML.h>
 
 // Including Core Files
@@ -21,8 +24,8 @@
 #include "Systems/SpriteSystem.h"
 
 // Scene Includes
-#include "Scenes/TemplateScene.h"
-#include "Scenes/SecondScene.h"
+#include "Scenes/SimpleScene.h"
+#include "Scenes/StressScene.h"
 
 
 #endif
