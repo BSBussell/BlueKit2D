@@ -4,99 +4,53 @@
 
 #include "main.h"
 
-BlueBridge g_BlueBridge;
+std::weak_ptr<BlueBridge> g_WeakBlueBridge;
 
 int main() {
  
     // Setup BML :3
     BML_Init();
 
+    // Our Scene Manager
+    auto SceneManager = std::make_shared<BlueSceneManager>() ;
+
+    // Create our bWindow
+    auto window = std::make_shared<bWindow>(
+        "BlueKit2D Scene Management",
+        0, 0, 1920, 1080
+    );
+    
+    // Set Flags
+    window->toggleResizeable();
+    window->toggleHardwareRender();
+    window->toggleVSync();
+    //window->toggleHighDPI();
+
+    // Load the window
+    window->createWindow();
+
+    // Create our scenes and tell them they render to the window
+    auto BasicScene = std::make_shared<Stress_Scene>("Stress", window);
+    auto SimpleScene = std::make_shared<Simple_Scene>("Simple", window);
+    
+    // Add the scenes to the manager
+    SceneManager -> AddScene(BasicScene);
+    SceneManager -> AddScene(SimpleScene);
+
+    // Load in our starting scenes
+    SceneManager -> LoadScene("Simple");
+
     // Our loop variable
     bool run = true;
-
-    // Setup the Bridge
-    g_BlueBridge.Init();
-
-
-    // Registering Components
-    g_BlueBridge.RegisterComponent<Window>();
-    g_BlueBridge.RegisterComponent<Transform>();
-    g_BlueBridge.RegisterComponent<Sprite>();
-
-    // Register Graphics System
-    auto graphics = g_BlueBridge.RegisterSystem<Graphics>();    
-    
-    // Give System Required Components of Entities
-    {
-        Signature signature;
-        signature.set(g_BlueBridge.GetComponentType<Window>());
-        signature.set(g_BlueBridge.GetComponentType<Transform>());
-        g_BlueBridge.SetSystemSignature<Graphics>(signature);
-    }
-
-    // Register Sprite System
-    auto sprites = g_BlueBridge.RegisterSystem<SpriteSystem>();
-
-    // Tell the Sprite System what components to look for :3
-    {
-        Signature signature;
-        signature.set(g_BlueBridge.GetComponentType<Sprite>());
-        signature.set(g_BlueBridge.GetComponentType<Transform>());
-        g_BlueBridge.SetSystemSignature<SpriteSystem>(signature);
-    }
-    
-    // Making the Window Entity
-    BlueEnt Window_Entity = g_BlueBridge.CreateEntity();
-
-    // Component Transform and Window for the entity
-    Transform box;
-    box.position = {0, 0, 1920, 1080};
-
-    Window window;
-    window.name = "BlueKit2D ECS Integration";
-
-    // Adding the components to the entity
-    g_BlueBridge.AddComponent( Window_Entity, box);
-    g_BlueBridge.AddComponent( Window_Entity, window);
-
-
-    // Call the graphics systems initialization
-    graphics->Init();
-
-    // Draw a fuck ton of animated sprites (this is a stress test :3)
-    for (int i = 0; i < 10; i++) {
-    for (int j = 0; j < 10; j++) {
-        // Making the sprite entity
-        BlueEnt Sprite_Entity = g_BlueBridge.CreateEntity();
-
-        // Setup Transform Component
-        Transform loc;
-        loc.position = { 175*i, 175*j, 700, 700};
-
-        // Setup Sprite Component
-        Sprite image;
-        image.filePath = "../user/resources/MCaniHIGH-Start_walk.json";
-        image.context = std::weak_ptr(g_BlueBridge.GetComponent<Window>(Window_Entity).window);
-        image.layer = i*(j+1);
-
-        // Add the two Components
-        g_BlueBridge.AddComponent(Sprite_Entity, loc);
-        g_BlueBridge.AddComponent(Sprite_Entity, image);
-    }
-    }
-    // Initialize
-    sprites->Init();
-
-    bRect dest = {10,10,128,128};
     
     // Audio Component / System
     if (!bSound::openAudio())
         printf(":(");
 
-    //  bSound music; 
+    // bSound music; 
     // Music Component
-    //bSound::loadMUS("../resources/BLUE-Compress.wav");
-    //bSound::playMUS(5);
+    // bSound::loadMUS("../resources/BLUE-Compress.wav");
+    // bSound::playMUS(5);
 
     
     while(run) {
@@ -107,31 +61,15 @@ int main() {
         run = bEvent::eventLoop();
 
         // Playable System
-        if (bEvent::keyDown('W')) {
-            dest.y--;
-        } 
-        if (bEvent::keyDown('S')) {
-            dest.y++;
-        }
-        if (bEvent::keyDown('A')) {
-            dest.x--;
-        }
-        if (bEvent::keyDown('D')) {
-            dest.x++;
-        }
-        if (bEvent::keyDown('Q')) {
-            run = false;
-        }
 
-        // Sprite Component
-        //window->drawRect(dest, 255, 255, 255);
-        
 
-        // Window Component
-        graphics -> Update(0);
 
-        // Update Sprites
-        sprites -> Update();
+        SceneManager -> Update(0);
+        SceneManager -> Render();
+
+        // Draw rendered things to window
+        window -> drawBuffer();
+        window -> drawRect({0,0,1920,1080}, 255, 255, 255);
     }
     //spriteSheet.stopAnimation();
     //
@@ -141,7 +79,7 @@ int main() {
     bSound::freeMUS();
     bSound::closeAudio();
     
-    //window->closeWindow();
+    window->closeWindow();
     
     BML_Close();
     

@@ -3,13 +3,18 @@
 // Mar 4, 2024
 // GraphicsSystem.cpp
 
-#include <algorithm>
-#include <BML/bSheet.h>
 #include "SpriteSystem.h"
 
-extern BlueBridge g_BlueBridge;
+extern std::weak_ptr<BlueBridge> g_WeakBlueBridge;
 
 void SpriteSystem::Init() {
+
+	std::shared_ptr g_BlueBridgePtr = g_WeakBlueBridge.lock();
+	if (!g_BlueBridgePtr) {
+
+		perror("GIRL WHERE'D THE BRIDGE GO!!!\n ( Error in SpriteSystem )\n");
+		exit(1);
+	}
 
 	// Sort the entities by layer
 	RefreshLayers();
@@ -18,9 +23,9 @@ void SpriteSystem::Init() {
 
 
 		// Grab needed components
-		//Transform &transform = g_BlueBridge.GetComponent<Transform>(entity);
-		Sprite &sprite = g_BlueBridge.GetComponent<Sprite>(entity);
+		Sprite &sprite = g_BlueBridgePtr -> GetComponent<Sprite>(entity);
 
+    	// BML function for reading ASEPRITE json to bSheet
     	readSheetFromJSON(BML_GetPath(sprite.filePath).c_str(), sprite.sprite_sheet);
     	sprite.sprite_sheet.startAnimation("default");
 
@@ -37,11 +42,24 @@ void SpriteSystem::Init() {
 
 void SpriteSystem::Update() {
 
+	// Yeah this isn't gonna be in the final build haha
+	RefreshLayers();
+}
+
+void SpriteSystem::Render() {
+
+	std::shared_ptr g_BlueBridgePtr = g_WeakBlueBridge.lock();
+	if (!g_BlueBridgePtr) {
+
+		perror("GIRL WHERE'D THE BRIDGE GO!!!\n ( Error in SpriteSystem )\n");
+		exit(1);
+	}
+
 	for (auto const& entity : BlueEntities) {
 
 		// Grab needed components
-		Transform &transform = g_BlueBridge.GetComponent<Transform>(entity);
-		Sprite &sprite = g_BlueBridge.GetComponent<Sprite>(entity);
+		Transform &transform = g_BlueBridgePtr -> GetComponent<Transform>(entity);
+		Sprite &sprite = g_BlueBridgePtr -> GetComponent<Sprite>(entity);
 
 		auto context = sprite.context.lock();
 		if (context) {
@@ -56,6 +74,36 @@ void SpriteSystem::Update() {
 	}
 }
 
+void SpriteSystem::Close() {
+
+	std::shared_ptr g_BlueBridgePtr = g_WeakBlueBridge.lock();
+	if (!g_BlueBridgePtr) {
+
+		perror("GIRL WHERE'D THE BRIDGE GO!!!\n ( Error in SpriteSystem )\n");
+		exit(1);
+	}
+
+	for (auto const& entity : BlueEntities) {
+
+		Sprite &sprite = g_BlueBridgePtr -> GetComponent<Sprite>(entity);
+		sprite.sprite_sheet.stopAnimation();
+
+
+		auto context = sprite.context.lock();
+		if (context) {
+			
+			context -> freeSpriteSheet(sprite.sprite_sheet);
+
+		} else {
+			perror("They deleted your window :0\n");
+			exit(1);
+		}
+	}
+
+	
+    
+}
+
 void SpriteSystem::RefreshLayers() {
 
 	// Sort the entities by layer
@@ -67,8 +115,15 @@ void SpriteSystem::RefreshLayers() {
 
 bool SpriteSystem::compare_layer(const BlueEnt &a, const BlueEnt &b) {
 
-	Sprite &spriteA = g_BlueBridge.GetComponent<Sprite>(a);
-	Sprite &spriteB = g_BlueBridge.GetComponent<Sprite>(b);
+	std::shared_ptr g_BlueBridgePtr = g_WeakBlueBridge.lock();
+	if (!g_BlueBridgePtr) {
+
+		perror("GIRL WHERE'D THE BRIDGE GO!!!\n ( Error in SpriteSystem )\n");
+		exit(1);
+	}
+
+	Sprite &spriteA = g_BlueBridgePtr -> GetComponent<Sprite>(a);
+	Sprite &spriteB = g_BlueBridgePtr -> GetComponent<Sprite>(b);
 
 	int layer1 = spriteA.layer;
 	int layer2 = spriteB.layer;
