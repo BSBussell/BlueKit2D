@@ -47,13 +47,15 @@ public:
         _bridge -> AddComponent( Window_Entity, box);
         _bridge -> AddComponent( Window_Entity, window);
 
+        AddEntity(Window_Entity);
+
 
         // Call the graphics systems initialization
         graphics->Init();
 
         // Draw a fuck ton of animated sprites (this is a stress test :3)
-        for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 10; j++) {
+        for (uint32_t i = 0; i < 10; i++) {
+        for (uint32_t j = 0; j < 10; j++) {
             // Making the sprite entity
             BlueEnt Sprite_Entity = _bridge -> CreateEntity();
 
@@ -70,6 +72,8 @@ public:
             // Add the two Components
             _bridge -> AddComponent(Sprite_Entity, loc);
             _bridge -> AddComponent(Sprite_Entity, image);
+
+            AddEntity(Sprite_Entity);
         }
         }
         // Initialize Sprites
@@ -82,6 +86,14 @@ public:
         // HAHA what you want me to clean???
         graphics -> Close();
         sprites -> Close();
+
+        for (auto &entity: _entities) {
+
+            _bridge -> DestroyEntity(entity);
+        }
+
+        _entities.clear();
+
     }
 
     void Update(float deltaTime) override {

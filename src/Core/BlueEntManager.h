@@ -38,13 +38,16 @@ public:
 		if (_LivingEntityCount >= MAX_ENTITIES) {
 
 			/*
-				If I ever wana Handle Entity Overflow. . .
+				If I ever wanna Handle Entity Overflow. . .
 			*/
 			perror("Too many BlueEnts, calm down girly :3");
 			exit(1);
 		}
 
+
+
 		BlueEnt id = _AvailableEnts.front();
+		printf("Creating Entity: %d\n", id);
 		_AvailableEnts.pop();
 		_LivingEntityCount++;
 
@@ -52,15 +55,16 @@ public:
 	}
 	void DestroyEntity(BlueEnt entity) {
 
+		printf("Destroying Entity: %d\n", entity);
 		if (_LivingEntityCount >= MAX_ENTITIES) {
 
 			/*
-				If I ever wana Handle Entity Overflow. . .
+				If I ever wanna Handle Entity Overflow. . .
 			*/
 			perror("Your BlueEnts are outta range girly");
 			exit(1);
 		}
-
+		printf("Destroying Entity: %d\n", entity);
 		_Signatures[entity].reset();
 
 		_AvailableEnts.push(entity);
@@ -72,7 +76,7 @@ public:
 		if (_LivingEntityCount >= MAX_ENTITIES) {
 
 			/*
-				If I ever wana Handle Entity Overflow. . .
+				If I ever wanna Handle Entity Overflow. . .
 			*/
 			perror("BlueEnts outta range girly\n");
 			exit(1);
@@ -85,7 +89,7 @@ public:
 		if (_LivingEntityCount >= MAX_ENTITIES) {
 
 			/*
-				If I ever wana Handle Entity Overflow. . .
+				If I ever wanna Handle Entity Overflow. . .
 			*/
 			perror("BlueEnts outta range girly\n");
 			exit(1);

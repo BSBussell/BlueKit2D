@@ -36,6 +36,8 @@ public:
 
         // Grab the shared_ptr
         auto CurrentScene = _currentScene.lock();
+        
+        // Yeah and we just unload and reload the scene regardless of shit
         if (CurrentScene) {
             CurrentScene->Unload();
         }
@@ -61,6 +63,8 @@ public:
             perror("Ok so follow it up :3\n");
             exit(0);
         }
+
+        // 99% sure this isn't actually doing anything besides resetting the bridge maybe
         g_WeakBlueBridge = _bridge;
         
 

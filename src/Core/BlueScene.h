@@ -22,6 +22,7 @@ public:
     // THE SCENE IS THE OWNER OF THE BRIDGES
     BlueScene(std::string name) : _name(name) {
 
+        printf("Creating a brand new ECS instance\n");
         _bridge = std::make_shared<BlueBridge>();
     }
 
@@ -58,6 +59,7 @@ public:
     virtual void Render() = 0;
 
 
+    std::vector<BlueEnt> _entities;
     std::shared_ptr<BlueBridge> _bridge;
 
 private:
@@ -69,8 +71,8 @@ private:
     virtual void _Register_Systems() = 0;
 
     std::string _name;
-    //std::shared_ptr<BlueBridge> _bridge;
-    std::vector<BlueEnt> _entities;
+    // std::shared_ptr<BlueBridge> _bridge;
+    // std::vector<BlueEnt> _entities;
 };
 
 #endif // BLUE_SCENE_H
