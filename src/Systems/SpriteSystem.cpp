@@ -19,6 +19,10 @@ void SpriteSystem::Init() {
 	// Sort the entities by layer
 	RefreshLayers();
 
+	// Seeing how fast it runs when only having to read the JSON once
+	bSheet _test_sheet;
+	readSheetFromJSON(BML_GetPath("../user/resources/MCaniHIGH-Start_walk.json").c_str(), _test_sheet);
+	
 	for (auto const& entity : BlueEntities) {
 
 
@@ -26,8 +30,9 @@ void SpriteSystem::Init() {
 		Sprite &sprite = g_BlueBridgePtr -> GetComponent<Sprite>(entity);
 
     	// BML function for reading ASEPRITE json to bSheet
-    	readSheetFromJSON(BML_GetPath(sprite.filePath).c_str(), sprite.sprite_sheet);
-    	sprite.sprite_sheet.startAnimation("default");
+    	//readSheetFromJSON(BML_GetPath(sprite.filePath).c_str(), sprite.sprite_sheet);
+    	sprite.sprite_sheet = _test_sheet;
+		sprite.sprite_sheet.startAnimation("default");
 
     	// Initializes the spritesheet onto the given context
     	auto context = sprite.context.lock();

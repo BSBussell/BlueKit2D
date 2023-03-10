@@ -23,7 +23,7 @@ target_compile_options(
 	-Wall
 	-Wextra
 	-std=c++17
-	-g)
+	-Ofast)
 
 target_sources(
 	BlueKit2D
