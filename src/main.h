@@ -20,7 +20,6 @@
 #include "Components/Window.h"
 
 // System Includes
-#include "Systems/GraphicsSystem.h"
 #include "Systems/SpriteSystem.h"
 
 // Scene Includes

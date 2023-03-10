@@ -21,7 +21,7 @@ struct Sprite {
 	// Which layer to render on
 	int layer;
 
-	std::weak_ptr<bWindow> context;
+	std::weak_ptr<bRenderer> context;
 };
 
 #endif

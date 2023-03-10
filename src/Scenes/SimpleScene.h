@@ -20,7 +20,7 @@ class Simple_Scene : public BlueScene {
 
 public:
 
-    Simple_Scene(std::string name, std::shared_ptr<bWindow> context) : 
+    Simple_Scene(std::string name, std::shared_ptr<bRenderer> context) : 
         BlueScene(name, context) {}
 
     // This is called when a scene is first started up

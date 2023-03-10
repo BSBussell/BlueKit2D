@@ -25,11 +25,11 @@ class BlueScene {
 public:
 
     // THE SCENE IS THE OWNER OF THE BRIDGES
-    BlueScene(std::string name, std::shared_ptr<bWindow> context) : _name(name) {
+    BlueScene(std::string name, std::shared_ptr<bRenderer> context) : _name(name) {
 
         // Adding the Scene
         _bridge = std::make_shared<BlueBridge>();
-        _context = std::weak_ptr<bWindow>(context);
+        _context = std::weak_ptr<bRenderer>(context);
     }
 
     void AddEntity(BlueEnt entity) {
@@ -53,10 +53,12 @@ public:
         return std::weak_ptr<BlueBridge>(_bridge);
     }
 
-    // ##  Methods You Override   ##
-    // #############################
-    // #############################
-
+    /*
+       ##  Methods You Override   ##
+       #############################
+       #############################
+    */
+   
     // Destroyer
     virtual ~BlueScene() {}
 
@@ -90,7 +92,7 @@ protected:
     std::shared_ptr<BlueBridge> _bridge;
     
     // The window our scene will exist on 
-    std::weak_ptr<bWindow> _context;
+    std::weak_ptr<bRenderer> _context;
 
     // The SceneManager that our scene exists in :3
     std::weak_ptr<BlueSceneManager> _stage;

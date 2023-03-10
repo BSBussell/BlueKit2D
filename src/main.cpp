@@ -16,22 +16,24 @@ int main() {
 
     // Create our bWindow
     auto window = std::make_shared<bWindow>(
-        "BlueKit2D Scene Management",
-        0, 0, 1920, 1080
+        "BlueKit2D Optimization Test",
+        0, 0, 3840, 2160
     );
     
     // Set Flags
     window->toggleResizeable();
     window->toggleHardwareRender();
     window->toggleVSync();
-    //window->toggleHighDPI();
+    window->toggleHighDPI();
 
     // Load the window
-    window->createWindow();
+    std::shared_ptr<bRenderer> renderer(window->createWindow(), [](bRenderer*){});
+    //bRenderer *renderer = window->createWindow();
+    renderer -> background(255, 255, 255, 255);
 
     // Create our scenes and tell them they render to the window
-    auto BasicScene = std::make_shared<Stress_Scene>("Stress", window);
-    auto SimpleScene = std::make_shared<Simple_Scene>("Simple", window);
+    auto BasicScene = std::make_shared<Stress_Scene>("Stress", renderer);
+    auto SimpleScene = std::make_shared<Simple_Scene>("Simple", renderer);
     
     // Add the scenes to the manager
     SceneManager -> AddScene(BasicScene);
@@ -49,8 +51,8 @@ int main() {
 
     // bSound music; 
     // Music Component
-    // bSound::loadMUS("../resources/BLUE-Compress.wav");
-    // bSound::playMUS(5);
+    bSound::loadMUS("../resources/BLUE-Compress.wav");
+    bSound::playMUS(5);
 
     
     while(run) {
@@ -60,16 +62,18 @@ int main() {
         // Event loop
         run = bEvent::eventLoop();
 
-        // Playable System
-
-
-
+        // Call Updates, handles inputs and such
         SceneManager -> Update(0);
-        SceneManager -> Render();
+    
+        // Clear the renderer
+        renderer -> clearBuffer();
 
-        // Draw rendered things to window
-        window -> drawBuffer();
-        window -> drawRect({0,0,1920,1080}, 255, 255, 255);
+        // Queue up things on the buffer
+        SceneManager -> Render();
+        //renderer -> drawRect({0,0,100,100}, 255, 0, 0 );
+
+        // Draw Draw the buffer
+        renderer -> presentBuffer();
     }
     //spriteSheet.stopAnimation();
     //
@@ -79,8 +83,13 @@ int main() {
     bSound::freeMUS();
     bSound::closeAudio();
     
-    window->closeWindow();
+    printf("Closing Window\n");
     
+    // Close the window
+    // We do it this way because of smart pointer jank
+    window.reset();
+
+    printf("Closing BML\n");
     BML_Close();
     
     return 0;

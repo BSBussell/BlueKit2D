@@ -109,7 +109,7 @@ private:
 	std::array<Signature, MAX_ENTITIES> _Signatures{};
 
 	// Total living entities - used for keeping limits
-	uint32_t _LivingEntityCount{};
+	Uint32 _LivingEntityCount{};
 };
 
 

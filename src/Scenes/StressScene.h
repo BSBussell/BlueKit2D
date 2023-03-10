@@ -6,6 +6,8 @@
 #ifndef STRESS_SCENE_H
 #define STRESS_SCENE_H
 
+#include <cstdlib>
+
 #include "Core/BlueBridge.h"
 #include "Core/BlueTypes.h"
 #include "Core/BlueScene.h"
@@ -20,7 +22,7 @@ class Stress_Scene : public BlueScene {
 
 public:
 
-    Stress_Scene(std::string name, std::shared_ptr<bWindow> context) : 
+    Stress_Scene(std::string name, std::shared_ptr<bRenderer> context) : 
         BlueScene(name, context) {}
 
     void Load() override {
@@ -33,14 +35,15 @@ public:
         _Register_Systems();
 
         // Draw a fuck ton of animated sprites (this is a stress test :3)
-        for (uint32_t i = 0; i < 10; i++) 
-        for (uint32_t j = 0; j < 10; j++) {
+        // 119 x 45 = 5355 animated sprites at once
+        for (Uint32 i = 0; i < 119; i++) 
+        for (Uint32 j = 0; j < 45; j++) {
             // Making the sprite entity
             BlueEnt Sprite_Entity = _bridge -> CreateEntity();
 
             // Setup Transform Component
             Transform loc;
-            loc.position = { 175*i, 175*j, 700, 700};
+            loc.position = { 32*i, 45*j, 64, 64};
 
             // Setup Sprite Component
             Sprite image;

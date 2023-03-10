@@ -10,7 +10,7 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(CMAKE_BUILD_TYPE Debug)
 
 # MAKEFILE TELL US YOUR SECRETS!!!
-set(CMAKE_VERBOSE_MAKEFILE OFF)
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -45,14 +45,14 @@ target_sources(
 	src/Core/BlueSceneManager.h
 	
 	# Systems
-	src/Systems/GraphicsSystem.cpp
-	src/Systems/GraphicsSystem.h
+	#src/Systems/GraphicsSystem.cpp
+	#src/Systems/GraphicsSystem.h
 	src/Systems/SpriteSystem.cpp
 	src/Systems/SpriteSystem.h
 
 	# Components
 	src/Components/Transform.h
-	src/Components/Window.h
+	#src/Components/Window.h
 	src/Components/Sprite.h
 
 	# Scenes
@@ -79,4 +79,5 @@ target_link_libraries(
 	${SDL2_LIBRARIES}
 	-lSDL2_image
 	-lSDL2_mixer
-	BML)
+	-lSDL2_ttf
+	-lBML)

@@ -92,7 +92,7 @@ void SpriteSystem::Close() {
 		auto context = sprite.context.lock();
 		if (context) {
 			
-			context -> freeSpriteSheet(sprite.sprite_sheet);
+			context -> unloadSpriteSheet(sprite.sprite_sheet);
 
 		} else {
 			perror("They deleted your window :0\n");
