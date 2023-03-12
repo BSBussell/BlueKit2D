@@ -17,7 +17,7 @@ int main() {
     // Create our bWindow
     auto window = std::make_shared<bWindow>(
         "BlueKit2D Optimization Test",
-        0, 0, 3840, 2160
+        0, 0, 2560, 1600
     );
     
     // Set Flags
