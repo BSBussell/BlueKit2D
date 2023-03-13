@@ -33,45 +33,57 @@ public:
         _Register_Components();
         _Register_Systems();
 
-        // Making the sprite entity
-        BlueEnt Sprite_Entity = _bridge -> CreateEntity();
+        // Creating Sprite Entity
+        {
+            // Making the sprite entity
+            BlueEnt Sprite_Entity = _bridge -> CreateEntity();
 
-        // Setup Transform Component
-        Transform loc;
-        loc.position = { 64, 64, 700, 700};
+            // Setup Transform Component
+            Transform loc;
+            loc.position = { 64, 64, 700, 700};
 
-        // Setup Sprite Component
-        Sprite image;
-        image.filePath = "../user/resources/MCaniHIGH-Start_walk.json";
-        image.context = _context;
-        image.layer = 0;
+            // Setup Sprite Component
+            Sprite image;
+            image.filePath = "../user/resources/MCaniHIGH-Start_walk.json";
+            image.context = _context;
+            image.layer = 0;
 
-        PhysicsObject object;
-        object.position = loc.position;
-        // object.position.x = loc.position.x;
-        // object.position.y = loc.position.y;
-        // object.position.width = loc.position.width;
-        // object.position.height = loc.position.height;
+            PhysicsObject object;
+            object.position = loc.position;
+            object.maxVelocity = {20, 20};
+            object.maxAcceleration = {20, 20};
+            object.surfaceFriction = 1.0f;
+            object.restitution = 0.0f;
+            
+            // Add the two Components
+            _bridge -> AddComponent(Sprite_Entity, loc);
+            _bridge -> AddComponent(Sprite_Entity, image);
+            _bridge -> AddComponent(Sprite_Entity, object);
 
-        // Add the two Components
-        _bridge -> AddComponent(Sprite_Entity, loc);
-        _bridge -> AddComponent(Sprite_Entity, image);
-        _bridge -> AddComponent(Sprite_Entity, object);
+            _entities.push_back(Sprite_Entity);
+        }
 
-        _entities.push_back(Sprite_Entity);
+        // Creating Physics Entity
+        {
 
-        BlueEnt physics_entity = _bridge -> CreateEntity();
+            BlueEnt physics_entity = _bridge -> CreateEntity();
 
-        Transform loc2;
-        loc2.position = { 946, 128, 100, 700};
+            Transform loc;
+            loc.position = { 946, 128, 100, 700};
 
-        PhysicsObject object2;
-        object2.position = loc2.position;
+            PhysicsObject object;
+            object.position = loc.position;
+            object.maxVelocity = {0, 0};
+            object.maxAcceleration = {20, 20};
+            object.surfaceFriction = 1.0f;
+            object.restitution = 0.0f;
 
-        _bridge -> AddComponent(physics_entity, loc2);
-        _bridge -> AddComponent(physics_entity, object2);
+            _bridge -> AddComponent(physics_entity, loc);
+            _bridge -> AddComponent(physics_entity, object);
 
-        _entities.push_back(physics_entity);
+            _entities.push_back(physics_entity);
+
+        }
 
         // Initialize Sprites
         sprites->Init();
@@ -91,19 +103,19 @@ public:
 
         if (bEvent::keyDown('W')) {
 
-            physics -> ApplyForce(player, {0,-0.1});
+            physics -> ApplyForce(player, {0,-50});
 
         } else if (bEvent::keyDown('A')) {
 
-            physics -> ApplyForce(player, {-0.1,0});
+            physics -> ApplyForce(player, {-50,0});
 
         } else if (bEvent::keyDown('S')) {
 
-            physics -> ApplyForce(player, {0,0.1});
+            physics -> ApplyForce(player, {0,50});
 
         } else if (bEvent::keyDown('D')) {
 
-            physics -> ApplyForce(player, {0.1,0});
+            physics -> ApplyForce(player, {50,0});
 
         } else {
             
@@ -112,20 +124,6 @@ public:
         }
         
         physics -> Update(deltaTime);
-
-        auto &physobj = _bridge -> GetComponent<PhysicsObject>(player);
-
-        if (physobj.velocity.x > 5) {
-            physobj.velocity.x = 5;
-        } else if (physobj.velocity.x < -5) {
-            physobj.velocity.x = -5;
-        }
-        if (physobj.velocity.y > 5) {
-            physobj.velocity.y = 5;
-        } else if (physobj.velocity.y < -5) {
-            physobj.velocity.y = -5;
-        }
-
         sprites -> Update();
         
     }

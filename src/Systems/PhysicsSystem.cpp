@@ -27,6 +27,10 @@ void PhysicsSystem::Update(float dt) {
         PhysicsObject &obj = g_BlueBridgePtr -> GetComponent<PhysicsObject>(entity);
         Transform &trans = g_BlueBridgePtr -> GetComponent<Transform>(entity);
 
+        // Apply Friciton
+        if (entity == 1)
+            obj.acceleration *= 0.01;
+
         update_obj_positions(obj, dt);
         check_collisions(entity);
         trans.position = obj.position;
@@ -45,8 +49,9 @@ void PhysicsSystem::ApplyForce(BlueEnt &ent, Force force) {
 
     PhysicsObject &obj = g_BlueBridgePtr -> GetComponent<PhysicsObject>(ent);
 
-    obj.acceleration.x += force.x;
-    obj.acceleration.y += force.y;
+    // I Love Physics 101
+    obj.acceleration.x += force.x / obj.mass;
+    obj.acceleration.y += force.y / obj.mass;
 }
 
 void PhysicsSystem::Render(std::weak_ptr<bRenderer> _context) {
@@ -74,10 +79,21 @@ void PhysicsSystem::Close() {
 // Takes and object and updates their position
 void PhysicsSystem::update_obj_positions(PhysicsObject &obj, float dt) {
 
-    obj.velocity += obj.acceleration * dt;
+    // Cap the acceleration
+    obj.acceleration.x = fmax(fmin(obj.acceleration.x, obj.maxAcceleration.x), -obj.maxAcceleration.x);
+    obj.acceleration.y = fmax(fmin(obj.acceleration.y, obj.maxAcceleration.y), -obj.maxAcceleration.y);
 
+    // Update the velocity
+    obj.velocity += (obj.acceleration - obj.velocity * obj.surfaceFriction) * dt;
+
+    // Cap the velocity
+    obj.velocity.x = fmax(fmin(obj.velocity.x, obj.maxVelocity.x), -obj.maxVelocity.x);
+    obj.velocity.y = fmax(fmin(obj.velocity.y, obj.maxVelocity.y), -obj.maxVelocity.y);
+
+    // Update the position
     obj.position.x += obj.velocity.x;
     obj.position.y += obj.velocity.y;
+
 }
 
 // Checks for collisions between all entities
@@ -105,11 +121,14 @@ void PhysicsSystem::check_collision(PhysicsObject &ent1, PhysicsObject &ent2) {
 
     if (ent1.position.intersects(ent2.position)) {
 
+        
         resolve_collision(ent1, ent2);
     }
 }
 
 // Resolves collisions between two entities
+// THE BOUNCY ONE
+
 void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2) {
 
     // Calculate the relative velocity of the objects
@@ -128,7 +147,7 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2) 
     }
 
     // Calculate the restitution of the collision
-    float restitution = 0.5f; // Choose a value between 0 and 1
+    float restitution = fmin(ent1.restitution, ent2.restitution); // Choose a value between 0 and 1
 
     // Calculate the impulse magnitude
     float j = -(1 + restitution) * vel_along_normal;
@@ -138,5 +157,41 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2) 
 
     ent1.velocity -= impulse;
     ent2.velocity += impulse;
-
 }
+
+
+/*
+void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2) {
+
+    // Calculate the relative velocity of the objects
+    bPointF rel_vel = ent2.velocity - ent1.velocity;
+
+    // Calculate the normal vector of the collision
+    bPointF normal = rel_vel;
+    normal.normalize();
+    normal = normal * -1;
+
+    // Calculate the magnitude of the relative velocity along the normal vector
+    float vel_along_normal = dot_product(rel_vel, normal);
+
+    // If the objects are moving away from each other, there's no collision to resolve
+    if (vel_along_normal > 0) {
+        return;
+    }
+
+    // Calculate the restitution of the collision
+    float restitution = 0.8f; // Choose a value between 0 and 1
+
+    // Calculate the impulse magnitude
+    float j = -(1 + restitution) * vel_along_normal;
+
+    // Apply the impulse to ent1
+    bPointF impulse = normal * j;
+
+    // Updae ent1
+    ent1.velocity -= impulse;
+    ent1.position.x -= impulse.x;
+    ent1.position.y -= impulse.y;
+}
+*/
+

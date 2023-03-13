@@ -8,6 +8,10 @@ std::weak_ptr<BlueBridge> g_WeakBlueBridge;
 
 int main() {
  
+    const int TARGET_FPS = 60;
+    const int FRAME_TIME = 1000 / TARGET_FPS; // in milliseconds
+
+
     // Setup BML :3
     BML_Init();
 
@@ -51,45 +55,59 @@ int main() {
 
     // bSound music; 
     // Music Component
-    bSound::loadMUS("../resources/BLUE-Compress.wav");
-    bSound::playMUS(5);
+    // bSound::loadMUS("../resources/BLUE-Compress.wav");
+    // bSound::playMUS(5);
 
-    
+    Uint32 currentFrameTime = SDL_GetTicks();
+    Uint32 previousFrameTime = currentFrameTime;
+    Uint32 elapsedFrameTime = 0;
+
     while(run) {
 
         
+
         // Event System (possibly only one maybe?)
         // Event loop
         run = bEvent::eventLoop();
 
+        // Get the current frame time
+        currentFrameTime = SDL_GetTicks();
+        float dt = (currentFrameTime - previousFrameTime) / 1000.0f; // convert to seconds
+
         // Call Updates, handles inputs and such
-        SceneManager -> Update(1);
+        SceneManager -> Update(dt);
     
         // Clear the renderer
         renderer -> clearBuffer();
 
         // Queue up things on the buffer
         SceneManager -> Render();
-        //renderer -> drawRect({0,0,100,100}, 255, 0, 0 );
 
-        // Draw Draw the buffer
+        // Draw the buffer
         renderer -> presentBuffer();
+
+        // Set the previous frame time
+        previousFrameTime = currentFrameTime;
+
+        // wait until the next frame, if necessary
+        Uint32 remainingFrameTime = FRAME_TIME - elapsedFrameTime;
+        if (remainingFrameTime > 0) 
+            SDL_Delay(remainingFrameTime);
+        
+        
     }
     //spriteSheet.stopAnimation();
     //
     //window->freeSpriteSheet(spriteSheet);
     
     // Sound component
-    bSound::freeMUS();
+    // bSound::freeMUS();
     bSound::closeAudio();
-    
-    printf("Closing Window\n");
-    
+        
     // Close the window
     // We do it this way because of smart pointer jank
     window.reset();
 
-    printf("Closing BML\n");
     BML_Close();
     
     return 0;
