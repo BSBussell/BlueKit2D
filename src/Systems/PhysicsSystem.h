@@ -33,13 +33,13 @@ private:
     void update_obj_positions(PhysicsObject &obj, float dt);
 
     // Checks for collisions between this obj and others
-    void check_collisions(const BlueEnt &ent);
+    void check_collisions(const BlueEnt &ent, float dt);
 
     // Checks for collisions between two Physics Objects
-    void check_collision(PhysicsObject &ent1, PhysicsObject &ent2);
+    void check_collision(PhysicsObject &ent1, PhysicsObject &ent2, float dt);
 
     // Resolves collisions between two Physics Objects
-    void resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2);
+    void resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, float dt);
 
 };
 

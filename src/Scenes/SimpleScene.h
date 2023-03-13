@@ -50,10 +50,10 @@ public:
 
             PhysicsObject object;
             object.position = loc.position;
-            object.maxVelocity = {20, 20};
-            object.maxAcceleration = {20, 20};
-            object.surfaceFriction = 1.0f;
-            object.restitution = 0.0f;
+            object.maxVelocity = {1000, 1000};
+            object.maxAcceleration = {1000, 1000};
+            object.surfaceFriction = 0.5f;
+            object.restitution = 0.5f;
             
             // Add the two Components
             _bridge -> AddComponent(Sprite_Entity, loc);
@@ -76,7 +76,8 @@ public:
             object.maxVelocity = {0, 0};
             object.maxAcceleration = {20, 20};
             object.surfaceFriction = 1.0f;
-            object.restitution = 0.0f;
+            object.restitution = 0.5f;
+            object.mass = 1000.0f;
 
             _bridge -> AddComponent(physics_entity, loc);
             _bridge -> AddComponent(physics_entity, object);
@@ -105,22 +106,21 @@ public:
 
             physics -> ApplyForce(player, {0,-50});
 
-        } else if (bEvent::keyDown('A')) {
+        }  
+        if (bEvent::keyDown('A')) {
 
             physics -> ApplyForce(player, {-50,0});
 
-        } else if (bEvent::keyDown('S')) {
+        } 
+        if (bEvent::keyDown('S')) {
 
             physics -> ApplyForce(player, {0,50});
 
-        } else if (bEvent::keyDown('D')) {
+        } 
+        if (bEvent::keyDown('D')) {
 
             physics -> ApplyForce(player, {50,0});
 
-        } else {
-            
-            _bridge -> GetComponent<PhysicsObject>(player).acceleration *= 0;
-            
         }
         
         physics -> Update(deltaTime);
