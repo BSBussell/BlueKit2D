@@ -49,11 +49,14 @@ target_sources(
 	#src/Systems/GraphicsSystem.h
 	src/Systems/SpriteSystem.cpp
 	src/Systems/SpriteSystem.h
+	src/Systems/PhysicsSystem.cpp
+	src/Systems/PhysicsSystem.h
 
 	# Components
 	src/Components/Transform.h
 	#src/Components/Window.h
 	src/Components/Sprite.h
+	src/Components/PhysicsObject.h
 
 	# Scenes
 	src/Scenes/StressScene.h
