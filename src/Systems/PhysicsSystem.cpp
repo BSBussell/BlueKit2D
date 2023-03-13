@@ -82,7 +82,9 @@ void PhysicsSystem::update_obj_positions(PhysicsObject &obj, float dt) {
     // Update the velocity
     obj.velocity += obj.acceleration;
 
-    // Apply friction
+    // Apply friction(decay) to acceleration and velocity
+    // Bee's 1st law of motion:
+    // An object in motion will eventually rest
     obj.acceleration *= (1.0f - obj.surfaceFriction );
     obj.velocity     *= (1.0f - obj.surfaceFriction );
 
