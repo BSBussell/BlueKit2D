@@ -6,9 +6,24 @@
 #ifndef SIMPLE_SCENE_H
 #define SIMPLE_SCENE_H
 
+// Where our BML Types come from
+#include <BML/bEvent.h>
+#include <BML/bRect.h>
+#include <BML/bRenderer.h>
+
+// The Core needed for any scene
 #include "Core/BlueBridge.h"
 #include "Core/BlueTypes.h"
 #include "Core/BlueScene.h"
+
+// Systems used by Scene
+#include "Systems/PhysicsSystem.h"
+#include "Systems/SpriteSystem.h"
+
+// Compnents used by Scene
+#include "Components/Transform.h"
+#include "Components/Sprite.h"
+#include "Components/PhysicsObject.h"
 
 /*
     This is how we're gonna be programming Scenes
@@ -43,41 +58,47 @@ public:
             loc.position = { 64, 64, 700, 700};
 
             // Setup Sprite Component
-            Sprite image;
-            image.filePath = "../user/resources/MCaniHIGH-Start_walk.json";
-            image.context = _context;
-            image.layer = 0;
+            // Sprite image;
+            // image.filePath = "../user/resources/MCaniHIGH-Start_walk.json";
+            // image.context = _context;
+            // image.layer = 0;
 
             PhysicsObject object;
-            object.position = loc.position;
-            object.maxVelocity = {1000, 1000};
-            object.maxAcceleration = {1000, 1000};
-            object.surfaceFriction = 0.5f;
-            object.restitution = 0.5f;
+            object.name = "Player";
+            object.position = {static_cast<float>(loc.position.x+50), static_cast<float>(loc.position.y+50), 250, 250};
+            object.maxVelocity = {1000000000, 1000000000};
+            object.maxAcceleration = {1000000000, 1000000000};
+            object.surfaceFriction = 0.25f;
+            object.restitution = 0.001f;
+            object.mass = 0.1f;
+            object.type = DYNAMIC;
             
             // Add the two Components
             _bridge -> AddComponent(Sprite_Entity, loc);
-            _bridge -> AddComponent(Sprite_Entity, image);
+            //_bridge -> AddComponent(Sprite_Entity, image);
             _bridge -> AddComponent(Sprite_Entity, object);
 
             _entities.push_back(Sprite_Entity);
         }
 
-        // Creating Physics Entity
+        // Creating Some Physics Entities
+        
         {
 
             BlueEnt physics_entity = _bridge -> CreateEntity();
 
             Transform loc;
-            loc.position = { 946, 128, 100, 700};
+            loc.position = { 946, 128, 450, 450};
 
             PhysicsObject object;
+            object.name = "Wall";
             object.position = loc.position;
-            object.maxVelocity = {0, 0};
+            object.maxVelocity = {10000, 10000};
             object.maxAcceleration = {20, 20};
-            object.surfaceFriction = 1.0f;
-            object.restitution = 0.5f;
-            object.mass = 1000.0f;
+            object.surfaceFriction = 0.05f;
+            object.restitution = 0.002f;
+            object.mass = 100.0f;
+            object.type = DYNAMIC;
 
             _bridge -> AddComponent(physics_entity, loc);
             _bridge -> AddComponent(physics_entity, object);
@@ -85,6 +106,78 @@ public:
             _entities.push_back(physics_entity);
 
         }
+        
+        
+        {
+
+            BlueEnt physics_entity = _bridge -> CreateEntity();
+
+            Transform loc;
+            loc.position = { 1046, 828, 50, 50};
+
+            PhysicsObject object;
+            object.name = "Box";
+            object.position = loc.position;
+            object.maxVelocity = {10000, 10000};
+            object.maxAcceleration = {200000, 2000000};
+            object.surfaceFriction = 0.05f;
+            object.restitution = 0.001f;
+            object.mass = 0.5f;
+            object.type = DYNAMIC;
+
+            _bridge -> AddComponent(physics_entity, loc);
+            _bridge -> AddComponent(physics_entity, object);
+
+            _entities.push_back(physics_entity);
+
+        }
+
+        {
+
+            BlueEnt physics_entity = _bridge -> CreateEntity();
+
+            Transform loc;
+            loc.position = { 1846, 428, 250, 250};
+
+            PhysicsObject object;
+            object.name = "Sponge";
+            object.position = loc.position;
+            object.surfaceFriction = 0.05f;
+            object.restitution = 1.0f;
+            object.mass = 0.1f;
+            object.type = STATIC;
+
+            _bridge -> AddComponent(physics_entity, loc);
+            _bridge -> AddComponent(physics_entity, object);
+
+            _entities.push_back(physics_entity);
+
+        }
+        /**/
+        {
+
+            BlueEnt physics_entity = _bridge -> CreateEntity();
+
+            Transform loc;
+            loc.position = { 0, 1400, 2560, 2560};
+
+            PhysicsObject object;
+            object.name = "Floor";
+            object.position = loc.position;
+            object.maxVelocity = {0, 0};
+            object.maxAcceleration = {20, 20};
+            object.surfaceFriction = 0.05f;
+            object.restitution = 0.002f;
+            object.mass = 10.0f;
+            object.type = STATIC;
+
+            _bridge -> AddComponent(physics_entity, loc);
+            _bridge -> AddComponent(physics_entity, object);
+
+            _entities.push_back(physics_entity);
+
+        }
+        
 
         // Initialize Sprites
         sprites->Init();
@@ -102,27 +195,59 @@ public:
         // implementation
         BlueEnt player = _entities.front();
 
+        float scalar = 15.0f;
+        Force force = {0,0};
+
         if (bEvent::keyDown('W')) {
 
-            physics -> ApplyForce(player, {0,-50});
+            force += {0,-20};
 
         }  
         if (bEvent::keyDown('A')) {
 
-            physics -> ApplyForce(player, {-50,0});
+            
+            force += {-scalar,0};
 
-        } 
-        if (bEvent::keyDown('S')) {
+        }
+        // if (bEvent::keyDown('S')) {
 
-            physics -> ApplyForce(player, {0,50});
+            
+        //     force += {0,scalar};
 
-        } 
+        // }
         if (bEvent::keyDown('D')) {
 
-            physics -> ApplyForce(player, {50,0});
+            
+            force += {scalar,0};
 
         }
         
+
+
+        
+        physics -> ApplyForce(player, force);
+
+        // Loop through all entities
+        for (auto entity : _entities) {
+
+            // Get the Transform Component
+            Transform& transform = _bridge -> GetComponent<Transform>(entity);
+
+            // Get the Physics Component
+            PhysicsObject& physicsObject = _bridge -> GetComponent<PhysicsObject>(entity);
+
+            // Update the Transform Component
+            if (physicsObject.type == DYNAMIC) {
+                
+                // Apply Gravity
+                physics -> ApplyForce(entity, {0, 8.8f});
+            }
+        }
+        
+        
+        //bPointF x = _bridge -> GetComponent<PhysicsObject>(player).acceleration;
+        //printf("Acceleration: %f, %f\n", x.x, x.y);
+
         physics -> Update(deltaTime);
         sprites -> Update();
         

@@ -9,7 +9,9 @@ std::weak_ptr<BlueBridge> g_WeakBlueBridge;
 int main() {
  
     const int TARGET_FPS = 60;
-    const int FRAME_TIME = 1000 / TARGET_FPS; // in milliseconds
+    const float FRAME_TIME = 1000.0f / float(TARGET_FPS); // in milliseconds
+     const float UPDATE_INTERVAL = 1.0f; // update once per second
+    float last_update_time = 0.0f;
 
 
     // Setup BML :3
@@ -20,7 +22,7 @@ int main() {
 
     // Create our bWindow
     auto window = std::make_shared<bWindow>(
-        "BlueKit2D Optimization Test",
+        "BlueKit2D Physics Test",
         0, 0, 2560, 1600
     );
     
@@ -32,7 +34,6 @@ int main() {
 
     // Load the window
     std::shared_ptr<bRenderer> renderer(window->createWindow(), [](bRenderer*){});
-    //bRenderer *renderer = window->createWindow();
     renderer -> background(255, 255, 255, 255);
 
     // Create our scenes and tell them they render to the window
@@ -58,10 +59,12 @@ int main() {
     // bSound::loadMUS("../resources/BLUE-Compress.wav");
     // bSound::playMUS(5);
 
-    Uint32 currentFrameTime = SDL_GetTicks();
-    Uint32 previousFrameTime = currentFrameTime;
-    Uint32 elapsedFrameTime = 0;
+    Uint32 current;
+    Uint32 lastUpdate = SDL_GetTicks();
+    float deltaTime = 0.0f;
 
+
+    Uint32 start = SDL_GetTicks();
     while(run) {
 
         
@@ -70,13 +73,17 @@ int main() {
         // Event loop
         run = bEvent::eventLoop();
 
-        // Get the current frame time
-        currentFrameTime = SDL_GetTicks();
-        float dt = (currentFrameTime - previousFrameTime) / 1000.0f; // convert to seconds
+
+        // Deltatime Calculations
+        current = SDL_GetTicks();
+	    deltaTime = (current - lastUpdate) / 1000.0f;
 
         // Call Updates, handles inputs and such
-        SceneManager -> Update(dt);
+        SceneManager -> Update(deltaTime);
     
+        // Set update time
+        lastUpdate = current;
+
         // Clear the renderer
         renderer -> clearBuffer();
 
@@ -86,19 +93,31 @@ int main() {
         // Draw the buffer
         renderer -> presentBuffer();
 
-        // Set the previous frame time
-        previousFrameTime = currentFrameTime;
+        // Frame Rate Calculations
+        Uint32 end = SDL_GetTicks();
+        Uint32 elapsed = end - start;
+        if (elapsed < FRAME_TIME) {
+            SDL_Delay(FRAME_TIME - elapsed);
+        }
+        
 
-        // wait until the next frame, if necessary
-        Uint32 remainingFrameTime = FRAME_TIME - elapsedFrameTime;
-        if (remainingFrameTime > 0) 
-            SDL_Delay(remainingFrameTime);
-        
-        
+        // Calculate FPS for display
+        float fps = 1000.0f / (SDL_GetTicks() - start);
+        // check if enough time has passed since the last title update
+        float current_time = SDL_GetTicks() / 1000.0f; // convert to seconds
+        if (current_time - last_update_time >= UPDATE_INTERVAL) {
+            // update the window title with the current fps
+            char title[100];
+            sprintf(title, "BlueKit2D Physics Test | FPS: %.2f", fps);
+            window->setWindowTitle(title);
+
+            // reset the last update time
+            last_update_time = current_time;
+        }
+
+        start = SDL_GetTicks();
+
     }
-    //spriteSheet.stopAnimation();
-    //
-    //window->freeSpriteSheet(spriteSheet);
     
     // Sound component
     // bSound::freeMUS();
