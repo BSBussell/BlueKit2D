@@ -9,6 +9,8 @@
 // Where our bRects and bPoints come from
 #include <BML/bRect.h>
 
+#include <vector>
+
 enum BodyType {
     STATIC, // Not Moved by Collisions
     DYNAMIC // Can be moved
@@ -49,6 +51,9 @@ struct PhysicsObject {
 
     // @brief The color used when rendering collision boxes
     SDL_Color render_color = {0, 0, 255, 50};
+
+    // @brief The PhysicObjects we are contacting
+    std::vector<std::weak_ptr<PhysicsObject>> contacts;
 };
 
 // @brief A Force contains direction and magnitude

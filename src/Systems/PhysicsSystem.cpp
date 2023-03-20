@@ -82,7 +82,7 @@ void PhysicsSystem::ApplyForce(BlueEnt &ent, Force force) {
 
     PhysicsObject &obj = g_BlueBridgePtr -> GetComponent<PhysicsObject>(ent);
 
-    force *= 50.0f;
+    force *= 100.0f;
 
     // I Love Physics 101
     obj.acceleration.x += force.x / obj.mass;
@@ -127,7 +127,8 @@ void PhysicsSystem::update_obj_positions(PhysicsObject &obj, float dt) {
     // Apply friction(decay) to acceleration and velocity
     // Bee's 1st law of motion:
     // An object in motion will eventually rest
-    obj.acceleration *= (1.0f - obj.surfaceFriction );
+    // obj.acceleration *= (1.0f - obj.surfaceFriction );
+    obj.acceleration  = {0.0f, 0.0f};
     obj.velocity     *= (1.0f - obj.surfaceFriction );
 
     // Cap the velocity
@@ -163,74 +164,26 @@ void PhysicsSystem::check_collisions(const BlueEnt &ent, float dt) {
 // Checks for collisions between two entities
 void PhysicsSystem::check_collision(PhysicsObject &ent1, PhysicsObject &ent2, float dt) {
 
-    if (ent1.position.intersects(ent2.position)) {
+    int iterations = 0;
+    // run until the two objects are no longer colliding or we've tried to resolve the collision 10 times
+    while ( ent1.position.intersects(ent2.position)) {
         resolve_collision(ent1, ent2, dt);
         ent2.render_color = {255, 0, 0, 50};
+        iterations++;
+        if (iterations > 10) {
+            // printf("Could not resolve collision between %s and %s\n", ent1.name, ent2.name);
+            break;
+        }
     }
+
+    // After contact, most objects will be contacting each other so we need to add it to the list
+    
+    // ent1.contacts.push_back(&ent2);
+    // ent2.contacts.push_back(&ent1);
+    
 }
 
 // Resolves collisions between two entities
-// Im hoping to make this as generalized as possible
-/*
-void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, float dt) {
-
-    
-    // Calculate the relative velocity of the objects
-    bPointF rel_vel = ent2.velocity - ent1.velocity;
-
-    // Calculate the normal vector of the collision
-    bPointF normal = ent2.position.center() - ent1.position.center();
-    normal.normalize();
-
-    // Calculate the magnitude of the relative velocity along the normal vector
-    float vel_along_normal = dot_product(rel_vel, normal);
-
-    // If the objects are moving away from each other, there's no collision to resolve
-    if (vel_along_normal > 0) {
-        return;
-    }
-
-    // Calculate the restitution of the collision
-    float restitution = 1.0f;
-
-    // Calculate the impulse magnitude
-    float j = -(1 + restitution) * vel_along_normal / (1 / ent1.mass + 1 / ent2.mass);
-
-    // Apply the impulse to the objects
-    bPointF impulse = normal * j;
-
-    bPointF correction = normal * 8.0f / (1 / ent1.mass + 1 / ent2.mass);
-    bPointF correctionA = correction * (1 / ent1.mass);
-    bPointF correctionB = correction * (1 / ent2.mass);
-
-    // Representing Forces
-    bPointF initialForce1 = ent1.acceleration;
-    bPointF initialForce2 = ent2.acceleration;
-
-    float dotProduct1 = dot_product(initialForce1, normal);
-    float dotProduct2 = dot_product(initialForce2, normal);
-
-    bPointF netForce1 = initialForce1 - (normal * dotProduct1);
-    bPointF netForce2 = initialForce2 - (normal * dotProduct2);
-
-    // Changing Objects
-    if(ent1.type == DYNAMIC) {
-        
-        ent1.acceleration = (netForce1 + impulse) / ent1.mass;
-        ent1.velocity -= impulse;
-        ent1.position -= correctionA;
-    }
-    
-    if (ent2.type == DYNAMIC) {
-        
-        ent2.acceleration = (netForce2 + impulse) / ent2.mass;
-        ent2.velocity += impulse;
-        ent2.position += correctionB;
-    }
-
-}
-*/
-
 void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, float dt) {
 
     /*
@@ -240,27 +193,58 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
         Since we just two rectangles, it will be either the x-axis or the y-axis, 
         depending on which side of the rectangles collided.
     */
+   
 
-    bPointF centerVector = ent2.position.center() - ent1.position.center();
-    //centerVector.normalize();
-    // printf("Center Vector: (%f, %f)\n", centerVector.x, centerVector.y);
+    // Get all vertices of our rectangle
+
+    // Physics Step Backwards
+    // This is needed because at the time of collision the object is inside the other object
+    ent1.position.x -= ent1.velocity.x * dt;
+    ent1.position.y -= ent1.velocity.y * dt;
+
+    bPointF ent1Vertices[4] = {
+        {ent1.position.x, ent1.position.y},
+        {ent1.position.x + ent1.position.width, ent1.position.y},
+        {ent1.position.x, ent1.position.y + ent1.position.height},
+        {ent1.position.x + ent1.position.width, ent1.position.y + ent1.position.height}
+    };
+
+    // Physics Step Forwards
+    ent1.position.x += ent1.velocity.x * dt;
+    ent1.position.y += ent1.velocity.y * dt;
+
+    // bPointF normal_axis;
+
+    // Check if all vertices of ent1 are on the left or right of ent2
+    bool xAxis = false;
+    for (int i = 0; i < 4; i++) {
+
+        // Ok so if we want to check if a point is to the left or the right of a rectangle,
+        // All we have to do is check if the x coordinate of the point is less than the x coordinate of other rectangle
+        if (ent1Vertices[i].x < ent2.position.x || ent1Vertices[i].x > ent2.position.x + ent2.position.width) {
+            xAxis = true;
+        } else {
+            xAxis = false;
+            break;
+        }
+    }
 
     bPointF normal_axis;
-    if (abs(centerVector.x) > abs(centerVector.y)) {
-        
+    // Check if all vertices of ent1 are on the top or bottom of ent2
+    if (xAxis) {  
         if (ent2.position.x < ent1.position.x) {
-            printf("Left :3\n");
+            // printf("Pushing left\n");
             normal_axis = {-1, 0};
         } else if (ent2.position.x > ent1.position.x) {
-            printf("Right :3\n");
+            // printf("Pushing right\n");
             normal_axis = {1, 0};
         }
     } else {
         if (ent1.position.y > ent2.position.y) {
-            printf("Bottom :3\n");
+            // printf("Pushing up\n");
             normal_axis = {0, -1};
         } else if (ent1.position.y < ent2.position.y) {
-            printf("Top :3\n");
+            // printf("Pushing down\n");
             normal_axis = {0, 1};
         }
     }
@@ -300,16 +284,58 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
 
     /*
         Step 4)
-            Calculate and apply the change in velocity
+            Calculate the change in velocity
     */
 
     bPointF deltaV1 = impulse * invMass1;
     bPointF deltaV2 = impulse * invMass2;
 
+
+
+    /*
+        Step 5)
+            Penetration resolution :<
+    */
+
+    bRectF overlap = ent1.position.intersection(ent2.position);
+    bPointF overlap_size = {overlap.width, overlap.height};
+
+    overlap_size.x *= normal_axis.x;
+    overlap_size.y *= normal_axis.y;
+
+    // printf("overlap_pos: %f, %f\n", overlap_size.x, overlap_size.y);
+
+    //float depth = fmin(overlap.width, overlap.height);
+
+    const float percent = 0.8f;
+    const float slop = 0.01f;
+
+    //bPointF correction = normal_axis * percent * fmax(depth - slop, 0.0f) / (invMass1 + invMass2);
+    
+    bPointF correction = overlap_size * percent;
+
+    bPointF deltaPos1 = correction;
+    bPointF deltaPos2 = correction;
+
+    // printf("correction: %f, %f\n", correction.x, correction.y);
+
+    // printf("deltaPos1: %f, %f\n", deltaPos1.x, deltaPos1.y);
+    // printf("deltaPos2: %f, %f\n", deltaPos2.x, deltaPos2.y);
+
+    /*
+        Step 6)
+            Apply the changes
+    */
+
     if (ent1.type == DYNAMIC) {
 
         ent1.acceleration = {0, 0};
+
+        // Step backwards until the two objects are no longer colliding
+        
         ent1.position -= ent1.velocity * dt;
+        //ent1.position -= deltaPos1;
+
         ent1.velocity -= deltaV1;
         ent1.position += ent1.velocity * dt;
     }
@@ -317,168 +343,14 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
     if (ent2.type == DYNAMIC) {
 
         ent2.acceleration = {0, 0};
+
+        // Step backwards until the two objects are no longer colliding
+        
         ent2.position -= ent2.velocity * dt;
+        //ent2.position += deltaPos2;
+
         ent2.velocity += deltaV2;
         ent2.position += ent2.velocity * dt;
     }
 
 }
-
-// void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, float dt) {
-
-//     printf("#-----------------------------#\n");
-//     printf("Initial Acceleration of Ent 1: (%f, %f)\n", ent1.acceleration.x, ent1.acceleration.y);
-//     printf("Initial Velocity of Ent 1    : (%f, %f)\n", ent1.velocity.x, ent1.velocity.y);
-//     printf("Initial Position of Ent 1    : (%f, %f)\n", ent1.position.x, ent1.position.y);
-
-//     printf("Initial Acceleration of Ent 2: (%f, %f)\n", ent2.acceleration.x, ent2.acceleration.y);
-//     printf("Initial Velocity of Ent 2    : (%f, %f)\n", ent2.velocity.x, ent2.velocity.y);
-//     printf("Initial Position of Ent 2    : (%f, %f)\n", ent2.position.x, ent2.position.y);
-//     printf("#-----------------------------#\n");
-
-    
-//     /*
-//         Step 1: Calculate the collision normal.
-
-//         Ok so collision normal is the vector perpendicular to the collision surface. 
-//         Since we just two rectangles, it will be either the x-axis or the y-axis, 
-//         depending on which side of the rectangles collided.
-//     */
-
-//     bPointF centerVector = ent2.position.center() - ent1.position.center();
-//     float absX = abs(centerVector.x);
-//     float absY = abs(centerVector.y);
-
-
-//     // Ok so if i remember from EF157, the normal is like the force
-//     // Pushing the object away from the surface
-//     // ex, if you're standing on the floor and gravity is pulling you down
-//     // the normal is the force the floor is pushing you up with
-//     bPointF normal_axis;
-
-//     // Possible Issues: If you sneak through a perfect corner this'll get fucky
-//     // If we're further away from the x axis center
-//     if (absX > absY) {
-
-//         // Normal force only applies on the x axis
-//         if (centerVector.x < 0) {
-//             printf("Right\n");
-//             normal_axis = {1, 0};
-//         } else {
-//             printf("Left\n");
-//             normal_axis = {-1, 0};
-//         }
-    
-//     // if we're further away from the y axis / if we're equal lol
-//     } else {
-
-//         // Normal force only applies on the y axis
-//         if (centerVector.y < 0) {
-//             printf("Bottom :3\n");
-//             normal_axis = {0, -1};
-//         } else {
-//             printf("Top\n");
-//             normal_axis = {0, 1};
-//         }
-//     }
-
-//     // Force Acting Against Each Object
-//     bPointF normal_force1;
-//     normal_force1.x = ent1.mass * ent1.acceleration.x * normal_axis.x;
-//     normal_force1.y = ent1.mass * ent1.acceleration.y * normal_axis.y;
-//     bPointF normal_force2;
-//     normal_force2.x = ent2.mass * ent2.acceleration.x * normal_axis.y;
-//     normal_force2.y = ent2.mass * ent2.acceleration.y * normal_axis.y;
-
-//     /* 
-//         Step 2: Calculate the impulse of the collision.
-        
-//         Ok so from the impulse of a collision is the
-//         force acting on an object multiplied by the time of the collision.
-        
-//     */
-
-//     Force forces_1 = ent1.acceleration * ent1.mass;
-//     Force forces_2 = ent2.acceleration * ent2.mass;
-
-//     printf("#-----------------------------#\n");
-//     printf("Normal Force 1: (%f, %f)\n", normal_force1.x, normal_force1.y);
-//     printf("Normal Force 2: (%f, %f)\n", normal_force2.x, normal_force2.y);
-//     printf("#-----------------------------#\n");
-
-//     Force net_force1 = forces_1 + normal_force1;
-//     Force net_force2 = forces_2 + normal_force2;
-
-//     // Impulse is net_force * time
-//     bPointF impulse1 = net_force1 * dt;
-//     bPointF impulse2 = net_force2 * dt;
-
-//     /*
-//         Step 3: Use the impulse to calculate the acceleration of the two rectangles.
-//         From there you can calculate the velocity and position of the rectangles.
-//     */
-    
-//     if (ent1.type == DYNAMIC) {
-//         //ent1.position -= ent1.velocity * dt;
-//         ent1.acceleration = impulse1 / ent1.mass;
-//         ent1.velocity += ent1.acceleration * dt;
-//         ent1.position -= ent1.velocity * dt;
-//         ent1.acceleration = {0, 0};
-//     }
-
-//     if (ent2.type == DYNAMIC) {
-//         //ent2.position -= ent2.velocity * dt;
-//         ent2.acceleration = impulse2 / ent2.mass;
-//         ent2.velocity += ent2.acceleration * dt;
-//         ent2.position -= ent2.velocity * dt;
-//         ent2.acceleration = {0, 0};
-//     }
-
-//     printf("#                             #\n");
-//     printf("Final Acceleration of Ent 1: (%f, %f)\n", ent1.acceleration.x, ent1.acceleration.y);
-//     printf("Final Velocity of Ent 1    : (%f, %f)\n", ent1.velocity.x, ent1.velocity.y);
-//     printf("Final Position of Ent 1    : (%f, %f)\n", ent1.position.x, ent1.position.y);
-
-//     printf("Final Acceleration of Ent 2: (%f, %f)\n", ent2.acceleration.x, ent2.acceleration.y);
-//     printf("Final Velocity of Ent 2    : (%f, %f)\n", ent2.velocity.x, ent2.velocity.y);
-//     printf("Final Position of Ent 2    : (%f, %f)\n", ent2.position.x, ent2.position.y);
-//     printf("#-----------------------------#\n");
-    
-// }
-
-
-/*
-void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2) {
-
-    // Calculate the relative velocity of the objects
-    bPointF rel_vel = ent2.velocity - ent1.velocity;
-
-    // Calculate the normal vector of the collision
-    bPointF normal = rel_vel;
-    normal.normalize();
-    normal = normal * -1;
-
-    // Calculate the magnitude of the relative velocity along the normal vector
-    float vel_along_normal = dot_product(rel_vel, normal);
-
-    // If the objects are moving away from each other, there's no collision to resolve
-    if (vel_along_normal > 0) {
-        return;
-    }
-
-    // Calculate the restitution of the collision
-    float restitution = 0.8f; // Choose a value between 0 and 1
-
-    // Calculate the impulse magnitude
-    float j = -(1 + restitution) * vel_along_normal;
-
-    // Apply the impulse to ent1
-    bPointF impulse = normal * j;
-
-    // Updae ent1
-    ent1.velocity -= impulse;
-    ent1.position.x -= impulse.x;
-    ent1.position.y -= impulse.y;
-}
-*/
-
