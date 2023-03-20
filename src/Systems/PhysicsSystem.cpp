@@ -87,6 +87,8 @@ void PhysicsSystem::ApplyForce(BlueEnt &ent, Force force) {
     // I Love Physics 101
     obj.acceleration.x += force.x / obj.mass;
     obj.acceleration.y += force.y / obj.mass;
+
+    
 }
 
 void PhysicsSystem::Render(std::weak_ptr<bRenderer> _context) {
@@ -127,9 +129,9 @@ void PhysicsSystem::update_obj_positions(PhysicsObject &obj, float dt) {
     // Apply friction(decay) to acceleration and velocity
     // Bee's 1st law of motion:
     // An object in motion will eventually rest
-    // obj.acceleration *= (1.0f - obj.surfaceFriction );
+    // obj.acceleration *= (1.0f - obj.friction );
     obj.acceleration  = {0.0f, 0.0f};
-    obj.velocity     *= (1.0f - obj.surfaceFriction );
+    obj.velocity     *= (1.0f - obj.friction );
 
     // Cap the velocity
     obj.velocity.x = fmax(fmin(obj.velocity.x, obj.maxVelocity.x), -obj.maxVelocity.x);
@@ -167,7 +169,11 @@ void PhysicsSystem::check_collision(PhysicsObject &ent1, PhysicsObject &ent2, fl
     int iterations = 0;
     // run until the two objects are no longer colliding or we've tried to resolve the collision 10 times
     while ( ent1.position.intersects(ent2.position)) {
+        printf("====================================\n");
+        //if (strcmp(ent1.name, "Player") && strcmp(ent2.name, "Player"))
+            printf("Collision between %s and %s\n", ent1.name, ent2.name);
         resolve_collision(ent1, ent2, dt);
+        printf("====================================\n");
         ent2.render_color = {255, 0, 0, 50};
         iterations++;
         if (iterations > 10) {
@@ -233,18 +239,18 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
     // Check if all vertices of ent1 are on the top or bottom of ent2
     if (xAxis) {  
         if (ent2.position.x < ent1.position.x) {
-            // printf("Pushing left\n");
+            printf("Pushing left\n");
             normal_axis = {-1, 0};
         } else if (ent2.position.x > ent1.position.x) {
-            // printf("Pushing right\n");
+            printf("Pushing right\n");
             normal_axis = {1, 0};
         }
     } else {
         if (ent1.position.y > ent2.position.y) {
-            // printf("Pushing up\n");
+            printf("Pushing up\n");
             normal_axis = {0, -1};
         } else if (ent1.position.y < ent2.position.y) {
-            // printf("Pushing down\n");
+            printf("Pushing down\n");
             normal_axis = {0, 1};
         }
     }
@@ -266,8 +272,10 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
             If Check if objects are actually moving closer togehter, if not, return
     */
 
-    if (nSpd >= 0)
-        return;
+    if (nSpd >= 0) {
+        printf("The Objects are not moving closer together\n");
+        //return;
+    }
 
 
     /*
@@ -300,26 +308,32 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
     bRectF overlap = ent1.position.intersection(ent2.position);
     bPointF overlap_size = {overlap.width, overlap.height};
 
-    overlap_size.x *= normal_axis.x;
-    overlap_size.y *= normal_axis.y;
+    // Print the overlap size
+    printf("overlap_size: %f, %f\n", overlap_size.x, overlap_size.y);
 
-    // printf("overlap_pos: %f, %f\n", overlap_size.x, overlap_size.y);
+
+    // Since we are only pushing the object out of the rect in one direction
+    // Just use the normal direction
+    overlap_size.x *= (normal_axis.x);
+    overlap_size.y *= -(normal_axis.y);
+
+    //s printf("overlap_pos: %f, %f\n", overlap_size.x, overlap_size.y);
 
     //float depth = fmin(overlap.width, overlap.height);
 
-    const float percent = 0.8f;
-    const float slop = 0.01f;
+    // const float percent = 0.8f;
+    // const float slop = 0.01f;
 
     //bPointF correction = normal_axis * percent * fmax(depth - slop, 0.0f) / (invMass1 + invMass2);
     
-    bPointF correction = overlap_size * percent;
+    bPointF correction = overlap_size;
 
     bPointF deltaPos1 = correction;
-    bPointF deltaPos2 = correction;
+    //bPointF deltaPos2 = correction;
 
     // printf("correction: %f, %f\n", correction.x, correction.y);
 
-    // printf("deltaPos1: %f, %f\n", deltaPos1.x, deltaPos1.y);
+    printf("deltaPos1: %f, %f\n", deltaPos1.x, deltaPos1.y);
     // printf("deltaPos2: %f, %f\n", deltaPos2.x, deltaPos2.y);
 
     /*
@@ -332,11 +346,15 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
         ent1.acceleration = {0, 0};
 
         // Step backwards until the two objects are no longer colliding
-        
+        printf("Reverting Velocity\n");
         ent1.position -= ent1.velocity * dt;
         //ent1.position -= deltaPos1;
 
+        printf("Updating Velocity\n");
         ent1.velocity -= deltaV1;
+        //ent1.position += deltaPos1;
+
+        printf("Applying new velocity\n");
         ent1.position += ent1.velocity * dt;
     }
 
@@ -346,10 +364,15 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
 
         // Step backwards until the two objects are no longer colliding
         
+        printf("Reverting Velocity\n");
         ent2.position -= ent2.velocity * dt;
         //ent2.position += deltaPos2;
 
+        printf("Updating Velocity\n");
         ent2.velocity += deltaV2;
+        //ent2.position += deltaPos2;
+
+        printf("Applying new velocity\n");
         ent2.position += ent2.velocity * dt;
     }
 

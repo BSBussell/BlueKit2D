@@ -68,9 +68,9 @@ public:
             object.position = {static_cast<float>(loc.position.x+50), static_cast<float>(loc.position.y+50), 250, 250};
             object.maxVelocity = {1000000000, 1000000000};
             object.maxAcceleration = {1000000000, 1000000000};
-            object.surfaceFriction = 0.25f;
+            object.friction = 0.25f;
             object.restitution = 0.001f;
-            object.mass = 1.0f;
+            object.mass = 0.1f;
             object.type = DYNAMIC;
             
             // Add the two Components
@@ -88,17 +88,17 @@ public:
             BlueEnt physics_entity = _bridge -> CreateEntity();
 
             Transform loc;
-            loc.position = { 946, 700, 200, 700};
+            loc.position = { 946, 128, 450, 450};
 
             PhysicsObject object;
             object.name = "Wall";
             object.position = loc.position;
-            // object.maxVelocity = {10000, 10000};
-            // object.maxAcceleration = {20, 20};
-            object.surfaceFriction = 0.05f;
+            object.maxVelocity = {10000, 10000};
+            object.maxAcceleration = {20, 20};
+            object.friction = 0.05f;
             object.restitution = 0.002f;
-            object.mass = 1.0f;
-            object.type = STATIC;
+            object.mass = 100.0f;
+            object.type = DYNAMIC;
 
             _bridge -> AddComponent(physics_entity, loc);
             _bridge -> AddComponent(physics_entity, object);
@@ -113,16 +113,38 @@ public:
             BlueEnt physics_entity = _bridge -> CreateEntity();
 
             Transform loc;
-            loc.position = { 146, 1350, 50, 50};
+            loc.position = { 1046, 828, 50, 50};
 
             PhysicsObject object;
             object.name = "Box";
             object.position = loc.position;
-            // object.maxVelocity = {10000, 10000};
-            // object.maxAcceleration = {200000, 2000000};
-            object.surfaceFriction = 0.05f;
+            object.maxVelocity = {10000, 10000};
+            object.maxAcceleration = {200000, 2000000};
+            object.friction = 0.05f;
+            object.restitution = 0.001f;
+            object.mass = 0.5f;
+            object.type = DYNAMIC;
+
+            _bridge -> AddComponent(physics_entity, loc);
+            _bridge -> AddComponent(physics_entity, object);
+
+            _entities.push_back(physics_entity);
+
+        }
+
+        {
+
+            BlueEnt physics_entity = _bridge -> CreateEntity();
+
+            Transform loc;
+            loc.position = { 1846, 428, 250, 250};
+
+            PhysicsObject object;
+            object.name = "Sponge";
+            object.position = loc.position;
+            object.friction = 0.05f;
             object.restitution = 1.0f;
-            object.mass = 1.0f;
+            object.mass = 0.1f;
             object.type = STATIC;
 
             _bridge -> AddComponent(physics_entity, loc);
@@ -137,14 +159,14 @@ public:
             BlueEnt physics_entity = _bridge -> CreateEntity();
 
             Transform loc;
-            loc.position = { 1846, 1150, 250, 250};
+            loc.position = { 246, 428, 100, 500};
 
             PhysicsObject object;
-            object.name = "Sponge";
+            object.name = "Rect";
             object.position = loc.position;
-            object.surfaceFriction = 0.05f;
+            object.friction = 0.05f;
             object.restitution = 1.0f;
-            object.mass = 1.0f;
+            object.mass = 0.1f;
             object.type = STATIC;
 
             _bridge -> AddComponent(physics_entity, loc);
@@ -166,9 +188,9 @@ public:
             object.position = loc.position;
             object.maxVelocity = {0, 0};
             object.maxAcceleration = {20, 20};
-            object.surfaceFriction = 0.05f;
+            object.friction = 0.05f;
             object.restitution = 0.002f;
-            object.mass = 1.0f;
+            object.mass = 10.0f;
             object.type = STATIC;
 
             _bridge -> AddComponent(physics_entity, loc);
@@ -195,12 +217,12 @@ public:
         // implementation
         BlueEnt player = _entities.front();
 
-        float scalar = 200.0f;
+        float scalar = 15.0f;
         Force force = {0,0};
 
         if (bEvent::keyDown('W')) {
 
-            force += {0,-scalar};
+            force += {0,-20};
 
         }  
         if (bEvent::keyDown('A')) {
@@ -209,12 +231,12 @@ public:
             force += {-scalar,0};
 
         }
-        if (bEvent::keyDown('S')) {
+        // if (bEvent::keyDown('S')) {
 
             
-            force += {0,scalar};
+        //     force += {0,scalar};
 
-        }
+        // }
         if (bEvent::keyDown('D')) {
 
             
@@ -227,7 +249,7 @@ public:
         
         physics -> ApplyForce(player, force);
 
-        // // Loop through all entities
+        // Loop through all entities
         for (auto entity : _entities) {
 
             // Get the Transform Component
@@ -239,11 +261,8 @@ public:
             // Update the Transform Component
             if (physicsObject.type == DYNAMIC) {
                 
-                if (physicsObject.position.x < 1150) {
                 // Apply Gravity
-                    physics -> ApplyForce(entity, {0, 50.8f});
-                    printf("Velocity: %f, %f\n", physicsObject.velocity.x, physicsObject.velocity.y);
-                }
+                physics -> ApplyForce(entity, {0, 8.8f});
             }
         }
         

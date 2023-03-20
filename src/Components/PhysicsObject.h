@@ -29,7 +29,7 @@ struct PhysicsObject {
     bPointF acceleration = {0, 0};
 
     // @brief The friction of the object(0.0 - 1.0)
-    float surfaceFriction = 0.0f;
+    float friction = 0.0f;
 
     // @brief The maximum velocity of the object
     bPointF maxVelocity = {100, 100};
