@@ -1,0 +1,3 @@
+/Users/programming/Documents/GitHub/BlueEngine/BlueKit2D/cmake-build-debug/CMakeFiles/BlueKit2D.dir
+/Users/programming/Documents/GitHub/BlueEngine/BlueKit2D/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/programming/Documents/GitHub/BlueEngine/BlueKit2D/cmake-build-debug/CMakeFiles/rebuild_cache.dir

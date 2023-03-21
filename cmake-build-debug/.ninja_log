@@ -1,0 +1,4 @@
+# ninja log v5
+0	7355	1679322484532310856	CMakeFiles/BlueKit2D.dir/src/Systems/SpriteSystem.cpp.o	29288548b2802dc8
+0	10687	1679322487865897095	CMakeFiles/BlueKit2D.dir/src/main.cpp.o	ce37e0b6f298fdd2
+10687	10835	1679322488042424932	/Users/programming/Documents/GitHub/BlueEngine/BlueKit2D/bin/BlueKit2D	6df4ee400520ed0d
