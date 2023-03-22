@@ -4,9 +4,17 @@ cmake_minimum_required(VERSION 3.14)
 project(BlueKit2D)
 
 # Set the output folder where The program will be created
-set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/bin)
+set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/BlueKit2D/bin)
+
+
+
+
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
+
+# Tell CMake to place the build
+set(CMAKE_CURRENT_BINARY_DIR ${PROJECT_BINARY_DIR}/build)
+message(STATUS "Current Binary Dir: ${CMAKE_CURRENT_BINARY_DIR}")
 set(CMAKE_BUILD_TYPE Debug)
 
 # MAKEFILE TELL US YOUR SECRETS!!!
@@ -81,3 +89,10 @@ target_link_libraries(
 	-lSDL2_mixer
 	-lSDL2_ttf
 	-lBML)
+
+set_target_properties(BlueKit2D PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin/
+)
+
+# Print the output_directory
+message(STATUS "BlueKit Runtime Directory: ${CMAKE_CURRENT_SOURCE_DIR}/bin/")
