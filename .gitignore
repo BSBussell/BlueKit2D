@@ -8,3 +8,4 @@ build/*
 build/*
 cmake-build-debug/*
 *.a
+bin/BlueKit2D
