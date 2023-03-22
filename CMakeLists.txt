@@ -3,12 +3,11 @@ cmake_minimum_required(VERSION 3.14)
 # Project's Name
 project(BlueKit2D)
 
+# Add BML as our submodule
+add_subdirectory(BML)
+
 # Set the output folder where The program will be created
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/BlueKit2D/bin)
-
-
-
-
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
@@ -53,14 +52,11 @@ target_sources(
 	src/Core/BlueSceneManager.h
 	
 	# Systems
-	#src/Systems/GraphicsSystem.cpp
-	#src/Systems/GraphicsSystem.h
 	src/Systems/SpriteSystem.cpp
 	src/Systems/SpriteSystem.h
 
 	# Components
 	src/Components/Transform.h
-	#src/Components/Window.h
 	src/Components/Sprite.h
 
 	# Scenes
@@ -93,6 +89,7 @@ target_link_libraries(
 set_target_properties(BlueKit2D PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin/
 )
+
 
 # Print the output_directory
 message(STATUS "BlueKit Runtime Directory: ${CMAKE_CURRENT_SOURCE_DIR}/bin/")
