@@ -22,11 +22,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="389f3730-d5da-4e0b-8489-16351e20174b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/BlueKit2D" beforeDir="false" />
-    </list>
+    <list default="true" id="389f3730-d5da-4e0b-8489-16351e20174b" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
