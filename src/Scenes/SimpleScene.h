@@ -1,7 +1,7 @@
 
 // Bee Bussell
 // March 4, 2023
-// Example Scene
+// Simple Scene
 
 #ifndef SIMPLE_SCENE_H
 #define SIMPLE_SCENE_H
@@ -113,7 +113,7 @@ public:
             BlueEnt physics_entity = _bridge -> CreateEntity();
 
             Transform loc;
-            loc.position = { 1046, 828, 50, 50};
+            loc.position = { 1046, 1028, 50, 50};
 
             PhysicsObject object;
             object.name = "Box";
@@ -123,7 +123,7 @@ public:
             object.friction = 0.05f;
             object.restitution = 0.001f;
             object.mass = 0.5f;
-            object.type = DYNAMIC;
+            object.type = STATIC;
 
             _bridge -> AddComponent(physics_entity, loc);
             _bridge -> AddComponent(physics_entity, object);

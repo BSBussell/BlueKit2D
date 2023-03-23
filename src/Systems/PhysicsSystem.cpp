@@ -133,7 +133,7 @@ void PhysicsSystem::update_obj_positions(PhysicsObject &obj, float dt) {
     obj.acceleration  = {0.0f, 0.0f};
     obj.velocity     *= (1.0f - obj.friction );
 
-    // Cap the velocity
+    // Now we Cap the velocity
     obj.velocity.x = fmax(fmin(obj.velocity.x, obj.maxVelocity.x), -obj.maxVelocity.x);
     obj.velocity.y = fmax(fmin(obj.velocity.y, obj.maxVelocity.y), -obj.maxVelocity.y);
 
@@ -219,41 +219,66 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
     ent1.position.x += ent1.velocity.x * dt;
     ent1.position.y += ent1.velocity.y * dt;
 
-    // bPointF normal_axis;
+	// Here we assume ent2 is static :3
+	ent2.position.x -= ent2.velocity.x * dt;
+	ent2.position.y -= ent2.velocity.y * dt;
 
-    // Check if all vertices of ent1 are on the left or right of ent2
-    bool xAxis = false;
-    for (int i = 0; i < 4; i++) {
+	bPointF ent2Vertices[4] = {
+		{ent2.position.x, ent2.position.y},
+		{ent2.position.x + ent2.position.width, ent2.position.y},
+		{ent2.position.x, ent2.position.y + ent2.position.height},
+		{ent2.position.x + ent2.position.width, ent2.position.y + ent2.position.height}
+	};
 
-        // Ok so if we want to check if a point is to the left or the right of a rectangle,
-        // All we have to do is check if the x coordinate of the point is less than the x coordinate of other rectangle
-        if (ent1Vertices[i].x < ent2.position.x || ent1Vertices[i].x > ent2.position.x + ent2.position.width) {
-            xAxis = true;
-        } else {
-            xAxis = false;
-            break;
-        }
-    }
+	// Revert the physics step back
+	ent2.position.x += ent2.velocity.x * dt;
+	ent2.position.y += ent2.velocity.y * dt;
 
-    bPointF normal_axis;
-    // Check if all vertices of ent1 are on the top or bottom of ent2
-    if (xAxis) {  
-        if (ent2.position.x < ent1.position.x) {
-            printf("Pushing left\n");
-            normal_axis = {-1, 0};
-        } else if (ent2.position.x > ent1.position.x) {
-            printf("Pushing right\n");
-            normal_axis = {1, 0};
-        }
-    } else {
-        if (ent1.position.y > ent2.position.y) {
-            printf("Pushing up\n");
-            normal_axis = {0, -1};
-        } else if (ent1.position.y < ent2.position.y) {
-            printf("Pushing down\n");
-            normal_axis = {0, 1};
-        }
-    }
+	bPointF normal_axis;
+	// Check if every vertice of ent1 is on the left of ent2
+	// If so, then the collision normal is the x-axis
+	if (ent1Vertices[0].x <= ent2Vertices[0].x
+		&& ent1Vertices[1].x <= ent2Vertices[0].x
+		&& ent1Vertices[2].x <= ent2Vertices[0].x
+		&& ent1Vertices[3].x <= ent2Vertices[0].x) {
+
+		printf("Pushing Left\n");
+		normal_axis = {-1, 0};
+	}
+
+	// Check if every vertice of ent1 is on the right of ent2
+	// If so, then the collision normal is the x-axis
+	else if (ent1Vertices[0].x >= ent2Vertices[1].x
+		&& ent1Vertices[1].x >= ent2Vertices[1].x
+		&& ent1Vertices[2].x >= ent2Vertices[1].x
+		&& ent1Vertices[3].x >= ent2Vertices[1].x) {
+
+		printf("Pushing Right\n");
+		normal_axis = {1, 0};
+	}
+
+	// Check if every vertice of ent1 is on the top of ent2
+	// If so, then the collision normal is the y-axis
+	else if (ent1Vertices[0].y <= ent2Vertices[0].y
+		&& ent1Vertices[1].y <= ent2Vertices[0].y
+		&& ent1Vertices[2].y <= ent2Vertices[0].y
+		&& ent1Vertices[3].y <= ent2Vertices[0].y) {
+
+		printf("Pushing down\n");
+		normal_axis = {0, -1};
+	}
+
+	// Check if every vertice of ent1 is on the bottom of ent2
+	// If so, then the collision normal is on the y-axis
+	else if (ent1Vertices[0].y >= ent2Vertices[2].y
+		&& ent1Vertices[1].y >= ent2Vertices[2].y
+		&& ent1Vertices[2].y >= ent2Vertices[2].y
+		&& ent1Vertices[3].y >= ent2Vertices[2].y) {
+
+		printf("Pushing up\n");
+		normal_axis = {0, 1};
+	}
+
 
     /*
         Step 2)
@@ -265,6 +290,8 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
     float invMass1 = 1 / ent1.mass;
     float invMass2 = 1 / ent2.mass;
 
+	printf("Normal Axis: %f, %f\n", normal_axis.x, normal_axis.y);
+	printf("Relative Velocity: %f, %f\n", rel_Velocity.x, rel_Velocity.y);
     float nSpd = dot_product(rel_Velocity, normal_axis);
 
     /*
@@ -303,13 +330,13 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
     /*
         Step 5)
             Penetration resolution :<
-    */
+
 
     bRectF overlap = ent1.position.intersection(ent2.position);
     bPointF overlap_size = {overlap.width, overlap.height};
 
     // Print the overlap size
-    printf("overlap_size: %f, %f\n", overlap_size.x, overlap_size.y);
+    // printf("overlap_size: %f, %f\n", overlap_size.x, overlap_size.y);
 
 
     // Since we are only pushing the object out of the rect in one direction
@@ -333,8 +360,9 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
 
     // printf("correction: %f, %f\n", correction.x, correction.y);
 
-    printf("deltaPos1: %f, %f\n", deltaPos1.x, deltaPos1.y);
+	// printf("deltaPos1: %f, %f\n", deltaPos1.x, deltaPos1.y);
     // printf("deltaPos2: %f, %f\n", deltaPos2.x, deltaPos2.y);
+	*/
 
     /*
         Step 6)
@@ -343,6 +371,7 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
 
     if (ent1.type == DYNAMIC) {
 
+		// Reset acceleration
         ent1.acceleration = {0, 0};
 
         // Step backwards until the two objects are no longer colliding
@@ -360,6 +389,7 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
 
     if (ent2.type == DYNAMIC) {
 
+		// Reset acceleration
         ent2.acceleration = {0, 0};
 
         // Step backwards until the two objects are no longer colliding
