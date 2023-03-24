@@ -57,19 +57,20 @@ public:
             Transform loc;
             loc.position = { 64, 64, 700, 700};
 
-            // Setup Sprite Component
-            // Sprite image;
-            // image.filePath = "../user/resources/MCaniHIGH-Start_walk.json";
-            // image.context = _context;
-            // image.layer = 0;
+			// Setup Sprite Component
+//			Sprite image;
+//			image.filePath = "../user/resources/MCaniHIGH-Start_walk.json";
+//			image.context = _context;
+//			image.layer = 0;
+
 
             PhysicsObject object;
             object.name = "Player";
             object.position = {static_cast<float>(loc.position.x+50), static_cast<float>(loc.position.y+50), 250, 250};
-            object.maxVelocity = {1000000000, 1000000000};
+            object.maxVelocity = {5000, 5000};
             object.maxAcceleration = {1000000000, 1000000000};
             object.friction = 0.25f;
-            object.restitution = 0.001f;
+            object.restitution = 0.0f;
             object.mass = 0.1f;
             object.type = DYNAMIC;
             
@@ -91,14 +92,14 @@ public:
             loc.position = { 946, 128, 450, 450};
 
             PhysicsObject object;
-            object.name = "Wall";
+            object.name = "Big Block";
             object.position = loc.position;
             object.maxVelocity = {10000, 10000};
             object.maxAcceleration = {20, 20};
             object.friction = 0.05f;
-            object.restitution = 0.002f;
-            object.mass = 100.0f;
-            object.type = DYNAMIC;
+            object.restitution = 3.0f;
+            object.mass = 1.0f;
+            object.type = STATIC;
 
             _bridge -> AddComponent(physics_entity, loc);
             _bridge -> AddComponent(physics_entity, object);
@@ -113,7 +114,7 @@ public:
             BlueEnt physics_entity = _bridge -> CreateEntity();
 
             Transform loc;
-            loc.position = { 1046, 1028, 50, 50};
+            loc.position = { 1526, 1028, 50, 50};
 
             PhysicsObject object;
             object.name = "Box";
@@ -121,8 +122,8 @@ public:
             object.maxVelocity = {10000, 10000};
             object.maxAcceleration = {200000, 2000000};
             object.friction = 0.05f;
-            object.restitution = 0.001f;
-            object.mass = 0.5f;
+            object.restitution = 7.0f;
+            object.mass = 0.750f;
             object.type = STATIC;
 
             _bridge -> AddComponent(physics_entity, loc);
@@ -143,8 +144,8 @@ public:
             object.name = "Sponge";
             object.position = loc.position;
             object.friction = 0.05f;
-            object.restitution = 1.0f;
-            object.mass = 0.1f;
+            object.restitution = 10.0f;
+            object.mass = 0.25f;
             object.type = STATIC;
 
             _bridge -> AddComponent(physics_entity, loc);

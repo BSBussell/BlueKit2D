@@ -10,7 +10,7 @@ int main() {
  
     const int TARGET_FPS = 60;
     const float FRAME_TIME = 1000.0f / float(TARGET_FPS); // in milliseconds
-     const float UPDATE_INTERVAL = 1.0f; // update once per second
+	const float UPDATE_INTERVAL = 1.0f; // update once per second
     float last_update_time = 0.0f;
 
 

@@ -37,7 +37,7 @@ private:
     void check_collisions(const BlueEnt &ent, float dt);
 
     // Checks for collisions between two Physics Objects
-    void check_collision(PhysicsObject &ent1, PhysicsObject &ent2, float dt);
+    bool check_collision(PhysicsObject &ent1, PhysicsObject &ent2, float dt);
 
     // Resolves collisions between two Physics Objects
     void resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, float dt);
