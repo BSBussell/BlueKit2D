@@ -210,11 +210,11 @@ bool PhysicsSystem::check_collision(PhysicsObject &ent1, PhysicsObject &ent2, fl
 	bool hadCollision = false;
     // run until the two objects are no longer colliding or we've tried to resolve the collision 10 times
     while ( ent1.position.intersects(ent2.position)) {
-        printf("====================================\n");
+		// printf("====================================\n");
         //if (strcmp(ent1.name, "Player") && strcmp(ent2.name, "Player"))
-            printf("Collision between %s and %s\n", ent1.name.c_str(), ent2.name.c_str());
+		// printf("Collision between %s and %s\n", ent1.name.c_str(), ent2.name.c_str());
         resolve_collision(ent1, ent2, dt);
-        printf("====================================\n");
+        // printf("====================================\n");
         ent2.render_color = {255, 0, 0, 50};
         iterations++;
         if (iterations > 10) {
@@ -294,7 +294,7 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
 		&& ent1Vertices[2].x <= ent2Vertices[0].x
 		&& ent1Vertices[3].x <= ent2Vertices[0].x) {
 
-		printf("Pushing Left\n");
+//		printf("Pushing Left\n");
 		normal_axis = {-1, 0};
 	}
 
@@ -305,7 +305,7 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
 		&& ent1Vertices[2].x >= ent2Vertices[1].x
 		&& ent1Vertices[3].x >= ent2Vertices[1].x) {
 
-		printf("Pushing Right\n");
+//		printf("Pushing Right\n");
 		normal_axis = {1, 0};
 	}
 
@@ -316,7 +316,7 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
 		&& ent1Vertices[2].y <= ent2Vertices[0].y
 		&& ent1Vertices[3].y <= ent2Vertices[0].y) {
 
-		printf("Pushing down\n");
+//		printf("Pushing down\n");
 		normal_axis = {0, -1};
 	}
 
@@ -327,7 +327,7 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
 		&& ent1Vertices[2].y >= ent2Vertices[2].y
 		&& ent1Vertices[3].y >= ent2Vertices[2].y) {
 
-		printf("Pushing up\n");
+//		printf("Pushing up\n");
 		normal_axis = {0, 1};
 	}
 	else {
@@ -336,7 +336,7 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
 		// The reason this can happen is because the position is updated here
 		// Without caring about the change in position causing a collision
 
-		printf("No Collision Normal Found\n");
+//		printf("No Collision Normal Found\n");
 
 		// Hacky :3
 //		if (ent1.type == DYNAMIC) {
@@ -357,8 +357,8 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
 
     bPointF rel_Velocity = ent2.velocity - ent1.velocity;
 
-	printf("Normal Axis: %f, %f\n", normal_axis.x, normal_axis.y);
-	printf("Relative Velocity: %f, %f\n", rel_Velocity.x, rel_Velocity.y);
+//	printf("Normal Axis: %f, %f\n", normal_axis.x, normal_axis.y);
+//	printf("Relative Velocity: %f, %f\n", rel_Velocity.x, rel_Velocity.y);
     float nSpd = dot_product(rel_Velocity, normal_axis);
 
     /*
@@ -366,10 +366,10 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
             If Check if objects are actually moving closer togehter, if not, return
     */
 
-    if (nSpd >= 0) {
-        printf("The Objects are not moving closer together\n");
-        //return;
-    }
+//    if (nSpd >= 0) {
+//        printf("The Objects are not moving closer together\n");
+//        //return;
+//    }
 
     /*
         Step 3)
@@ -403,10 +403,8 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
         ent1.acceleration = {0, 0};
 
         // Step backwards until the two objects are no longer colliding
-        printf("Reverting Velocity\n");
-        ent1.position -= ent1.velocity * dt;
+		ent1.position -= ent1.velocity * dt;
 
-        printf("Updating Velocity\n");
         ent1.velocity -= deltaV1;
 
 		// Cap the velocity
@@ -414,7 +412,6 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
     	ent1.velocity.y = fmax(fmin(ent1.velocity.y, ent1.maxVelocity.y), -ent1.maxVelocity.y);
 
 		// A problem here is that the position is updated, without care for collision
-        printf("Applying new velocity\n");
         ent1.position += ent1.velocity * dt;
 
     }
@@ -425,17 +422,13 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
         ent2.acceleration = {0, 0};
 
         // Step backwards until the two objects are no longer colliding
-        
-        printf("Reverting Velocity\n");
-        ent2.position -= ent2.velocity * dt;
+		ent2.position -= ent2.velocity * dt;
 
-        printf("Updating Velocity\n");
         ent2.velocity += deltaV2;
 
 		ent2.velocity.x = fmax(fmin(ent2.velocity.x, ent2.maxVelocity.x), -ent2.maxVelocity.x);
     	ent2.velocity.y = fmax(fmin(ent2.velocity.y, ent2.maxVelocity.y), -ent2.maxVelocity.y);
 
-        printf("Applying new velocity\n");
         ent2.position += ent2.velocity * dt;
     }
 

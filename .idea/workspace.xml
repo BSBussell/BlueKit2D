@@ -24,12 +24,8 @@
   <component name="ChangeListManager">
     <list default="true" id="389f3730-d5da-4e0b-8489-16351e20174b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/PhysicsObject.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/PhysicsObject.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Scenes/SimpleScene.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Scenes/SimpleScene.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Systems/PhysicsSystem.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Systems/PhysicsSystem.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Systems/PhysicsSystem.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Systems/PhysicsSystem.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,6 +125,7 @@
       <workItem from="1679582653633" duration="12666000" />
       <workItem from="1679599781302" duration="10560000" />
       <workItem from="1679639088255" duration="2417000" />
+      <workItem from="1679756613097" duration="853000" />
     </task>
     <servers />
   </component>
