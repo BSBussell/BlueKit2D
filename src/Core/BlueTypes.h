@@ -8,6 +8,7 @@
 
 #include <bitset>
 #include <cstdint>
+#include <SDL2/SDL.h> 
 
 using BlueEnt = Uint32;
 using BlueCompType = Uint8;

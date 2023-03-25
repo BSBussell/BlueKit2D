@@ -24,6 +24,8 @@
   <component name="ChangeListManager">
     <list default="true" id="389f3730-d5da-4e0b-8489-16351e20174b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Scenes/SimpleScene.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Scenes/SimpleScene.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Systems/PhysicsSystem.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Systems/PhysicsSystem.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,11 +66,17 @@
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;background.image.plus&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.CMake&quot;,
+    &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;ObjectiveC&quot;
+    ]
   }
 }</component>
-  <component name="RunManager" selected="CMake Application.All">
+  <component name="RunManager" selected="CMake Application.BlueKit2D">
     <configuration name="All" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" WORKING_DIR="file://$PROJECT_DIR$/bin" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BlueKit2D" TARGET_NAME="BlueKit2D" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="BlueKit2D" RUN_TARGET_NAME="BlueKit2D">
       <method v="2">
         <option name="CMake.Explicit.Target" predefinedTargetName="BML" />
@@ -113,6 +121,11 @@
       <workItem from="1679516404392" duration="1000" />
       <workItem from="1679516831649" duration="1000" />
       <workItem from="1679516966616" duration="123000" />
+      <workItem from="1679582550333" duration="21000" />
+      <workItem from="1679582653633" duration="12666000" />
+      <workItem from="1679599781302" duration="10560000" />
+      <workItem from="1679639088255" duration="2417000" />
+      <workItem from="1679756613097" duration="853000" />
     </task>
     <servers />
   </component>

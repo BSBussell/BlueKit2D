@@ -30,7 +30,8 @@ target_compile_options(
 	-Wall
 	-Wextra
 	-std=c++17
-	-Ofast)
+	#-Ofast
+	)
 
 target_sources(
 	BlueKit2D
@@ -54,10 +55,13 @@ target_sources(
 	# Systems
 	src/Systems/SpriteSystem.cpp
 	src/Systems/SpriteSystem.h
+	src/Systems/PhysicsSystem.cpp
+	src/Systems/PhysicsSystem.h
 
 	# Components
 	src/Components/Transform.h
 	src/Components/Sprite.h
+	src/Components/PhysicsObject.h
 
 	# Scenes
 	src/Scenes/StressScene.h

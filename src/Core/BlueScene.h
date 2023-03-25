@@ -16,8 +16,7 @@
 #include <vector>
 
 
-// Yeah I genuienly don't know why I need to do this, 
-// it should be included, but i guess sometimes things go that way
+// I Love Circular Dependacies :D
 class BlueSceneManager;
 
 // Abstract BlueScene

@@ -18,9 +18,11 @@
 #include "Components/Sprite.h"
 #include "Components/Transform.h"
 #include "Components/Window.h"
+#include "Components/PhysicsObject.h"
 
 // System Includes
 #include "Systems/SpriteSystem.h"
+#include "Systems/PhysicsSystem.h"
 
 // Scene Includes
 #include "Scenes/SimpleScene.h"
