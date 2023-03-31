@@ -49,6 +49,9 @@ struct PhysicsObject {
 	// @note SOLID bodies are not moved by collisions
     BodyType type = SOLID;
 
+	// @brief whether or not the object snaps to other objects
+	bool snap = true;
+
     // @brief The name of the object for internal
     std::string name = "PhysicsObject";
 

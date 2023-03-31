@@ -72,6 +72,7 @@ public:
             object.friction = 0.25f;
             object.restitution = 0.0f;
             object.mass = 0.1f;
+			object.snap = true;
             object.type = ACTOR;
             
             // Add the two Components
@@ -144,7 +145,7 @@ public:
             object.name = "Sponge";
             object.position = loc.position;
             object.friction = 0.05f;
-            object.restitution = 10.0f;
+            object.restitution = 0.0f;
             object.mass = 0.25f;
             object.type = SOLID;
 
@@ -160,7 +161,7 @@ public:
             BlueEnt physics_entity = _bridge -> CreateEntity();
 
             Transform loc;
-            loc.position = { 246, 428, 100, 500};
+            loc.position = { 246, 428, 100, 10000};
 
             PhysicsObject object;
             object.name = "Rect";
@@ -232,6 +233,16 @@ public:
 			gravity = 1.8f;
 			if (physics -> IsOnFloor(player))
             	force += {0,-450};
+			else if (physics -> IsOnWall(player)) {
+
+				float x = physics -> GetWallNormal(player);
+
+				printf("x: %f\n", x);
+				x = x * -200.0f;
+
+				force += {x ,-350};
+
+			}
 
         }
 
@@ -263,25 +274,30 @@ public:
 			printf("Player expereincing normal gravity\n");
 		} else {
 
-			printf("Player expereincing low gravity\n");
+//			printf("Player expereincing low gravity\n");
 		}
 
         physics -> ApplyForce(player, force);
 
 		if (!physics ->IsOnFloor(player)) {
 
-			printf("Player is in the air\n");
+//			printf("Player is in the air\n");
 			_bridge -> GetComponent<PhysicsObject>(player).friction = 0.15f;
 			_bridge -> GetComponent<PhysicsObject>(player).maxVelocity = {3500, 5000};
 			//_bridge -> GetComponent<PhysicsObject>(player).maxAcceleration = {2000000000, 2000000000};
 		} else {
 
-			printf("Player is on the ground\n");
+//			printf("Player is on the ground\n");
+			//physics ->SnapToFloor(player);
 			_bridge -> GetComponent<PhysicsObject>(player).friction = 0.25f;
 			_bridge -> GetComponent<PhysicsObject>(player).maxVelocity = {5000, 5000};
 			//_bridge -> GetComponent<PhysicsObject>(player).maxAcceleration = {1000000000, 1000000000};
 		}
 
+		if (physics -> IsOnWall(player)) {
+
+			//physics ->SnapToWall(player);
+		}
 
         // Loop through all entities
         for (auto entity : _entities) {

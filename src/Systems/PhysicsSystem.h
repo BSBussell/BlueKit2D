@@ -38,11 +38,22 @@ public:
 	void ApplyForce(PhysicsObject &obj, Force force);
 
 	bool IsOnFloor(BlueEnt &ent);
+	bool IsOnWall(BlueEnt &ent);
+
+	void SnapToFloor(BlueEnt &ent);
+	void SnapToWall(BlueEnt &ent);
+
+	// Pretty much find our relative position
+	// Will be needed for things like wall jumping
+	float GetWallNormal(BlueEnt &ent);
 
 private:
 
     // Applies velocity to position and acceleration to velocity
     void update_obj_positions(PhysicsObject &obj, float dt);
+
+	// Snaps object for colliders
+	void snap(PhysicsObject &obj);
 
     // Checks for collisions between this obj and others
     void check_collisions(const BlueEnt &ent, float dt);

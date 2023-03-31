@@ -160,6 +160,144 @@ bool PhysicsSystem::IsOnFloor(BlueEnt &ent) {
 		}
 	}
 
+	return false;
+
+}
+
+bool PhysicsSystem::IsOnWall(BlueEnt &ent) {
+
+	std::shared_ptr g_BlueBridgePtr = g_WeakBlueBridge.lock();
+	if (!g_BlueBridgePtr) {
+
+		perror("GIRL WHERE'D THE BRIDGE GO!!!\n ( Error in PhysicsSystem )\n");
+
+		exit(1);
+	}
+
+	PhysicsObject &obj = g_BlueBridgePtr -> GetComponent<PhysicsObject>(ent);
+
+	// Loop through all the contacts
+	for (auto const& contact_ent : obj.contacts) {
+
+		// Get the obj
+		PhysicsObject &contact = g_BlueBridgePtr->GetComponent<PhysicsObject>(contact_ent);
+
+		// Get the normal of the contact
+		bPointF normal = find_collision_normal(obj, contact);
+
+		// If the contact is on the wall
+		if (normal.x == 1.0f || normal.x == -1.0f) {
+
+			return true;
+		}
+	}
+	return false;
+}
+
+void PhysicsSystem::SnapToFloor(BlueEnt &ent) {
+
+	std::shared_ptr g_BlueBridgePtr = g_WeakBlueBridge.lock();
+	if (!g_BlueBridgePtr) {
+
+		perror("GIRL WHERE'D THE BRIDGE GO!!!\n ( Error in PhysicsSystem )\n");
+
+		exit(1);
+	}
+
+	PhysicsObject &obj = g_BlueBridgePtr -> GetComponent<PhysicsObject>(ent);
+
+	// Loop through all the contacts
+	for (auto const& contact_ent : obj.contacts) {
+
+		// Get the obj
+		PhysicsObject &contact = g_BlueBridgePtr -> GetComponent<PhysicsObject>(contact_ent);
+
+		// Get the normal of the contact
+		bPointF normal = find_collision_normal(obj, contact);
+
+
+		// If the contact is on the floor
+		if (normal.y == 1.0f) {
+
+			// Snap to the floor
+			obj.position.y = contact.position.y - obj.position.height;
+
+			// We only need one contact
+			break;
+		}
+	}
+}
+
+// Make the entity snap to the wall
+void PhysicsSystem::SnapToWall(BlueEnt &ent) {
+
+	std::shared_ptr g_BlueBridgePtr = g_WeakBlueBridge.lock();
+	if (!g_BlueBridgePtr) {
+
+		perror("GIRL WHERE'D THE BRIDGE GO!!!\n ( Error in PhysicsSystem )\n");
+
+		exit(1);
+	}
+
+	PhysicsObject &obj = g_BlueBridgePtr -> GetComponent<PhysicsObject>(ent);
+
+	// Loop through all the contacts
+	for (auto const& contact_ent : obj.contacts) {
+
+		// Get the obj
+		PhysicsObject &contact = g_BlueBridgePtr->GetComponent<PhysicsObject>(contact_ent);
+
+		// Get the normal of the contact
+		bPointF normal = find_collision_normal(obj, contact);
+
+		// If the contact is on the wall
+		if (normal.x == 1.0f || normal.x == -1.0f) {
+
+
+			if (normal.x == 1.0f) {
+				// Snap to the wall
+				obj.position.x = contact.position.x - obj.position.width;
+			}
+			else {
+				// Snap to the wall
+				obj.position.x = contact.position.x + contact.position.width;
+			}
+
+			break;
+		}
+	}
+}
+
+float PhysicsSystem::GetWallNormal(BlueEnt &ent) {
+
+	std::shared_ptr g_BlueBridgePtr = g_WeakBlueBridge.lock();
+	if (!g_BlueBridgePtr) {
+
+		perror("GIRL WHERE'D THE BRIDGE GO!!!\n ( Error in PhysicsSystem )\n");
+
+		exit(1);
+	}
+
+	PhysicsObject &obj = g_BlueBridgePtr -> GetComponent<PhysicsObject>(ent);
+
+	// Loop through all the contacts
+	for (auto const& contact_ent : obj.contacts) {
+
+		// Get the obj
+		PhysicsObject &contact = g_BlueBridgePtr->GetComponent<PhysicsObject>(contact_ent);
+
+		// Get the normal of the contact
+		bPointF normal = find_collision_normal(obj, contact);
+
+
+
+		// If the contact is on the wall
+		if (normal.x == 1.0f || normal.x == -1.0f) {
+
+			printf("Normal: %f\n", normal.x);
+			return (normal.x);
+		}
+	}
 }
 
 
@@ -188,6 +326,63 @@ void PhysicsSystem::update_obj_positions(PhysicsObject &obj, float dt) {
     obj.position.x += obj.velocity.x * dt;
     obj.position.y += obj.velocity.y * dt;
 
+
+}
+
+void PhysicsSystem::snap(PhysicsObject &obj) {
+
+	std::shared_ptr g_BlueBridgePtr = g_WeakBlueBridge.lock();
+	if (!g_BlueBridgePtr) {
+
+		perror("GIRL WHERE'D THE BRIDGE GO!!!\n ( Error in PhysicsSystem )\n");
+
+		exit(1);
+	}
+
+	if (obj.type == SOLID)
+		return;
+
+	// Loop through all the contacts
+	for (auto const& contact_ent : obj.contacts) {
+
+		// Get the obj
+		PhysicsObject &contact = g_BlueBridgePtr->GetComponent<PhysicsObject>(contact_ent);
+
+		// Get the normal of the contact
+		bPointF normal = find_collision_normal(obj, contact);
+
+		// If the contact is on the wall
+		if (normal.x == 1.0f || normal.x == -1.0f) {
+
+
+			if (normal.x == 1.0f) {
+				// Snap to the wall
+				obj.position.x = contact.position.x - obj.position.width;
+			} else {
+				// Snap to the wall
+				obj.position.x = contact.position.x + contact.position.width;
+			}
+
+		}
+
+		// If the contact is on the floor
+		if (normal.y == 1.0f) {
+
+			// Snap to the floor
+			obj.position.y = contact.position.y - obj.position.height;
+
+		}
+
+		// If the contact is on the ceiling
+		if (normal.y == -1.0f) {
+
+			// Snap to the floor
+			obj.position.y = contact.position.y + contact.position.height;
+
+		}
+
+	}
+
 }
 
 // Checks for collisions between all entities
@@ -205,6 +400,8 @@ void PhysicsSystem::check_collisions(const BlueEnt &ent, float dt) {
 
 	if (obj.type == SOLID)
 		return;
+
+
 
     for (auto const &entity: BlueEntities) {
 
@@ -252,7 +449,7 @@ bool PhysicsSystem::check_collision(PhysicsObject &ent1, PhysicsObject &ent2, fl
 void PhysicsSystem::check_contact(PhysicsObject &ent1, PhysicsObject &ent2) {
 
 	// TODO: Make this something that the can be changed with a setter
-	const float tolerance = 0.2f;
+	const float tolerance = 0.1f;
 
 	// Make bRect for ent2 adding a tolerance
 	bRectF ent2_expanded = ent2.position;
@@ -331,10 +528,10 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
     */
 
 	// This has false positives sometimes so I'm disabling it for now
-    if (nSpd >= 0) {
+//    if (nSpd >= 0) {
 //        printf("The Objects are not moving closer together\n");
-        //return;
-    }
+//      	return;
+//    }
 
     /*
         Step 3)
@@ -373,6 +570,9 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
         ent1.velocity -= deltaV1;
 		update_obj_positions(ent1, dt);
 
+		if (ent1.snap)
+			snap(ent1);
+
     }
 
     if (ent2.type == ACTOR) {
@@ -385,6 +585,9 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
 
         ent2.velocity += deltaV2;
 		update_obj_positions(ent2, dt);
+
+		if (ent2.snap)
+			snap(ent2);
     }
 
 }
