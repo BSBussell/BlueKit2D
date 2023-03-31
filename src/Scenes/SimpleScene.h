@@ -72,7 +72,7 @@ public:
             object.friction = 0.25f;
             object.restitution = 0.0f;
             object.mass = 0.1f;
-            object.type = DYNAMIC;
+            object.type = ACTOR;
             
             // Add the two Components
             _bridge -> AddComponent(Sprite_Entity, loc);
@@ -99,7 +99,7 @@ public:
             object.friction = 0.05f;
             object.restitution = 3.0f;
             object.mass = 1.0f;
-            object.type = STATIC;
+            object.type = SOLID;
 
             _bridge -> AddComponent(physics_entity, loc);
             _bridge -> AddComponent(physics_entity, object);
@@ -124,7 +124,7 @@ public:
             object.friction = 0.05f;
             object.restitution = 7.0f;
             object.mass = 0.750f;
-            object.type = STATIC;
+            object.type = SOLID;
 
             _bridge -> AddComponent(physics_entity, loc);
             _bridge -> AddComponent(physics_entity, object);
@@ -146,7 +146,7 @@ public:
             object.friction = 0.05f;
             object.restitution = 10.0f;
             object.mass = 0.25f;
-            object.type = STATIC;
+            object.type = SOLID;
 
             _bridge -> AddComponent(physics_entity, loc);
             _bridge -> AddComponent(physics_entity, object);
@@ -165,10 +165,10 @@ public:
             PhysicsObject object;
             object.name = "Rect";
             object.position = loc.position;
-            object.friction = 0.05f;
+            object.friction = 0.5f;
             object.restitution = 1.0f;
             object.mass = 0.1f;
-            object.type = STATIC;
+            object.type = SOLID;
 
             _bridge -> AddComponent(physics_entity, loc);
             _bridge -> AddComponent(physics_entity, object);
@@ -189,10 +189,10 @@ public:
             object.position = loc.position;
             object.maxVelocity = {0, 0};
             object.maxAcceleration = {20, 20};
-            object.friction = 0.05f;
+            object.friction = 0.0000004f;
             object.restitution = 0.002f;
             object.mass = 10.0f;
-            object.type = STATIC;
+            object.type = SOLID;
 
             _bridge -> AddComponent(physics_entity, loc);
             _bridge -> AddComponent(physics_entity, object);
@@ -204,6 +204,9 @@ public:
 
         // Initialize Sprites
         sprites->Init();
+
+		// Initialize Physics
+		physics->Init();
 
     }
 
@@ -218,18 +221,26 @@ public:
         // implementation
         BlueEnt player = _entities.front();
 
+
+		float gravity = 25.8f;
+
         float scalar = 15.0f;
         Force force = {0,0};
 
-        if (bEvent::keyDown('W')) {
+        if (bEvent::keyDown('W') ) {
 
-            force += {0,-20};
+			gravity = 1.8f;
+			if (physics -> IsOnFloor(player))
+            	force += {0,-450};
 
-        }  
+        }
+
         if (bEvent::keyDown('A')) {
 
             
             force += {-scalar,0};
+
+
 
         }
         // if (bEvent::keyDown('S')) {
@@ -247,8 +258,30 @@ public:
         
 
 
-        
+        if (gravity == 15.8f) {
+
+			printf("Player expereincing normal gravity\n");
+		} else {
+
+			printf("Player expereincing low gravity\n");
+		}
+
         physics -> ApplyForce(player, force);
+
+		if (!physics ->IsOnFloor(player)) {
+
+			printf("Player is in the air\n");
+			_bridge -> GetComponent<PhysicsObject>(player).friction = 0.15f;
+			_bridge -> GetComponent<PhysicsObject>(player).maxVelocity = {3500, 5000};
+			//_bridge -> GetComponent<PhysicsObject>(player).maxAcceleration = {2000000000, 2000000000};
+		} else {
+
+			printf("Player is on the ground\n");
+			_bridge -> GetComponent<PhysicsObject>(player).friction = 0.25f;
+			_bridge -> GetComponent<PhysicsObject>(player).maxVelocity = {5000, 5000};
+			//_bridge -> GetComponent<PhysicsObject>(player).maxAcceleration = {1000000000, 1000000000};
+		}
+
 
         // Loop through all entities
         for (auto entity : _entities) {
@@ -260,10 +293,11 @@ public:
             PhysicsObject& physicsObject = _bridge -> GetComponent<PhysicsObject>(entity);
 
             // Update the Transform Component
-            if (physicsObject.type == DYNAMIC) {
+            if (physicsObject.type == ACTOR) {
                 
                 // Apply Gravity
-                physics -> ApplyForce(entity, {0, 8.8f});
+				if (!physics -> IsOnFloor(entity))
+                	physics -> ApplyForce(entity, {0, gravity});
             }
         }
         

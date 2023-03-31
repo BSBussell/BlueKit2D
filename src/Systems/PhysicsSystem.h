@@ -16,6 +16,14 @@
 #include "Components/PhysicsObject.h"
 #include "Components/Transform.h"
 
+
+/*
+    All colliders are axis-aligned bounding boxes (AABBs)
+    All collider positions, widths, and heights are floats
+    Except for special circumstances, Actors and Solids will never overlap
+    Solids do not interact with other Solids
+*/
+
 class PhysicsSystem : public BlueSys {
 
 public:
@@ -27,6 +35,9 @@ public:
     void Close();
 
     void ApplyForce(BlueEnt &ent, Force force);
+	void ApplyForce(PhysicsObject &obj, Force force);
+
+	bool IsOnFloor(BlueEnt &ent);
 
 private:
 
@@ -36,8 +47,13 @@ private:
     // Checks for collisions between this obj and others
     void check_collisions(const BlueEnt &ent, float dt);
 
+	// Find the collision normal of two objects
+	bPointF find_collision_normal(const PhysicsObject &ent1, const PhysicsObject &ent2);
+
     // Checks for collisions between two Physics Objects
     bool check_collision(PhysicsObject &ent1, PhysicsObject &ent2, float dt);
+
+	void check_contact(PhysicsObject &ent1, PhysicsObject &ent2);
 
     // Resolves collisions between two Physics Objects
     void resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, float dt);

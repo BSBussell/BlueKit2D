@@ -12,12 +12,14 @@
 #include <vector>
 
 enum BodyType {
-    STATIC, // Not Moved by Collisions
-    DYNAMIC // Can be moved
+    SOLID, // Not Moved by Collisions
+    ACTOR // Can be moved
 };
 
 // @brief A Physics Object
 struct PhysicsObject {
+
+	BlueEnt id;
 
     // @brief The position of the object
     bRectF position;
@@ -44,8 +46,8 @@ struct PhysicsObject {
     float mass = 1.0f;
 
     // @brief The type of body
-	// @note STATIC bodies are not moved by collisions
-    BodyType type = STATIC;
+	// @note SOLID bodies are not moved by collisions
+    BodyType type = SOLID;
 
     // @brief The name of the object for internal
     std::string name = "PhysicsObject";
@@ -53,8 +55,10 @@ struct PhysicsObject {
     // @brief The color used when rendering collision boxes
     SDL_Color render_color = {0, 0, 255, 50};
 
+	void MoveBy(bPointF delta);
+
     // @brief The PhysicObjects we are contacting
-    std::vector<std::weak_ptr<PhysicsObject>> contacts;
+    std::vector<BlueEnt> contacts;
 
 };
 

@@ -10,6 +10,26 @@ extern std::weak_ptr<BlueBridge> g_WeakBlueBridge;
 // IDK what we need to do on init ngl
 void PhysicsSystem::Init() {
 
+	std::shared_ptr g_BlueBridgePtr = g_WeakBlueBridge.lock();
+	if (!g_BlueBridgePtr) {
+
+		perror("GIRL YOU LOST YOUR THING\n");
+		exit(1);
+	}
+
+
+
+
+	// Loop through all entities
+	for (auto const& entity : BlueEntities) {
+
+		PhysicsObject &obj = g_BlueBridgePtr -> GetComponent<PhysicsObject>(entity);
+
+		// That way we can access the entity from the component hahaha
+		// Nothing can go wrong here
+		obj.id = entity;
+	}
+
 }
 
 void PhysicsSystem::Update(float dt) {
@@ -39,6 +59,7 @@ void PhysicsSystem::Update(float dt) {
 
         update_obj_positions(obj, dt);
 
+
         check_collisions(entity, dt);
        
         final_pos.x = obj.position.x;
@@ -62,28 +83,7 @@ void PhysicsSystem::Update(float dt) {
     }
 }
 
-void PhysicsSystem::ApplyForce(BlueEnt &ent, Force force) {
 
-    std::shared_ptr g_BlueBridgePtr = g_WeakBlueBridge.lock();
-	if (!g_BlueBridgePtr) {
-
-		perror("GIRL WHERE'D THE BRIDGE GO!!!\n ( Error in PhysicsSystem )\n");
-
-		exit(1);
-	}
-
-    PhysicsObject &obj = g_BlueBridgePtr -> GetComponent<PhysicsObject>(ent);
-
-    force *= 100.0f;
-
-    // I Love Physics 101
-    obj.acceleration.x += force.x / obj.mass;
-    obj.acceleration.y += force.y / obj.mass;
-
-
-
-    
-}
 
 void PhysicsSystem::Render(std::weak_ptr<bRenderer> _context) {
 
@@ -109,6 +109,59 @@ void PhysicsSystem::Close() {
 
 
 }
+
+void PhysicsSystem::ApplyForce(BlueEnt &ent, Force force) {
+
+    std::shared_ptr g_BlueBridgePtr = g_WeakBlueBridge.lock();
+	if (!g_BlueBridgePtr) {
+
+		perror("GIRL WHERE'D THE BRIDGE GO!!!\n ( Error in PhysicsSystem )\n");
+
+		exit(1);
+	}
+
+    PhysicsObject &obj = g_BlueBridgePtr -> GetComponent<PhysicsObject>(ent);
+
+    force *= 100.0f;
+
+    // I Love Physics 101
+    obj.acceleration.x += force.x / obj.mass;
+    obj.acceleration.y += force.y / obj.mass;
+
+}
+
+bool PhysicsSystem::IsOnFloor(BlueEnt &ent) {
+
+	std::shared_ptr g_BlueBridgePtr = g_WeakBlueBridge.lock();
+	if (!g_BlueBridgePtr) {
+
+		perror("GIRL WHERE'D THE BRIDGE GO!!!\n ( Error in PhysicsSystem )\n");
+
+		exit(1);
+	}
+
+	PhysicsObject &obj = g_BlueBridgePtr -> GetComponent<PhysicsObject>(ent);
+
+	// Loop through all the contacts
+	for (auto const& contact_ent : obj.contacts) {
+
+		// Get the obj
+		PhysicsObject &contact = g_BlueBridgePtr -> GetComponent<PhysicsObject>(contact_ent);
+
+		// Get the normal of the contact
+		bPointF normal = find_collision_normal(obj, contact);
+
+
+
+		// If the contact is on the floor
+		if (normal.y == 1.0f) {
+
+			return true;
+		}
+	}
+
+}
+
 
 // Takes and object and updates their position
 void PhysicsSystem::update_obj_positions(PhysicsObject &obj, float dt) {
@@ -148,55 +201,24 @@ void PhysicsSystem::check_collisions(const BlueEnt &ent, float dt) {
     }
 
 
-	/*
-	bool hasCollisions = true;
-	while (hasCollisions) {
-		hasCollisions = false;
-
-		for (auto const& entity: BlueEntities) {
-
-			if (entity == ent) {
-				continue;
-			}
-
-			PhysicsObject &obj1 = g_BlueBridgePtr->GetComponent<PhysicsObject>(ent);
-			PhysicsObject &obj2 = g_BlueBridgePtr->GetComponent<PhysicsObject>(entity2);
-
-
-			for (auto const &entity2: BlueEntities) {
-				if (entity1 == entity2) {
-					continue;
-				}
-
-				PhysicsObject &obj2 = g_BlueBridgePtr->GetComponent<PhysicsObject>(entity2);
-
-				// Check for collisions
-				if (obj1.position.intersects(obj2.position)) {
-
-					printf("====================================\n");
-            		printf("Collision between %s and %s\n", obj1.name.c_str(), obj2.name.c_str());
-					resolve_collision(obj1, obj2, dt);
-					printf("====================================\n");
-					hasCollisions = true;
-				}
-
-			}
-
-		}
-
-	}
-
-	*/
-
 	PhysicsObject &obj = g_BlueBridgePtr -> GetComponent<PhysicsObject>(ent);
+
+	if (obj.type == SOLID)
+		return;
 
     for (auto const &entity: BlueEntities) {
 
 		PhysicsObject &obj2 = g_BlueBridgePtr -> GetComponent<PhysicsObject>(entity);
 
 		// Make sure we don't check collisions with ourselves
-        if (ent != entity)
+        if (ent != entity) {
+
+			// Check if the two objects are in contact
+			check_contact(obj, obj2);
+
+			// Check if the two objects are colliding
             check_collision(obj, obj2, dt);
+		}
     }
 
 }
@@ -225,13 +247,60 @@ bool PhysicsSystem::check_collision(PhysicsObject &ent1, PhysicsObject &ent2, fl
 		hadCollision = true;
     }
 	return hadCollision;
-
-    // After contact, most objects will be contacting each other so we need to add it to the list
-    
-    // ent1.contacts.push_back(&ent2);
-    // ent2.contacts.push_back(&ent1);
-    
 }
+
+void PhysicsSystem::check_contact(PhysicsObject &ent1, PhysicsObject &ent2) {
+
+	// TODO: Make this something that the can be changed with a setter
+	const float tolerance = 0.2f;
+
+	// Make bRect for ent2 adding a tolerance
+	bRectF ent2_expanded = ent2.position;
+	ent2_expanded.x -= tolerance;
+	ent2_expanded.y -= tolerance;
+	ent2_expanded.width += tolerance * 2;
+	ent2_expanded.height += tolerance * 2;
+
+	// Check if ent1 is inside ent2_expanded
+	if (ent2_expanded.intersects(ent1.position)) {
+
+		ent1.contacts.push_back(ent2.id);
+		ent2.contacts.push_back(ent1.id);
+
+	} else {
+		// printf("No contact between %s and %s\n", ent1.name, ent2.name);
+		// Remove ent1 from ent2's contacts
+		ent2.contacts.erase(std::remove(ent2.contacts.begin(), ent2.contacts.end(), ent1.id), ent2.contacts.end());
+
+		// Remove ent2 from ent1's contacts
+		ent1.contacts.erase(std::remove(ent1.contacts.begin(), ent1.contacts.end(), ent2.id), ent1.contacts.end());
+
+		// Trusting Copilot with this one :3
+	}
+
+}
+
+bPointF PhysicsSystem::find_collision_normal(const PhysicsObject &ent1, const PhysicsObject &ent2) {
+	bRectF intersection = ent1.position.intersection(ent2.position);
+
+    float left_diff = abs(intersection.x + intersection.width - ent1.position.x);
+    float right_diff = abs(ent1.position.x + ent1.position.width - intersection.x);
+    float up_diff = abs(intersection.y + intersection.height - ent1.position.y);
+    float down_diff = abs(ent1.position.y + ent1.position.height - intersection.y);
+
+    float min_diff = std::min({left_diff, right_diff, up_diff, down_diff});
+
+    if (min_diff == left_diff) {
+        return {-1, 0};
+    } else if (min_diff == right_diff) {
+        return {1, 0};
+    } else if (min_diff == up_diff) {
+        return {0, -1};
+    } else {
+        return {0, 1};
+    }
+}
+
 
 // Resolves collisions between two entities
 void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, float dt) {
@@ -242,113 +311,11 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
     /*
         Step 1: Calculate the collision normal.
 
-        Ok so collision normal is the vector perpendicular to the collision surface. 
-        I tried to be clever for like a week before giving up and just check each vertice
-        To find the relative position :D
+        Ok so collision normal is the vector perpendicular to the collision surface.
     */
-   
 
-    // Get all vertices of our rectangle
-
-    // Physics Step Backwards
-    // This is needed because at the time of collision the object is inside the other object
-    ent1.position.x -= ent1.velocity.x * dt;
-    ent1.position.y -= ent1.velocity.y * dt;
-
-	// Gimme those vertices
-    bPointF ent1Vertices[4] = {
-        {ent1.position.x, ent1.position.y},
-        {ent1.position.x + ent1.position.width, ent1.position.y},
-        {ent1.position.x, ent1.position.y + ent1.position.height},
-        {ent1.position.x + ent1.position.width, ent1.position.y + ent1.position.height}
-    };
-
-    // Physics Step Forwards
-    ent1.position.x += ent1.velocity.x * dt;
-    ent1.position.y += ent1.velocity.y * dt;
-
-	// Physics Step Backwards, to get where we were before the collision
-	ent2.position.x -= ent2.velocity.x * dt;
-	ent2.position.y -= ent2.velocity.y * dt;
-
-	// Grab the vertices of ent2
-	bPointF ent2Vertices[4] = {
-		{ent2.position.x, ent2.position.y},
-		{ent2.position.x + ent2.position.width, ent2.position.y},
-		{ent2.position.x, ent2.position.y + ent2.position.height},
-		{ent2.position.x + ent2.position.width, ent2.position.y + ent2.position.height}
-	};
-
-	// Revert the physics step back
-	ent2.position.x += ent2.velocity.x * dt;
-	ent2.position.y += ent2.velocity.y * dt;
-
-	bPointF normal_axis;
-
-	// This isn't pretty, but it works and its not horrible
-
-	// Check if every vertice of ent1 is on the left of ent2
-	// If so, then the collision normal is the x-axis
-	if (ent1Vertices[0].x <= ent2Vertices[0].x
-		&& ent1Vertices[1].x <= ent2Vertices[0].x
-		&& ent1Vertices[2].x <= ent2Vertices[0].x
-		&& ent1Vertices[3].x <= ent2Vertices[0].x) {
-
-//		printf("Pushing Left\n");
-		normal_axis = {-1, 0};
-	}
-
-	// Check if every vertice of ent1 is on the right of ent2
-	// If so, then the collision normal is the x-axis
-	else if (ent1Vertices[0].x >= ent2Vertices[1].x
-		&& ent1Vertices[1].x >= ent2Vertices[1].x
-		&& ent1Vertices[2].x >= ent2Vertices[1].x
-		&& ent1Vertices[3].x >= ent2Vertices[1].x) {
-
-//		printf("Pushing Right\n");
-		normal_axis = {1, 0};
-	}
-
-	// Check if every vertice of ent1 is on the top of ent2
-	// If so, then the collision normal is the y-axis
-	else if (ent1Vertices[0].y <= ent2Vertices[0].y
-		&& ent1Vertices[1].y <= ent2Vertices[0].y
-		&& ent1Vertices[2].y <= ent2Vertices[0].y
-		&& ent1Vertices[3].y <= ent2Vertices[0].y) {
-
-//		printf("Pushing down\n");
-		normal_axis = {0, -1};
-	}
-
-	// Check if every vertice of ent1 is on the bottom of ent2
-	// If so, then the collision normal is on the y-axis
-	else if (ent1Vertices[0].y >= ent2Vertices[2].y
-		&& ent1Vertices[1].y >= ent2Vertices[2].y
-		&& ent1Vertices[2].y >= ent2Vertices[2].y
-		&& ent1Vertices[3].y >= ent2Vertices[2].y) {
-
-//		printf("Pushing up\n");
-		normal_axis = {0, 1};
-	}
-	else {
-
-		// Means object was forced into another object
-		// The reason this can happen is because the position is updated here
-		// Without caring about the change in position causing a collision
-
-//		printf("No Collision Normal Found\n");
-
-		// Hacky :3
-//		if (ent1.type == DYNAMIC) {
-//			ent1.position -= ent1.velocity * dt;
-//		}
-//		if (ent2.type == DYNAMIC) {
-//			ent2.position -= ent2.velocity * dt;
-//		}
-
-		return;
-	}
-
+    // Find the collision normal
+	bPointF normal_axis = find_collision_normal(ent1, ent2);
 
     /*
         Step 2)
@@ -356,20 +323,18 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
     */
 
     bPointF rel_Velocity = ent2.velocity - ent1.velocity;
-
-//	printf("Normal Axis: %f, %f\n", normal_axis.x, normal_axis.y);
-//	printf("Relative Velocity: %f, %f\n", rel_Velocity.x, rel_Velocity.y);
-    float nSpd = dot_product(rel_Velocity, normal_axis);
+	float nSpd = dot_product(rel_Velocity, normal_axis);
 
     /*
         Step 2.B
             If Check if objects are actually moving closer togehter, if not, return
     */
 
-//    if (nSpd >= 0) {
+	// This has false positives sometimes so I'm disabling it for now
+    if (nSpd >= 0) {
 //        printf("The Objects are not moving closer together\n");
-//        //return;
-//    }
+        //return;
+    }
 
     /*
         Step 3)
@@ -397,7 +362,7 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
             Apply the changes
     */
 
-    if (ent1.type == DYNAMIC) {
+    if (ent1.type == ACTOR) {
 
 		// Reset acceleration
         ent1.acceleration = {0, 0};
@@ -406,17 +371,11 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
 		ent1.position -= ent1.velocity * dt;
 
         ent1.velocity -= deltaV1;
-
-		// Cap the velocity
-		ent1.velocity.x = fmax(fmin(ent1.velocity.x, ent1.maxVelocity.x), -ent1.maxVelocity.x);
-    	ent1.velocity.y = fmax(fmin(ent1.velocity.y, ent1.maxVelocity.y), -ent1.maxVelocity.y);
-
-		// A problem here is that the position is updated, without care for collision
-        ent1.position += ent1.velocity * dt;
+		update_obj_positions(ent1, dt);
 
     }
 
-    if (ent2.type == DYNAMIC) {
+    if (ent2.type == ACTOR) {
 
 		// Reset acceleration
         ent2.acceleration = {0, 0};
@@ -425,11 +384,7 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
 		ent2.position -= ent2.velocity * dt;
 
         ent2.velocity += deltaV2;
-
-		ent2.velocity.x = fmax(fmin(ent2.velocity.x, ent2.maxVelocity.x), -ent2.maxVelocity.x);
-    	ent2.velocity.y = fmax(fmin(ent2.velocity.y, ent2.maxVelocity.y), -ent2.maxVelocity.y);
-
-        ent2.position += ent2.velocity * dt;
+		update_obj_positions(ent2, dt);
     }
 
 }
