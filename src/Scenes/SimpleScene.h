@@ -55,7 +55,7 @@ public:
 
             // Setup Transform Component
             Transform loc;
-            loc.position = { 64, 64, 700, 700};
+            loc.position = { 164, 364, 700, 700};
 
 			// Setup Sprite Component
 //			Sprite image;
@@ -90,7 +90,7 @@ public:
             BlueEnt physics_entity = _bridge -> CreateEntity();
 
             Transform loc;
-            loc.position = { 946, 128, 450, 450};
+            loc.position = { 1146, 128, 450, 450};
 
             PhysicsObject object;
             object.name = "Big Block";
@@ -98,8 +98,8 @@ public:
             object.maxVelocity = {10000, 10000};
             object.maxAcceleration = {20, 20};
             object.friction = 0.05f;
-            object.restitution = 3.0f;
-            object.mass = 1.0f;
+            object.restitution = 0.0f;
+            object.mass = 100.0f;
             object.type = SOLID;
 
             _bridge -> AddComponent(physics_entity, loc);
@@ -115,7 +115,7 @@ public:
             BlueEnt physics_entity = _bridge -> CreateEntity();
 
             Transform loc;
-            loc.position = { 1526, 1028, 50, 50};
+            loc.position = { 1726, 1028, 50, 50};
 
             PhysicsObject object;
             object.name = "Box";
@@ -123,7 +123,7 @@ public:
             object.maxVelocity = {10000, 10000};
             object.maxAcceleration = {200000, 2000000};
             object.friction = 0.05f;
-            object.restitution = 7.0f;
+            object.restitution = 0.0f;
             object.mass = 0.750f;
             object.type = SOLID;
 
@@ -139,7 +139,7 @@ public:
             BlueEnt physics_entity = _bridge -> CreateEntity();
 
             Transform loc;
-            loc.position = { 1846, 428, 250, 250};
+            loc.position = { 2046, 428, 250, 250};
 
             PhysicsObject object;
             object.name = "Sponge";
@@ -167,7 +167,7 @@ public:
             object.name = "Rect";
             object.position = loc.position;
             object.friction = 0.5f;
-            object.restitution = 1.0f;
+            object.restitution = 0.0f;
             object.mass = 0.1f;
             object.type = SOLID;
 
@@ -191,7 +191,7 @@ public:
             object.maxVelocity = {0, 0};
             object.maxAcceleration = {20, 20};
             object.friction = 0.0000004f;
-            object.restitution = 0.002f;
+            object.restitution = 0.0f;
             object.mass = 10.0f;
             object.type = SOLID;
 
@@ -223,28 +223,40 @@ public:
         BlueEnt player = _entities.front();
 
 
+		force = {0,0};
+
 		float gravity = 25.8f;
 
         float scalar = 15.0f;
-        Force force = {0,0};
+        //Force force = {0,0};
 
-        if (bEvent::keyDown('W') ) {
+        if (bEvent::keyDown(Uint8(44)) ) {
 
 			gravity = 1.8f;
-			if (physics -> IsOnFloor(player))
-            	force += {0,-450};
-			else if (physics -> IsOnWall(player)) {
+			if (physics -> IsOnFloor(player)) {
 
-				float x = physics -> GetWallNormal(player);
+				force += {0, -450};
+			}
 
-				printf("x: %f\n", x);
+
+        }
+
+		// Wall Jump
+		if (physics -> IsOnWall(player) && bEvent::keyJustDown(Uint8(44)) ) {
+
+			// Can't wall from the floor
+			if (!physics -> IsOnFloor(player)) {
+
+				float x = physics->GetWallNormal(player);
+
+				//printf("x: %f\n", x);
 				x = x * -200.0f;
 
-				force += {x ,-350};
+				force += {x, -350};
 
 			}
 
-        }
+		}
 
         if (bEvent::keyDown('A')) {
 
@@ -266,6 +278,14 @@ public:
             force += {scalar,0};
 
         }
+
+		if (bEvent::keyDown('P')) {
+
+			// Change to stress test scene
+			// Interestingly, this crashes...
+			_stage.lock() -> LoadScene("Stress");
+			return;
+		}
         
 
 
@@ -277,6 +297,7 @@ public:
 //			printf("Player expereincing low gravity\n");
 		}
 
+		//printf("Force: %f, %f\n", force.x, force.y);
         physics -> ApplyForce(player, force);
 
 		if (!physics ->IsOnFloor(player)) {
@@ -370,6 +391,8 @@ private:
     // List our Systems
     std::shared_ptr<SpriteSystem> sprites;
     std::shared_ptr<PhysicsSystem> physics;
+
+	Force force;
 
 };
 

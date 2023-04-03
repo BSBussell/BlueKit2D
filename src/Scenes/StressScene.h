@@ -90,6 +90,7 @@ public:
 
     void Render() override {
         // implementation
+		printf("Rendering Stress Scene\n");
         sprites -> Render();
     }
 
