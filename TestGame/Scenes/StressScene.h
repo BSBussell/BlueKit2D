@@ -51,7 +51,7 @@ public:
             // Setup Sprite Component
             Sprite image;
 
-			// Ok So FOR SOME REASON, our running directory is user/
+			// Ok So FOR SOME REASON, our running directory is TestGame/
             image.filePath = "resources/MCaniHIGH-Start_walk.json";
             image.context = _context;
             image.layer = i*(j+1);

@@ -57,7 +57,7 @@ public:
 
             // Setup Sprite Component
             Sprite image;
-            image.filePath = "../user/resources/MCaniHIGH-Start_walk.json";
+            image.filePath = "../TestGame/resources/MCaniHIGH-Start_walk.json";
             image.context = std::weak_ptr(_bridge -> GetComponent<Window>(Window_Entity).window);
             image.layer = i*(j+1);
 

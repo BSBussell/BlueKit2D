@@ -5,7 +5,7 @@ project(BlueKit2D)
 
 # Add BML as our submodule
 add_subdirectory(BML)
-add_subdirectory(user)
+add_subdirectory(TestGame)
 
 # Create a variable BlueKit2D_INSTALL and set it to ON
 option(BlueKit2D_INSTALL "Install BlueKit2D" ON)

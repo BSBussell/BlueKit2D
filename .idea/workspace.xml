@@ -26,35 +26,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="389f3730-d5da-4e0b-8489-16351e20174b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/BlueGame.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/BlueGame.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/BlueKit2D.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/CMakeLists.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BML/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/BML/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BML/inc/bSheet.h" beforeDir="false" afterPath="$PROJECT_DIR$/BML/inc/bSheet.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BML/src/bRenderer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/BML/src/bRenderer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BML/src/bSheet.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/BML/src/bSheet.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BML/inc/bEvent.h" beforeDir="false" afterPath="$PROJECT_DIR$/BML/inc/bEvent.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BML/inc/json.h" beforeDir="false" afterPath="$PROJECT_DIR$/BML/inc/json.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Sprite.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Sprite.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Window.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Window.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Core/BlueBridge.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Core/BlueBridge.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Core/BlueCompArray.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Core/BlueCompArray.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Core/BlueCompManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Core/BlueCompManager.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Core/BlueEntManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Core/BlueEntManager.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Core/BlueScene.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Core/BlueScene.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Core/BlueSceneManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Core/BlueSceneManager.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Core/BlueSys.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Core/BlueSys.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Core/BlueSysManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Core/BlueSysManager.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Scenes/SimpleScene.h" beforeDir="false" afterPath="$PROJECT_DIR$/user/Scenes/SimpleScene.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Scenes/StressScene.h" beforeDir="false" afterPath="$PROJECT_DIR$/user/Scenes/StressScene.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Systems/PhysicsSystem.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Systems/PhysicsSystem.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Systems/SpriteSystem.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Systems/SpriteSystem.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Systems/SpriteSystem.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Systems/SpriteSystem.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.h" beforeDir="false" afterPath="$PROJECT_DIR$/user/main.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/resources/MCaniHIGH-Start_walk.json" beforeDir="false" afterPath="$PROJECT_DIR$/user/resources/MCaniHIGH-Start_walk.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/TestGame/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/Scenes/SimpleScene.h" beforeDir="false" afterPath="$PROJECT_DIR$/TestGame/Scenes/SimpleScene.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/Scenes/StressScene.h" beforeDir="false" afterPath="$PROJECT_DIR$/TestGame/Scenes/StressScene.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/TemplateScene.h" beforeDir="false" afterPath="$PROJECT_DIR$/TestGame/TemplateScene.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/TestGame" beforeDir="false" afterPath="$PROJECT_DIR$/TestGame/TestGame" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/bin/TestGame" beforeDir="false" afterPath="$PROJECT_DIR$/TestGame/bin/TestGame" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/TestGame/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/main.h" beforeDir="false" afterPath="$PROJECT_DIR$/TestGame/main.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/resources/MCaniHIGH-Start_walk.json" beforeDir="false" afterPath="$PROJECT_DIR$/TestGame/resources/MCaniHIGH-Start_walk.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/resources/MCaniHIGH-Start_walk.png" beforeDir="false" afterPath="$PROJECT_DIR$/TestGame/resources/MCaniHIGH-Start_walk.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -218,7 +202,7 @@
       <workItem from="1679756613097" duration="853000" />
       <workItem from="1680015458692" duration="217000" />
       <workItem from="1680112401712" duration="2326000" />
-      <workItem from="1680268754406" duration="22038000" />
+      <workItem from="1680268754406" duration="22249000" />
     </task>
     <servers />
   </component>
