@@ -10,7 +10,7 @@
 #include <BML/bRect.h>
 #include <memory>
 
-#include "Components/Transform.h"
+#include "Transform.h"
 
 struct Sprite {
 

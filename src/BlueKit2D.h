@@ -1,13 +1,11 @@
-#ifndef MAIN_H
-#define MAIN_H
+//
+// Created by Programming on 3/31/23.
+//
 
-// System Libraries we want
-#include <iostream>
-#include <string>
-#include <stdint.h>
-#include <memory>
+#ifndef BLUEKIT2D_BLUEKIT2D_H
+#define BLUEKIT2D_BLUEKIT2D_H
 
-// BML is a wrapper for SDL
+// BML is our custom wrapper for SDL
 #include <BML/BML.h>
 
 // Including Core Files
@@ -24,9 +22,7 @@
 #include "Systems/SpriteSystem.h"
 #include "Systems/PhysicsSystem.h"
 
-// Scene Includes
-#include "Scenes/SimpleScene.h"
-#include "Scenes/StressScene.h"
 
+#include "BlueGame.h"
 
-#endif
+#endif //BLUEKIT2D_BLUEKIT2D_H

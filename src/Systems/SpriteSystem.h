@@ -9,9 +9,9 @@
 #include <memory>
 #include <BML/BML.h>
 
-#include "Core/BlueBridge.h"
-#include "Components/Sprite.h"
-#include "Components/Transform.h"
+#include "../Core/BlueBridge.h"
+#include "../Components/Sprite.h"
+#include "../Components/Transform.h"
 
 
 

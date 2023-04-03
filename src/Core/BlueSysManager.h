@@ -11,8 +11,8 @@
 #ifndef BLUE_SYS_MANAGER_H
 #define BLUE_SYS_MANAGER_H
 
-#include "Core/BlueSys.h"
-#include "Core/BlueTypes.h"
+#include "BlueSys.h"
+#include "BlueTypes.h"
 
 #include <memory>
 #include <unordered_map>
@@ -46,7 +46,7 @@ public:
 
 		if (_Systems.find(typeName) == _Systems.end()) {
 
-			perror("Girl you gotta register the system first.");
+			fprintf(stderr, "Girl you gotta register the system %s first.", typeName);
 			exit(1);
 		}
 

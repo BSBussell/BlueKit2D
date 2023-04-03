@@ -5,6 +5,10 @@ project(BlueKit2D)
 
 # Add BML as our submodule
 add_subdirectory(BML)
+add_subdirectory(user)
+
+# Create a variable BlueKit2D_INSTALL and set it to ON
+option(BlueKit2D_INSTALL "Install BlueKit2D" ON)
 
 # Set the output folder where The program will be created
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/BlueKit2D/bin)
@@ -14,6 +18,12 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 # Tell CMake to place the build
 set(CMAKE_CURRENT_BINARY_DIR ${PROJECT_BINARY_DIR}/build)
 message(STATUS "Current Binary Dir: ${CMAKE_CURRENT_BINARY_DIR}")
+
+# Tell CMake where to place the libraries
+set(CMAKE_CURRENT_LIBRARY_DIR ${PROJECT_BINARY_DIR}/build)
+message(STATUS "Current Library Dir: ${CMAKE_CURRENT_LIBRARY_DIR}")
+
+
 set(CMAKE_BUILD_TYPE Debug)
 
 # MAKEFILE TELL US YOUR SECRETS!!!
@@ -22,7 +32,8 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(BlueKit2D)
+add_library(BlueKit2D STATIC src/BlueKit2D.h)
+add_dependencies(BlueKit2D BML)
 
 target_compile_options(
 	BlueKit2D
@@ -38,8 +49,12 @@ target_sources(
 	PRIVATE
 
 	# Main
-	src/main.cpp
-	src/main.h
+	#src/main.cpp
+	#src/main.h
+
+	# Game Class
+	src/BlueGame.cpp
+	src/BlueGame.h
 
 	# Core Files
 	src/Core/BlueSys.h
@@ -64,8 +79,8 @@ target_sources(
 	src/Components/PhysicsObject.h
 
 	# Scenes
-	src/Scenes/StressScene.h
-	src/Scenes/SimpleScene.h
+	#src/Scenes/StressScene.h
+	#src/Scenes/SimpleScene.h
 
 )
 
@@ -75,8 +90,6 @@ target_include_directories(
 	src
 )
 
-#find_package(BML REQUIRED)
-#include_directories(${BML_INCLUDE_DIRS})
 
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
@@ -88,12 +101,39 @@ target_link_libraries(
 	-lSDL2_image
 	-lSDL2_mixer
 	-lSDL2_ttf
-	-lBML)
+	BML)
 
 set_target_properties(BlueKit2D PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin/
 )
 
+if(BlueKit2D_INSTALL)
+
+	install(TARGETS BlueKit2D
+			ARCHIVE DESTINATION lib
+			)
+
+	install(DIRECTORY ${PROJECT_SOURCE_DIR}/src/
+			DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/usr/local/include/BlueKit2D
+			FILES_MATCHING PATTERN "*.h")
+endif()
+
 
 # Print the output_directory
 message(STATUS "BlueKit Runtime Directory: ${CMAKE_CURRENT_SOURCE_DIR}/bin/")
+
+
+# Create a custom target to install the project
+add_custom_target(Install_BlueKit2D
+		COMMAND ${CMAKE_COMMAND} --build . --target BlueKit2D --target install
+		COMMENT "Installing BlueKit2D..."
+		VERBATIM
+)
+
+add_custom_target(Install_BML
+		command ${CMAKE_COMMAND} --build . --target BML --target install
+		COMMENT "Installing BML..."
+		VERBATIM
+)
+
+
