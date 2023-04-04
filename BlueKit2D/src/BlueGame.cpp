@@ -6,6 +6,8 @@
 
 BlueGame::BlueGame(std::shared_ptr<BlueScene> scene) {
 
+
+
 	// Setup BML :3
 	BML_Init();
 

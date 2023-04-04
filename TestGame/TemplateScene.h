@@ -27,45 +27,29 @@ public:
         _Register_Components();
         _Register_Systems();
 
-        // Making the Window Entity
-        BlueEnt Window_Entity = _bridge -> CreateEntity();
 
-        // Component Transform and Window for the entity
-        Transform box;
-        box.position = {0, 0, 1920, 1080};
+		// Making a sprite entity
+		BlueEnt Sprite_Entity = _bridge -> CreateEntity();
 
-        Window window;
-        window.name = "BlueKit2D ECS Integration";
+		// I build the sprite entity in a block so that the component variable names
+		// Can be reused for other entities
+		// Also I like being able to collapse the block
+		{
+			// Setup Transform Component
+			Transform loc;
+			loc.position = {175, 175, 700, 700};
 
-        // Adding the components to the entity
-        _bridge -> AddComponent( Window_Entity, box);
-        _bridge -> AddComponent( Window_Entity, window);
+			// Setup Sprite Component
+			Sprite image;
+			image.filePath = "resources/MCaniHIGH-Start_walk.json";
+			image.context = std::weak_ptr(_bridge->GetComponent<Window>(Window_Entity).window);
+			image.layer = 0;
 
+			// Add the two Components
+			_bridge->AddComponent(Sprite_Entity, loc);
+			_bridge->AddComponent(Sprite_Entity, image);
+		}
 
-        // Call the graphics systems initialization
-        graphics->Init();
-
-        // Draw a fuck ton of animated sprites (this is a stress test :3)
-        for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 10; j++) {
-            // Making the sprite entity
-            BlueEnt Sprite_Entity = _bridge -> CreateEntity();
-
-            // Setup Transform Component
-            Transform loc;
-            loc.position = { 175*i, 175*j, 700, 700};
-
-            // Setup Sprite Component
-            Sprite image;
-            image.filePath = "../TestGame/resources/MCaniHIGH-Start_walk.json";
-            image.context = std::weak_ptr(_bridge -> GetComponent<Window>(Window_Entity).window);
-            image.layer = i*(j+1);
-
-            // Add the two Components
-            _bridge -> AddComponent(Sprite_Entity, loc);
-            _bridge -> AddComponent(Sprite_Entity, image);
-        }
-        }
         // Initialize Sprites
         sprites->Init();
 
@@ -78,36 +62,23 @@ public:
 
     void Update(float deltaTime) override {
         // implementation
-        graphics -> Update();
         sprites -> Update();
     }
 
     void Render() override {
         // implementation
+		sprites -> Render();
     }
 
 private:
     void _Register_Components() override {
         
         // Registering Components
-        _bridge -> RegisterComponent<Window>();
         _bridge -> RegisterComponent<Transform>();
         _bridge -> RegisterComponent<Sprite>();
     }
 
     void _Register_Systems() override {
-        // implementation
-
-        // Register Graphics System
-        graphics = _bridge -> RegisterSystem<Graphics>();    
-        
-        // Give System Required Components of Entities
-        {
-            Signature signature;
-            signature.set(_bridge -> GetComponentType<Window>());
-            signature.set(_bridge -> GetComponentType<Transform>());
-            _bridge -> SetSystemSignature<Graphics>(signature);
-        }
 
         // Register Sprite System
         sprites = _bridge -> RegisterSystem<SpriteSystem>();
@@ -122,7 +93,6 @@ private:
     }
 
     // Our Systems
-    Graphics graphics;
     SpritSystem sprite;
 
 };

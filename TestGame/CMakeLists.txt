@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(TestGame)
+project(Game)
 
 set(CMAKE_CXX_STANDARD 17)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(TestGame)
+add_executable(Game)
 
 target_compile_options(
-		TestGame
+		Game
 		PRIVATE
 		-Wall
 		-Wextra
@@ -18,7 +18,7 @@ target_compile_options(
 )
 
 target_sources(
-		TestGame
+		Game
 		PRIVATE
 
 		# Main
@@ -31,7 +31,7 @@ target_sources(
 )
 
 target_include_directories(
-		TestGame
+		Game
 		PRIVATE
 		/usr/local/include/
 		.
@@ -41,7 +41,7 @@ find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
 target_link_libraries(
-		TestGame
+		Game
 		PRIVATE
 
 		# Required SDL2 libraries
@@ -55,9 +55,9 @@ target_link_libraries(
 		-lBlueKit2D
 )
 
-set_target_properties(TestGame PROPERTIES
-		RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/../../user/
-		)
+set_target_properties(Game PROPERTIES
+		RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
 # Output the runtime output directory
-message(STATUS "Runtime output directory: ${CMAKE_CURRENT_BINARY_DIR}/../../user/")
+message(STATUS "Game Runtime output directory: ${CMAKE_CURRENT_SOURCE_DIR}")

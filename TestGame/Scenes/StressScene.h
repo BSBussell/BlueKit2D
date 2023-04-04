@@ -8,6 +8,7 @@
 
 #include <cstdlib>
 
+// Only the BlueKit2D Headers we need for a scene
 #include <BlueKit2D/Core/BlueBridge.h>
 #include <BlueKit2D/Core/BlueTypes.h>
 #include <BlueKit2D/Core/BlueScene.h>
