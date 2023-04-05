@@ -11,7 +11,7 @@
 #ifndef BLUE_SYS_H
 #define BLUE_SYS_H
 
-#include "Core/BlueTypes.h"
+#include "BlueTypes.h"
 #include <set>
 
 

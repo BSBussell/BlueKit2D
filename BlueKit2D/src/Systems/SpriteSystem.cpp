@@ -19,10 +19,6 @@ void SpriteSystem::Init() {
 	// Sort the entities by layer
 	RefreshLayers();
 
-	// Seeing how fast it runs when only having to read the JSON once
-	bSheet _test_sheet;
-	readSheetFromJSON(BML_GetPath("../user/resources/MCaniHIGH-Start_walk.json").c_str(), _test_sheet);
-	
 	for (auto const& entity : BlueEntities) {
 
 
@@ -30,13 +26,13 @@ void SpriteSystem::Init() {
 		Sprite &sprite = g_BlueBridgePtr -> GetComponent<Sprite>(entity);
 
     	// BML function for reading ASEPRITE json to bSheet
-    	//readSheetFromJSON(BML_GetPath(sprite.filePath).c_str(), sprite.sprite_sheet);
-    	sprite.sprite_sheet = _test_sheet;
+    	readSheetFromJSON(sprite.filePath.c_str(), sprite.sprite_sheet);
 		sprite.sprite_sheet.startAnimation("default");
 
     	// Initializes the spritesheet onto the given context
     	auto context = sprite.context.lock();
 		if (context) {
+
     		context->initSpriteSheet(sprite.sprite_sheet);
 		} else {
 			perror("They Deleted your window :0\n");
@@ -60,6 +56,7 @@ void SpriteSystem::Render() {
 		exit(1);
 	}
 
+	//printf("Looping through entities\n");
 	for (auto const& entity : BlueEntities) {
 
 		// Grab needed components
@@ -68,7 +65,7 @@ void SpriteSystem::Render() {
 
 		auto context = sprite.context.lock();
 		if (context) {
-			
+			//printf("Rendering sprite\n");
 			context->drawSprite(sprite.sprite_sheet, transform.position);
 		} else {
 			perror("They deleted your window :0\n");
@@ -77,6 +74,7 @@ void SpriteSystem::Render() {
 
 		//window->drawSprite(spriteSheet, dest);
 	}
+	//printf("Done looping through entities\n");
 }
 
 void SpriteSystem::Close() {

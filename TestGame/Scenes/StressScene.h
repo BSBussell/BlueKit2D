@@ -8,9 +8,10 @@
 
 #include <cstdlib>
 
-#include "Core/BlueBridge.h"
-#include "Core/BlueTypes.h"
-#include "Core/BlueScene.h"
+// Only the BlueKit2D Headers we need for a scene
+#include <BlueKit2D/Core/BlueBridge.h>
+#include <BlueKit2D/Core/BlueTypes.h>
+#include <BlueKit2D/Core/BlueScene.h>
 
 /*
     This is how we're gonna be programming Scenes
@@ -24,6 +25,9 @@ public:
 
     Stress_Scene(std::string name, std::shared_ptr<bRenderer> context) : 
         BlueScene(name, context) {}
+
+	Stress_Scene(std::string name) :
+		BlueScene(name) {}
 
     void Load() override {
 
@@ -47,7 +51,9 @@ public:
 
             // Setup Sprite Component
             Sprite image;
-            image.filePath = "../user/resources/MCaniHIGH-Start_walk.json";
+
+			// Ok So FOR SOME REASON, our running directory is TestGame/
+            image.filePath = "resources/MCaniHIGH-Start_walk.json";
             image.context = _context;
             image.layer = i*(j+1);
 
@@ -76,16 +82,18 @@ public:
 
     }
 
-    void Update(float deltaTime) override {
+    bool Update(float deltaTime) override {
         // implementation
 
         // Lol this'd be a nightmare of operations
         //sprites -> Update();
-
         if (bEvent::keyDown('D')) {
             
-            _stage.lock() -> LoadScene("Simple");
+            _stage.lock() -> LoadScene("init");
+			return false;
         }
+
+		return true;
     }
 
     void Render() override {

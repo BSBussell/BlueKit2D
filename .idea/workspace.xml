@@ -11,9 +11,12 @@
   </component>
   <component name="CMakeRunConfigurationManager">
     <generated>
-      <config projectName="BlueKit2D" targetName="jsonTest" />
-      <config projectName="BlueKit2D" targetName="BML" />
-      <config projectName="BlueKit2D" targetName="BlueKit2D" />
+      <config projectName="BlueKit2DProject" targetName="jsonTest" />
+      <config projectName="BlueKit2DProject" targetName="BML" />
+      <config projectName="BlueKit2DProject" targetName="Install_BML" />
+      <config projectName="BlueKit2DProject" targetName="BlueKit2D" />
+      <config projectName="BlueKit2DProject" targetName="Game" />
+      <config projectName="BlueKit2DProject" targetName="Install_BlueKit2D" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -24,8 +27,7 @@
   <component name="ChangeListManager">
     <list default="true" id="389f3730-d5da-4e0b-8489-16351e20174b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Scenes/SimpleScene.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Scenes/SimpleScene.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Systems/PhysicsSystem.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Systems/PhysicsSystem.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestGame/Game" beforeDir="false" afterPath="$PROJECT_DIR$/TestGame/Game" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,8 +38,16 @@
     <option name="formatViaClangd" value="false" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CMakeLists.txt" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/BML" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -53,57 +63,97 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/bee/Documents/projects/BlueEngine/BlueKit2D/build&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.CMake&quot;,
-    &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "full.screen.before.presentation.mode": "false",
+    "git-widget-placeholder": "8649b6c5",
+    "last_opened_file_path": "/home/bee/Documents/projects/BlueEngine/BlueKit2D/build",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors",
+    "structure.view.defaults.are.configured": "true",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;ObjectiveC&quot;
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "ObjectiveC"
     ]
   }
-}</component>
-  <component name="RunManager" selected="CMake Application.BlueKit2D">
-    <configuration name="All" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" WORKING_DIR="file://$PROJECT_DIR$/bin" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BlueKit2D" TARGET_NAME="BlueKit2D" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="BlueKit2D" RUN_TARGET_NAME="BlueKit2D">
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/BlueKit2D" />
+      <recent name="$PROJECT_DIR$/user" />
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
+  </component>
+  <component name="RunManager" selected="CMake Application.All">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="CMake.Explicit.Target" predefinedTargetName="BML" />
-        <option name="CMake.Explicit.Target" elevated="true" explicitTargetName="install" />
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BML" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BlueKit2D" TARGET_NAME="BML" CONFIG_NAME="Debug">
+    <configuration name="All" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BlueKit2DProject" TARGET_NAME="Game" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="BlueKit2DProject" RUN_TARGET_NAME="Game">
       <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="BML" />
+        <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="Install_BML" />
+        <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="BlueKit2D" />
+        <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="Install_BlueKit2D" />
+        <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="Game" />
       </method>
     </configuration>
-    <configuration name="BlueKit2D" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BlueKit2D" TARGET_NAME="BlueKit2D" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="BlueKit2D" RUN_TARGET_NAME="BlueKit2D">
+    <configuration name="BML" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="true" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BlueKit2DProject" TARGET_NAME="BML" CONFIG_NAME="Debug" RUN_PATH="/bin/test">
       <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="BML" />
+        <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="Install_BML" />
       </method>
     </configuration>
-    <configuration name="jsonTest" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BlueKit2D" TARGET_NAME="jsonTest" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="BlueKit2D" RUN_TARGET_NAME="jsonTest">
+    <configuration name="BlueKit2D" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="true" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BlueKit2DProject" TARGET_NAME="BlueKit2D" CONFIG_NAME="Debug" RUN_PATH="/bin/test">
       <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="BlueKit2D" />
+        <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="Install_BlueKit2D" />
+      </method>
+    </configuration>
+    <configuration name="Clean" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_PATH="/bin/test" EXPLICIT_BUILD_TARGET_NAME="all">
+      <method v="2">
+        <option name="CMake.Explicit.Target" elevated="true" explicitTargetName="clean" />
+      </method>
+    </configuration>
+    <configuration name="Engine" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" WORKING_DIR="file://$PROJECT_DIR$/user" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BlueKit2DProject" TARGET_NAME="BlueKit2D" CONFIG_NAME="Debug" RUN_PATH="/bin/test">
+      <method v="2">
+        <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="BML" />
+        <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="Install_BML" />
+        <option name="RunConfigurationTask" enabled="true" run_configuration_name="BlueKit2D" run_configuration_type="CMakeRunConfiguration" run_configuration_target="CMakeBuildProfile:Debug" />
+      </method>
+    </configuration>
+    <configuration name="Game" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BlueKit2DProject" TARGET_NAME="Game" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="BlueKit2DProject" RUN_TARGET_NAME="Game">
+      <method v="2">
+        <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="Game" />
+      </method>
+    </configuration>
+    <configuration name="jsonTest" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" WORKING_DIR="file://$PROJECT_DIR$/BML/tests/bin" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BlueKit2DProject" TARGET_NAME="jsonTest" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="BlueKit2DProject" RUN_TARGET_NAME="jsonTest">
+      <method v="2">
+        <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="BML" />
+        <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="Install_BML" />
+        <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="jsonTest" />
       </method>
     </configuration>
     <list>
       <item itemvalue="CMake Application.All" />
+      <item itemvalue="CMake Application.Game" />
+      <item itemvalue="CMake Application.Engine" />
       <item itemvalue="CMake Application.BlueKit2D" />
       <item itemvalue="CMake Application.BML" />
       <item itemvalue="CMake Application.jsonTest" />
+      <item itemvalue="CMake Application.Clean" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -126,11 +176,23 @@
       <workItem from="1679599781302" duration="10560000" />
       <workItem from="1679639088255" duration="2417000" />
       <workItem from="1679756613097" duration="853000" />
+      <workItem from="1680015458692" duration="217000" />
+      <workItem from="1680112401712" duration="2326000" />
+      <workItem from="1680268754406" duration="28665000" />
+      <workItem from="1680545280434" duration="217000" />
+      <workItem from="1680545522047" duration="12296000" />
+      <workItem from="1680704683142" duration="638000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VCPKGProject">
+    <isAutomaticEditVcpkgJson value="false" />
+    <isAutomaticCheckingOnLaunch value="false" />
+    <isAutomaticFoundErrors value="true" />
+    <isAutomaticFoundErrors value="true" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

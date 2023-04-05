@@ -9,7 +9,7 @@
 
 #include <BML/bWindow.h>
 
-#include "Components/Transform.h"
+#include "Transform.h"
 
 struct Window {
 

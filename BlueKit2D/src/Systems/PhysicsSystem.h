@@ -12,9 +12,9 @@
 
 #include <BML/bRenderer.h>
 
-#include "Core/BlueBridge.h"
-#include "Components/PhysicsObject.h"
-#include "Components/Transform.h"
+#include "../Core/BlueBridge.h"
+#include "../Components/PhysicsObject.h"
+#include "../Components/Transform.h"
 
 class PhysicsSystem : public BlueSys {
 

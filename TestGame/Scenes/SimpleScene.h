@@ -12,18 +12,18 @@
 #include <BML/bRenderer.h>
 
 // The Core needed for any scene
-#include "Core/BlueBridge.h"
-#include "Core/BlueTypes.h"
-#include "Core/BlueScene.h"
+#include <BlueKit2D/Core/BlueTypes.h>
+#include <BlueKit2D/Core/BlueTypes.h>
+#include <BlueKit2D/Core/BlueScene.h>
 
 // Systems used by Scene
-#include "Systems/PhysicsSystem.h"
-#include "Systems/SpriteSystem.h"
+#include <BlueKit2D/Systems/PhysicsSystem.h>
+#include <BlueKit2D/Systems/SpriteSystem.h>
 
 // Compnents used by Scene
-#include "Components/Transform.h"
-#include "Components/Sprite.h"
-#include "Components/PhysicsObject.h"
+#include <BlueKit2D/Components/Transform.h>
+#include <BlueKit2D/Components/Sprite.h>
+#include <BlueKit2D/Components/PhysicsObject.h>
 
 /*
     This is how we're gonna be programming Scenes
@@ -37,6 +37,9 @@ public:
 
     Simple_Scene(std::string name, std::shared_ptr<bRenderer> context) : 
         BlueScene(name, context) {}
+
+	Simple_Scene(std::string name) :
+			BlueScene(name) {}
 
     // This is called when a scene is first started up
     void Load() override {
@@ -58,10 +61,10 @@ public:
             loc.position = { 64, 64, 700, 700};
 
 			// Setup Sprite Component
-//			Sprite image;
-//			image.filePath = "../user/resources/MCaniHIGH-Start_walk.json";
-//			image.context = _context;
-//			image.layer = 0;
+			Sprite image;
+			image.filePath = "resources/MCaniHIGH-Start_walk.json";
+			image.context = _context;
+			image.layer = 0;
 
 
             PhysicsObject object;
@@ -76,7 +79,7 @@ public:
             
             // Add the two Components
             _bridge -> AddComponent(Sprite_Entity, loc);
-            //_bridge -> AddComponent(Sprite_Entity, image);
+            _bridge -> AddComponent(Sprite_Entity, image);
             _bridge -> AddComponent(Sprite_Entity, object);
 
             _entities.push_back(Sprite_Entity);
@@ -212,10 +215,18 @@ public:
         // implementation
         // HAHA what you want me to clean???
         sprites -> Close();
+
+		for (auto &entity: _entities) {
+
+			_bridge -> DestroyEntity(entity);
+		}
+
+		_entities.clear();
     }
 
-    void Update(float deltaTime) override {
-        // implementation
+    bool Update(float deltaTime) override {
+
+		// implementation
         BlueEnt player = _entities.front();
 
         float scalar = 15.0f;
@@ -244,6 +255,15 @@ public:
             force += {scalar,0};
 
         }
+
+		if (bEvent::keyDown('p')) {
+
+
+			// Change Scene to Stress Scene
+			_stage.lock() -> LoadScene("stress");
+			return false;
+
+		}
         
 
 
@@ -273,6 +293,8 @@ public:
 
         physics -> Update(deltaTime);
         sprites -> Update();
+
+		return true;
         
     }
 
