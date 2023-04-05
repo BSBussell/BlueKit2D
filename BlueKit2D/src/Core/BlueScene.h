@@ -23,7 +23,16 @@ class BlueSceneManager;
 class BlueScene {
 public:
 
-    // THE SCENE IS THE OWNER OF THE BRIDGES
+	/*
+	 * BlueScenes can be initialized with or without a context
+	 * The initial
+	 */
+
+	/*
+	 * BlueScene Constructor
+	 * @param name The name of the scene
+	 * @param context the renderer the scene should write to
+	 */
     BlueScene(std::string name, std::shared_ptr<bRenderer> context) : _name(name) {
 
         // Adding the Scene

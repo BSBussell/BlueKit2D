@@ -55,6 +55,8 @@ target_link_libraries(
 		-lBlueKit2D
 )
 
+# We put the executable in the same directory as the source files, that way you don't have to do
+# ../resources/... to access the resources
 set_target_properties(Game PROPERTIES
 		RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )

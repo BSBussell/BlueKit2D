@@ -35,7 +35,7 @@
 class BlueGame {
 
 public:
-	BlueGame(std::shared_ptr<BlueScene> scene);
+	BlueGame(std::shared_ptr<BlueScene> scene, std::string title = "BlueKit2D");
 	~BlueGame();
 
 	void Run();
@@ -52,7 +52,7 @@ public:
 	void SetDisplayFPS(bool display) { display_fps = display; }
 
 	// Target FPS
-	int target_fps;
+	int target_fps = 60;
 
 private:
 

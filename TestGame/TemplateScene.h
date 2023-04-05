@@ -6,13 +6,24 @@
 #ifndef TEMPLATE_SCENE_H
 #define TEMPLATE_SCENE_H
 
-#include "Core/BlueBridge.h"
-#include "Core/BlueTypes"
-#include "Core/BlueScene.h"
+// The Core needed for any scene
+#include <BlueKit2D/Core/BlueTypes.h>
+#include <BlueKit2D/Core/BlueTypes.h>
+#include <BlueKit2D/Core/BlueScene.h>
+
+// Systems used by Scene
+#include <BlueKit2D/Systems/SpriteSystem.h>
+
+// Compnents used by Scene
+#include <BlueKit2D/Components/Transform.h>
+#include <BlueKit2D/Components/Sprite.h>
 
 /*
     This is how we're gonna be programming Scenes
     _bridge is your connection to the ECS
+    _stage is how you access the scene's systems
+    _context is your bRenderer
+    _entities is a list of all the entities in the scene
 */
 
 
@@ -48,16 +59,20 @@ public:
 			// Add the two Components
 			_bridge->AddComponent(Sprite_Entity, loc);
 			_bridge->AddComponent(Sprite_Entity, image);
+
+
 		}
 
-        // Initialize Sprites
-        sprites->Init();
+		AddEntity(Sprite_Entity);
+
+        // Initialize Your Systems
+        sprites -> Init();
 
     }
 
     void Unload() override {
-        // implementation
-        // HAHA what you want me to clean???
+
+		sprites -> Close();
     }
 
     void Update(float deltaTime) override {
@@ -71,6 +86,7 @@ public:
     }
 
 private:
+
     void _Register_Components() override {
         
         // Registering Components

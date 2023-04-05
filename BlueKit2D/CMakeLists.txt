@@ -3,11 +3,8 @@ cmake_minimum_required(VERSION 3.14)
 # Project's Name
 project(BlueKit2D)
 
-# Create a variable BlueKit2D_INSTALL and set it to ON
-option(BlueKit2D_INSTALL "Install BlueKit2D" ON)
-
 # Set the output folder where The program will be created
-set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/BlueKit2D/bin)
+#set(CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR}/BlueKit2D/)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
@@ -94,17 +91,33 @@ set_target_properties(BlueKit2D PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin/
 )
 
-if(BlueKit2D_INSTALL)
 
-	install(TARGETS BlueKit2D
-			ARCHIVE DESTINATION lib
+
+install(TARGETS BlueKit2D
+		ARCHIVE DESTINATION lib
+		COMPONENT BlueKit2D
+)
+
+file(GLOB_RECURSE HEADER_FILES "${PROJECT_SOURCE_DIR}/src/*.h")
+
+foreach(header ${HEADER_FILES})
+	get_filename_component(header_subdir "${header}" DIRECTORY)
+	file(RELATIVE_PATH relative_subdir "${PROJECT_SOURCE_DIR}/src" "${header_subdir}")
+	install(FILES "${header}"
+			DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/usr/local/include/BlueKit2D/${relative_subdir}"
+			COMPONENT BlueKit2D
 			)
+endforeach()
 
-	install(DIRECTORY ${PROJECT_SOURCE_DIR}/src/
-			DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/usr/local/include/BlueKit2D
-			FILES_MATCHING PATTERN "*.h")
-endif()
+
+
+add_custom_target(Install_BlueKit2D
+		COMMAND "${CMAKE_COMMAND}" -DCMAKE_INSTALL_COMPONENT=BlueKit2D -P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
+		DEPENDS BlueKit2D
+		WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
+		COMMENT "Installing BlueKit2D library"
+)
 
 
 # Print the output_directory
-message(STATUS "BlueKit Runtime Directory: ${CMAKE_CURRENT_SOURCE_DIR}/bin/")
+message(STATUS "BlueKit Current Binary Directory: ${CMAKE_CURRENT_BINARY_DIR}")

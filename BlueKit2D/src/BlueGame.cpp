@@ -4,20 +4,21 @@
 
 #include "BlueGame.h"
 
-BlueGame::BlueGame(std::shared_ptr<BlueScene> scene) {
+BlueGame::BlueGame(std::shared_ptr<BlueScene> scene, std::string title) {
 
 
 
 	// Setup BML :3
 	BML_Init();
 
+
 	// Our Scene Manager
 	SceneManager = std::make_shared<BlueSceneManager>() ;
 
 	// Create our bWindow
-	title = "BlueKit2D Physics Test";
+	this -> title = title;
 	window = std::make_shared<bWindow>(
-			title.c_str(), 0, 0, 2560, 1600
+			this -> title.c_str(), 0, 0, 2560, 1600
 	);
 
 	// Set Flags
