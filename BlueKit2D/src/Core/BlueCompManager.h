@@ -14,8 +14,8 @@
 #include <memory>
 #include <unordered_map>
 
-#include "Core/BlueTypes.h"
-#include "Core/BlueCompArray.h"
+#include "BlueTypes.h"
+#include "BlueCompArray.h"
 
 class BlueCompManager {
 
@@ -101,7 +101,7 @@ private:
 		const char* typeName = typeid(T).name();
 		if (_ComponentTypes.find(typeName) == _ComponentTypes.end()) {
 
-			perror("Girly, you gotta register this component before you can use it 💅😇");
+			fprintf(stderr, "Girly, you gotta register %s before you can use it 💅😇\n", typeName);
 			exit(1);
 		}
 

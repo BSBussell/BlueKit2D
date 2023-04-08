@@ -7,9 +7,9 @@
 #define BLUE_SCENE_H
 
 
-#include "Core/BlueSceneManager.h"
-#include "Core/BlueBridge.h"
-#include "Core/BlueTypes.h"
+#include "BlueSceneManager.h"
+#include "BlueBridge.h"
+#include "BlueTypes.h"
 
 #include <string>
 #include <memory>
@@ -23,13 +23,28 @@ class BlueSceneManager;
 class BlueScene {
 public:
 
-    // THE SCENE IS THE OWNER OF THE BRIDGES
+	/*
+	 * BlueScenes can be initialized with or without a context
+	 * The initial
+	 */
+
+	/*
+	 * BlueScene Constructor
+	 * @param name The name of the scene
+	 * @param context the renderer the scene should write to
+	 */
     BlueScene(std::string name, std::shared_ptr<bRenderer> context) : _name(name) {
 
         // Adding the Scene
         _bridge = std::make_shared<BlueBridge>();
         _context = std::weak_ptr<bRenderer>(context);
     }
+
+	BlueScene(std::string name) : _name(name) {
+
+		// Adding the Scene
+		_bridge = std::make_shared<BlueBridge>();
+	}
 
     void AddEntity(BlueEnt entity) {
         _entities.push_back(entity);
@@ -39,6 +54,11 @@ public:
 
         return _name;
     }
+
+	void AssignContext(std::shared_ptr<bRenderer> context) {
+
+		_context = std::weak_ptr<bRenderer>(context);
+	}
 
     // Used by SceneManager, nothing else plz
     void AssignStage(std::weak_ptr<BlueSceneManager> stage) {
@@ -51,6 +71,28 @@ public:
 
         return std::weak_ptr<BlueBridge>(_bridge);
     }
+
+	std::shared_ptr<bRenderer> GetContext() {
+
+		// Check if the context is expired
+		if (_context.expired()) {
+			fprintf(stderr, "%s's context is expired\n", _name.c_str());
+			exit(1);
+		}
+
+		return _context.lock();
+	}
+
+	std::shared_ptr<BlueSceneManager> GetStage() {
+
+		// Check if the context is expired
+		if (_stage.expired()) {
+			fprintf(stderr, "%s's stage is expired\n", _name.c_str());
+			exit(1);
+		}
+
+		return _stage.lock();
+	}
 
     /*
        ##  Methods You Override   ##
@@ -66,7 +108,7 @@ public:
     virtual void Unload() = 0;
 
     // Physics/Input
-    virtual void Update(float deltaTime) = 0;
+    virtual bool Update(float deltaTime) = 0;
     
     // Self Explanatory
     virtual void Render() = 0;
@@ -90,7 +132,7 @@ protected:
     // The Scenes ECS instance shared because bridges are stored with the scene
     std::shared_ptr<BlueBridge> _bridge;
     
-    // The window our scene will exist on 
+    // The renderer our scene will exist on
     std::weak_ptr<bRenderer> _context;
 
     // The SceneManager that our scene exists in :3

@@ -14,7 +14,7 @@
 #include <stdint.h>
 #include <unordered_map>
 
-#include "Core/BlueTypes.h"
+#include "BlueTypes.h"
 
 // Virtual Inheritance
 class _blue_comp_array {

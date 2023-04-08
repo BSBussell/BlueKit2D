@@ -77,14 +77,17 @@ public:
         
     }
 
-    void Update(float deltaTime) {
+	// Calls Update on the current scene
+    bool Update(float deltaTime) {
 
         // Grab it as a shared_ptr
         auto CurrentScene = _currentScene.lock();
 
         if (CurrentScene) {
-            CurrentScene->Update(deltaTime);
+            return CurrentScene->Update(deltaTime);
         }
+
+		return true;
     }
 
     void Render() {

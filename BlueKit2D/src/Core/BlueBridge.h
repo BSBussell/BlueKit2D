@@ -13,10 +13,10 @@
 
 #include <memory>
 
-#include "Core/BlueTypes.h"
-#include "Core/BlueCompManager.h"
-#include "Core/BlueEntManager.h"
-#include "Core/BlueSysManager.h"
+#include "BlueTypes.h"
+#include "BlueCompManager.h"
+#include "BlueEntManager.h"
+#include "BlueSysManager.h"
 
 
 // Every System will inherit from this and have a list of entities called

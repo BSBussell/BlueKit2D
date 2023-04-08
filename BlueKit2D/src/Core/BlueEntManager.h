@@ -15,7 +15,7 @@
 #include <array>
 #include <queue>
 
-#include "Core/BlueTypes.h"
+#include "BlueTypes.h"
 
 class BlueEntManager {
 
@@ -47,7 +47,7 @@ public:
 
 
 		BlueEnt id = _AvailableEnts.front();
-		printf("Creating Entity: %d\n", id);
+		//printf("Creating Entity: %d\n", id);
 		_AvailableEnts.pop();
 		_LivingEntityCount++;
 
@@ -55,7 +55,7 @@ public:
 	}
 	void DestroyEntity(BlueEnt entity) {
 
-		printf("Destroying Entity: %d\n", entity);
+		//printf("Destroying Entity: %d\n", entity);
 		if (_LivingEntityCount >= MAX_ENTITIES) {
 
 			/*
@@ -64,7 +64,7 @@ public:
 			perror("Your BlueEnts are outta range girly");
 			exit(1);
 		}
-		printf("Destroying Entity: %d\n", entity);
+		//printf("Destroying Entity: %d\n", entity);
 		_Signatures[entity].reset();
 
 		_AvailableEnts.push(entity);
