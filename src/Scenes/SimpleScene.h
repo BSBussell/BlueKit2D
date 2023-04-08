@@ -55,18 +55,18 @@ public:
 
             // Setup Transform Component
             Transform loc;
-            loc.position = { 164, 364, 700, 700};
+            loc.position = { 164, 364, 350, 350};
 
 			// Setup Sprite Component
-//			Sprite image;
-//			image.filePath = "../user/resources/MCaniHIGH-Start_walk.json";
-//			image.context = _context;
-//			image.layer = 0;
+			Sprite image;
+			image.filePath = "../user/resources/MCaniHIGH-Start_walk.json";
+			image.context = _context;
+			image.layer = 0;
 
 
             PhysicsObject object;
             object.name = "Player";
-            object.position = {static_cast<float>(loc.position.x+50), static_cast<float>(loc.position.y+50), 250, 250};
+            object.position = {static_cast<float>(loc.position.x+100), static_cast<float>(loc.position.y+50), 150, 250};
             object.maxVelocity = {5000, 5000};
             object.maxAcceleration = {1000000000, 1000000000};
             object.friction = 0.25f;
@@ -77,7 +77,7 @@ public:
             
             // Add the two Components
             _bridge -> AddComponent(Sprite_Entity, loc);
-            //_bridge -> AddComponent(Sprite_Entity, image);
+            _bridge -> AddComponent(Sprite_Entity, image);
             _bridge -> AddComponent(Sprite_Entity, object);
 
             _entities.push_back(Sprite_Entity);
@@ -228,7 +228,6 @@ public:
 		float gravity = 25.8f;
 
         float scalar = 15.0f;
-        //Force force = {0,0};
 
         if (bEvent::keyDown(Uint8(44)) ) {
 
@@ -242,18 +241,23 @@ public:
         }
 
 		// Wall Jump
-		if (physics -> IsOnWall(player) && bEvent::keyJustDown(Uint8(44)) ) {
+		if (physics -> IsOnWall(player) && bEvent::keyJustDown(Uint8(44))) {
 
-			// Can't wall from the floor
-			if (!physics -> IsOnFloor(player)) {
+			if (bEvent::keyDown('A') || bEvent::keyDown('D')) {
 
-				float x = physics->GetWallNormal(player);
 
-				//printf("x: %f\n", x);
-				x = x * -200.0f;
 
-				force += {x, -350};
+				// Can't wall from the floor
+				if (!physics -> IsOnFloor(player)) {
 
+					float x = physics->GetWallNormal(player);
+
+					//printf("x: %f\n", x);
+					x = x * -200.0f;
+
+					force += { x, -350 };
+
+				}
 			}
 
 		}

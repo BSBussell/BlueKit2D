@@ -41,44 +41,34 @@ void PhysicsSystem::Update(float dt) {
 		exit(1);
 	}
 
-	//check_collisions(0, dt);
-
     for (auto const& entity: BlueEntities) {
 
+		// Used for translating the transform component
         bPointF initial_pos;
-        bPointF final_pos;
         bPointF delta_pos;
 
         // Component we want to grab
         PhysicsObject &obj = g_BlueBridgePtr -> GetComponent<PhysicsObject>(entity);
         Transform &trans = g_BlueBridgePtr -> GetComponent<Transform>(entity);
 
+		// Storing the initial position
         initial_pos.x = obj.position.x;
         initial_pos.y = obj.position.y;
         
-
+		// Update the objects position
         update_obj_positions(obj, dt);
 
-
+		// Check for collisions
         check_collisions(entity, dt);
-       
-        final_pos.x = obj.position.x;
-        final_pos.y = obj.position.y;
 
-        delta_pos = final_pos - initial_pos;
-       
-        bRectF new_pos_float;
-        new_pos_float.x = (static_cast<float>(trans.position.x) + delta_pos.x);
-        new_pos_float.y = (static_cast<float>(trans.position.y) + delta_pos.y);
-        new_pos_float.width = trans.position.width;
-        new_pos_float.height = trans.position.height;
+		// Find the change in position
+		delta_pos.x = obj.position.x - initial_pos.x;
+		delta_pos.y = obj.position.y - initial_pos.y;
 
-        //trans.position = new_pos_float;
-        trans.position = obj.position;
-        //trans.position.x = new_pos_float.x;
-        //trans.position.y = new_pos_float.y;
+		// Apply that change to the transform component
+		trans.position.x += static_cast<Uint32>(round(delta_pos.x));
+		trans.position.y += static_cast<Uint32>(round(delta_pos.y));
 
-        // I LOVE DEBUGGING!!!!
 
     }
 }

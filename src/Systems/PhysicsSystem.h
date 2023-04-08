@@ -30,17 +30,30 @@ public:
 
     // Variables All Systems should have :3
     void Init();
+
+	// @brief Updates the physics, applies forces, and checks for collisions
     void Update(float dt);
+
+	// @brief Draws the bounding boxes of all entities
     void Render(std::weak_ptr<bRenderer> _context);
+
+	// @brief Closes the physics system
     void Close();
 
+	// @brief Applies a force to an entity
     void ApplyForce(BlueEnt &ent, Force force);
 	void ApplyForce(PhysicsObject &obj, Force force);
 
+	// @brief Bool checks if an entity is on the floor
 	bool IsOnFloor(BlueEnt &ent);
+
+	// @brief Bool checks if an entity is on a wall
 	bool IsOnWall(BlueEnt &ent);
 
+	// @brief Snaps an entity to the floor
 	void SnapToFloor(BlueEnt &ent);
+
+	// @brief Snaps an entity to the wall
 	void SnapToWall(BlueEnt &ent);
 
 	// Pretty much find our relative position

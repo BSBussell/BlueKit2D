@@ -22,6 +22,7 @@ class BlueSys {
 public:
 	std::set<BlueEnt> BlueEntities;
 
+
 };
 
 #endif
