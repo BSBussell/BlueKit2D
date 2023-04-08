@@ -58,10 +58,9 @@ struct PhysicsObject {
     // @brief The color used when rendering collision boxes
     SDL_Color render_color = {0, 0, 255, 50};
 
-	void MoveBy(bPointF delta);
-
     // @brief The PhysicObjects we are contacting
     std::vector<BlueEnt> contacts;
+
 
 };
 

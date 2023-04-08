@@ -24,7 +24,7 @@ BlueGame::BlueGame(std::shared_ptr<BlueScene> scene, std::string title) {
 	// Set Flags
 	window->toggleResizeable();
 	window->toggleHardwareRender();
-	window->toggleVSync();
+	//window->toggleVSync();
 	window->toggleHighDPI();
 
 	// Load the window
@@ -122,11 +122,15 @@ void BlueGame::Run() {
 		// check if enough time has passed since the last title update
 		float current_time = SDL_GetTicks() / 1000.0f; // convert to seconds
 		if (current_time - last_update_time >= UPDATE_INTERVAL) {
-			// update the window title with the current fps
-			char FPS_title[100];
-			sprintf(FPS_title, "%s | FPS: %.2f", title.c_str(), fps);
-			window->setWindowTitle(FPS_title);
 
+
+			if (display_fps) {
+
+				// update the window title with the current fps
+				char FPS_title[100];
+				sprintf(FPS_title, "%s | FPS: %.2f", title.c_str(), fps);
+				window->setWindowTitle(FPS_title);
+			}
 			// reset the last update time
 			last_update_time = current_time;
 		}

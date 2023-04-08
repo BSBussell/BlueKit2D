@@ -22,7 +22,11 @@
     All collider positions, widths, and heights are floats
     Except for special circumstances, Actors and Solids will never overlap
     Solids do not interact with other Solids
+
+    A child class of PhysicsSystem can be made to add unique collision resolvers
 */
+
+
 
 class PhysicsSystem : public BlueSys {
 
@@ -60,7 +64,7 @@ public:
 	// Will be needed for things like wall jumping
 	float GetWallNormal(BlueEnt &ent);
 
-private:
+protected:
 
     // Applies velocity to position and acceleration to velocity
     void update_obj_positions(PhysicsObject &obj, float dt);
@@ -77,10 +81,14 @@ private:
     // Checks for collisions between two Physics Objects
     bool check_collision(PhysicsObject &ent1, PhysicsObject &ent2, float dt);
 
+	// Checks if two objects are in contact using a threshold
 	void check_contact(PhysicsObject &ent1, PhysicsObject &ent2);
 
     // Resolves collisions between two Physics Objects
     void resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, float dt);
+
+	float current_step = 0.0f;
+	float goal_step = 1.0f / 60.0f;
 
 };
 

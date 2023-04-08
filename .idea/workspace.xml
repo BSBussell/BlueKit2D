@@ -27,7 +27,15 @@
   <component name="ChangeListManager">
     <list default="true" id="389f3730-d5da-4e0b-8489-16351e20174b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BML" beforeDir="false" afterPath="$PROJECT_DIR$/BML" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BML/src/bRect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/BML/src/bRect.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlueKit2D/src/BlueGame.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/BlueGame.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlueKit2D/src/Components/PhysicsObject.h" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/Components/PhysicsObject.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlueKit2D/src/Systems/PhysicsSystem.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/Systems/PhysicsSystem.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlueKit2D/src/Systems/PhysicsSystem.h" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/Systems/PhysicsSystem.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestGame/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/TestGame/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TestGame/Game" beforeDir="false" afterPath="$PROJECT_DIR$/TestGame/Game" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestGame/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/TestGame/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,7 +54,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/BML" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -72,7 +80,7 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "full.screen.before.presentation.mode": "false",
-    "git-widget-placeholder": "8649b6c5",
+    "git-widget-placeholder": "Physics",
     "last_opened_file_path": "/home/bee/Documents/projects/BlueEngine/BlueKit2D/build",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",

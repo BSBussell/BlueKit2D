@@ -51,8 +51,8 @@ target_link_libraries(
 		-lSDL2_mixer
 
 		# Required BlueKit libraries
-		-lBML
 		-lBlueKit2D
+		-lBML
 )
 
 # We put the executable in the same directory as the source files, that way you don't have to do

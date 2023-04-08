@@ -34,6 +34,8 @@ void PhysicsSystem::Init() {
 
 void PhysicsSystem::Update(float dt) {
 
+	// TODO: Make Update work with fixed time steps
+
     std::shared_ptr g_BlueBridgePtr = g_WeakBlueBridge.lock();
 	if (!g_BlueBridgePtr) {
 
@@ -288,6 +290,8 @@ float PhysicsSystem::GetWallNormal(BlueEnt &ent) {
 			return (normal.x);
 		}
 	}
+
+	return 0.0f;
 }
 
 
@@ -301,10 +305,8 @@ void PhysicsSystem::update_obj_positions(PhysicsObject &obj, float dt) {
     // Update the velocity
     obj.velocity += obj.acceleration * dt;
 
-    // Apply friction(decay) to acceleration and velocity
-    // Bee's 1st law of motion:
-    // An object in motion will eventually rest
-    // obj.acceleration *= (1.0f - obj.friction );
+    // Apply friction(decay) to velocity and reset acceleration
+    // Bee's 1st law of motion: An object in motion will eventually rest
     obj.acceleration  = {0.0f, 0.0f};
     obj.velocity     *= (1.0f - obj.friction );
 
@@ -467,14 +469,18 @@ void PhysicsSystem::check_contact(PhysicsObject &ent1, PhysicsObject &ent2) {
 
 }
 
+// Finds the collision normal between two objects
 bPointF PhysicsSystem::find_collision_normal(const PhysicsObject &ent1, const PhysicsObject &ent2) {
+
 	bRectF intersection = ent1.position.intersection(ent2.position);
 
+	// Find the difference in coordinates between the two objects
     float left_diff = abs(intersection.x + intersection.width - ent1.position.x);
     float right_diff = abs(ent1.position.x + ent1.position.width - intersection.x);
     float up_diff = abs(intersection.y + intersection.height - ent1.position.y);
     float down_diff = abs(ent1.position.y + ent1.position.height - intersection.y);
 
+	// Find the smallest difference
     float min_diff = std::min({left_diff, right_diff, up_diff, down_diff});
 
     if (min_diff == left_diff) {
@@ -492,8 +498,7 @@ bPointF PhysicsSystem::find_collision_normal(const PhysicsObject &ent1, const Ph
 // Resolves collisions between two entities
 void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, float dt) {
 
-	float invMass1 = 1 / ent1.mass;
-    float invMass2 = 1 / ent2.mass;
+
 
     /*
         Step 1: Calculate the collision normal.
@@ -510,18 +515,21 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
     */
 
     bPointF rel_Velocity = ent2.velocity - ent1.velocity;
+	float invMass1 = 1 / ent1.mass;
+    float invMass2 = 1 / ent2.mass;
 	float nSpd = dot_product(rel_Velocity, normal_axis);
 
     /*
         Step 2.B
             If Check if objects are actually moving closer togehter, if not, return
-    */
+
 
 	// This has false positives sometimes so I'm disabling it for now
-//    if (nSpd >= 0) {
-//        printf("The Objects are not moving closer together\n");
-//      	return;
-//    }
+    if (nSpd >= 0) {
+        printf("The Objects are not moving closer together\n");
+      	return;
+    }
+	*/
 
     /*
         Step 3)
@@ -581,46 +589,3 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
     }
 
 }
-
-
-
-/*
-        Step 5)
-            Penetration resolution :<
-
-            We'll get this working later, for now we just reverse our step and change velocity
-	*/
-
-	/*
-
-    bRectF overlap = ent1.position.intersection(ent2.position);
-    bPointF overlap_size = {overlap.width, overlap.height};
-
-    // Print the overlap size
-    // printf("overlap_size: %f, %f\n", overlap_size.x, overlap_size.y);
-
-
-    // Since we are only pushing the object out of the rect in one direction
-    // Just use the normal direction
-    overlap_size.x *= (normal_axis.x);
-    overlap_size.y *= -(normal_axis.y);
-
-    //s printf("overlap_pos: %f, %f\n", overlap_size.x, overlap_size.y);
-
-    //float depth = fmin(overlap.width, overlap.height);
-
-    // const float percent = 0.8f;
-    // const float slop = 0.01f;
-
-    //bPointF correction = normal_axis * percent * fmax(depth - slop, 0.0f) / (invMass1 + invMass2);
-
-    bPointF correction = overlap_size;
-
-    bPointF deltaPos1 = correction;
-    bPointF deltaPos2 = correction;
-
-    // printf("correction: %f, %f\n", correction.x, correction.y);
-
-	// printf("deltaPos1: %f, %f\n", deltaPos1.x, deltaPos1.y);
-    // printf("deltaPos2: %f, %f\n", deltaPos2.x, deltaPos2.y);
-	*/
