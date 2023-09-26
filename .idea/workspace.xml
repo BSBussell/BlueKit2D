@@ -26,16 +26,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="389f3730-d5da-4e0b-8489-16351e20174b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitmodules" beforeDir="false" afterPath="$PROJECT_DIR$/.gitmodules" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BML" beforeDir="false" afterPath="$PROJECT_DIR$/BML" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BML/src/bRect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/BML/src/bRect.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlueKit2D/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BlueKit2D/src/BlueGame.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/BlueGame.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlueKit2D/src/BlueGame.h" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/BlueGame.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlueKit2D/src/BlueKit2D.h" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/BlueKit2D.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BlueKit2D/src/Components/PhysicsObject.h" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/Components/PhysicsObject.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlueKit2D/src/Components/Sprite.h" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/Components/Sprite.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlueKit2D/src/Components/Transform.h" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/Components/Transform.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlueKit2D/src/Components/Window.h" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/Components/Window.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlueKit2D/src/Core/BlueBridge.h" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/Core/BlueBridge.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlueKit2D/src/Core/BlueCompArray.h" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/Core/BlueCompArray.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlueKit2D/src/Core/BlueCompManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/Core/BlueCompManager.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlueKit2D/src/Core/BlueEntManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/Core/BlueEntManager.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlueKit2D/src/Core/BlueScene.h" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/Core/BlueScene.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlueKit2D/src/Core/BlueSceneManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/Core/BlueSceneManager.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlueKit2D/src/Core/BlueSys.h" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/Core/BlueSys.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlueKit2D/src/Core/BlueSysManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/Core/BlueSysManager.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlueKit2D/src/Core/BlueTypes.h" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/Core/BlueTypes.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BlueKit2D/src/Systems/PhysicsSystem.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/Systems/PhysicsSystem.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BlueKit2D/src/Systems/PhysicsSystem.h" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/Systems/PhysicsSystem.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlueKit2D/src/Systems/SpriteSystem.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/Systems/SpriteSystem.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlueKit2D/src/Systems/SpriteSystem.h" beforeDir="false" afterPath="$PROJECT_DIR$/BlueKit2D/src/Systems/SpriteSystem.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TestGame/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/TestGame/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TestGame/Game" beforeDir="false" afterPath="$PROJECT_DIR$/TestGame/Game" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestGame/Scenes/SimpleScene.h" beforeDir="false" afterPath="$PROJECT_DIR$/TestGame/Scenes/SimpleScene.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestGame/Scenes/StressScene.h" beforeDir="false" afterPath="$PROJECT_DIR$/TestGame/Scenes/StressScene.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestGame/TemplateScene.h" beforeDir="false" afterPath="$PROJECT_DIR$/TestGame/TemplateScene.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TestGame/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/TestGame/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestGame/main.h" beforeDir="false" afterPath="$PROJECT_DIR$/TestGame/main.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestGame/resources/MCaniHIGH-Start_walk.json" beforeDir="false" afterPath="$PROJECT_DIR$/TestGame/resources/MCaniHIGH-Start_walk.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestGame/resources/MCaniHIGH-Start_walk.png" beforeDir="false" afterPath="$PROJECT_DIR$/TestGame/resources/MCaniHIGH-Start_walk.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +83,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/BML" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -65,6 +94,9 @@
     <option name="majorVersion" value="2022" />
     <option name="minorVersion" value="3.3" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2NNqn5zCtetUqHH9wZ3m7kuzqT6" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -80,13 +112,13 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "full.screen.before.presentation.mode": "false",
-    "git-widget-placeholder": "Physics",
-    "last_opened_file_path": "/home/bee/Documents/projects/BlueEngine/BlueKit2D/build",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/bee/Documents/projects/BlueEngine/BlueKit2D",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors",
+    "settings.editor.selected.configurable": "background.image.plus",
     "structure.view.defaults.are.configured": "true",
     "vue.rearranger.settings.migration": "true"
   },
@@ -104,12 +136,7 @@
     </key>
   </component>
   <component name="RunManager" selected="CMake Application.All">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="All" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BlueKit2DProject" TARGET_NAME="Game" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="BlueKit2DProject" RUN_TARGET_NAME="Game">
+    <configuration name="All" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BlueKit2DProject" TARGET_NAME="Game" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="BlueKit2DProject" RUN_TARGET_NAME="Game">
       <method v="2">
         <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="BML" />
         <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="Install_BML" />
@@ -118,36 +145,36 @@
         <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="Game" />
       </method>
     </configuration>
-    <configuration name="BML" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="true" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BlueKit2DProject" TARGET_NAME="BML" CONFIG_NAME="Debug" RUN_PATH="/bin/test">
+    <configuration name="BML" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="true" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BlueKit2DProject" TARGET_NAME="BML" CONFIG_NAME="Debug" RUN_PATH="/bin/test">
       <method v="2">
         <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="BML" />
         <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="Install_BML" />
       </method>
     </configuration>
-    <configuration name="BlueKit2D" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="true" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BlueKit2DProject" TARGET_NAME="BlueKit2D" CONFIG_NAME="Debug" RUN_PATH="/bin/test">
+    <configuration name="BlueKit2D" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="true" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BlueKit2DProject" TARGET_NAME="BlueKit2D" CONFIG_NAME="Debug" RUN_PATH="/bin/test">
       <method v="2">
         <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="BlueKit2D" />
         <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="Install_BlueKit2D" />
       </method>
     </configuration>
-    <configuration name="Clean" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_PATH="/bin/test" EXPLICIT_BUILD_TARGET_NAME="all">
+    <configuration name="Clean" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_PATH="/bin/test" EXPLICIT_BUILD_TARGET_NAME="all">
       <method v="2">
         <option name="CMake.Explicit.Target" elevated="true" explicitTargetName="clean" />
       </method>
     </configuration>
-    <configuration name="Engine" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" WORKING_DIR="file://$PROJECT_DIR$/user" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BlueKit2DProject" TARGET_NAME="BlueKit2D" CONFIG_NAME="Debug" RUN_PATH="/bin/test">
+    <configuration name="Engine" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" WORKING_DIR="file://$PROJECT_DIR$/user" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BlueKit2DProject" TARGET_NAME="BlueKit2D" CONFIG_NAME="Debug" RUN_PATH="/bin/test">
       <method v="2">
         <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="BML" />
         <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="Install_BML" />
         <option name="RunConfigurationTask" enabled="true" run_configuration_name="BlueKit2D" run_configuration_type="CMakeRunConfiguration" run_configuration_target="CMakeBuildProfile:Debug" />
       </method>
     </configuration>
-    <configuration name="Game" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BlueKit2DProject" TARGET_NAME="Game" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="BlueKit2DProject" RUN_TARGET_NAME="Game">
+    <configuration name="Game" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BlueKit2DProject" TARGET_NAME="Game" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="BlueKit2DProject" RUN_TARGET_NAME="Game">
       <method v="2">
         <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="Game" />
       </method>
     </configuration>
-    <configuration name="jsonTest" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" WORKING_DIR="file://$PROJECT_DIR$/BML/tests/bin" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BlueKit2DProject" TARGET_NAME="jsonTest" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="BlueKit2DProject" RUN_TARGET_NAME="jsonTest">
+    <configuration name="jsonTest" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" WORKING_DIR="file://$PROJECT_DIR$/BML/tests/bin" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BlueKit2DProject" TARGET_NAME="jsonTest" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="BlueKit2DProject" RUN_TARGET_NAME="jsonTest">
       <method v="2">
         <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="BML" />
         <option name="CMake.Explicit.Target" elevated="true" predefinedTargetName="Install_BML" />
@@ -190,6 +217,16 @@
       <workItem from="1680545280434" duration="217000" />
       <workItem from="1680545522047" duration="12296000" />
       <workItem from="1680704683142" duration="638000" />
+      <workItem from="1681007988546" duration="883000" />
+      <workItem from="1681402657937" duration="1315000" />
+      <workItem from="1681930808759" duration="1940000" />
+      <workItem from="1681933921104" duration="200000" />
+      <workItem from="1681934300137" duration="31000" />
+      <workItem from="1681934346107" duration="1000" />
+      <workItem from="1681934564690" duration="1800000" />
+      <workItem from="1695610961154" duration="1640000" />
+      <workItem from="1695613761649" duration="1704000" />
+      <workItem from="1695651805394" duration="4382000" />
     </task>
     <servers />
   </component>

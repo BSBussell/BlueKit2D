@@ -44,15 +44,17 @@ target_link_libraries(
 		Game
 		PRIVATE
 
+		# Required BlueKit libraries
+		-lBlueKit2D
+		-lBML
+
 		# Required SDL2 libraries
 		${SDL2_LIBRARIES}
 		-lSDL2_image
 		-lSDL2_ttf
 		-lSDL2_mixer
 
-		# Required BlueKit libraries
-		-lBlueKit2D
-		-lBML
+
 )
 
 # We put the executable in the same directory as the source files, that way you don't have to do

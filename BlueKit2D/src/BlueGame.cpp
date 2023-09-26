@@ -24,7 +24,7 @@ BlueGame::BlueGame(std::shared_ptr<BlueScene> scene, std::string title) {
 	// Set Flags
 	window->toggleResizeable();
 	window->toggleHardwareRender();
-	//window->toggleVSync();
+	window->toggleVSync();
 	window->toggleHighDPI();
 
 	// Load the window
@@ -94,7 +94,7 @@ void BlueGame::Run() {
 		deltaTime = (current - lastUpdate) / 1000.0f;
 
 		// Call Updates, handles inputs and such
-		if (SceneManager -> Update(deltaTime) == false)
+		if (!SceneManager->Update(deltaTime))
 			continue;
 
 		// Set update time

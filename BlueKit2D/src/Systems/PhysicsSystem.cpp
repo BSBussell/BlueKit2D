@@ -13,7 +13,7 @@ void PhysicsSystem::Init() {
 	std::shared_ptr g_BlueBridgePtr = g_WeakBlueBridge.lock();
 	if (!g_BlueBridgePtr) {
 
-		perror("GIRL YOU LOST YOUR THING\n");
+		perror("GIRL YOU LOST YOUR BRIDGE (Error in PhysicsSystem)\n");
 		exit(1);
 	}
 
@@ -24,10 +24,15 @@ void PhysicsSystem::Init() {
 	for (auto const& entity : BlueEntities) {
 
 		PhysicsObject &obj = g_BlueBridgePtr -> GetComponent<PhysicsObject>(entity);
+		Transform &trans = g_BlueBridgePtr -> GetComponent<Transform>(entity);
 
-		// That way we can access the entity from the component hahaha
-		// Nothing can go wrong here
+		// That way we can access the entity from the component
 		obj.id = entity;
+
+		// Find the offset using the difference between bounding_box and transform
+		obj.offset.x = obj.bounding_box.x - trans.position.x;
+		obj.offset.y = obj.bounding_box.y - trans.position.y;
+
 	}
 
 }
@@ -39,37 +44,25 @@ void PhysicsSystem::Update(float dt) {
     std::shared_ptr g_BlueBridgePtr = g_WeakBlueBridge.lock();
 	if (!g_BlueBridgePtr) {
 
-		perror("GIRL WHERE'D THE BRIDGE GO!!!\n ( Error in SpriteSystem )\n");
+		perror("GIRL WHERE'D THE BRIDGE GO!!!\n ( Error in PhysicsSystem )\n");
 		exit(1);
 	}
 
     for (auto const& entity: BlueEntities) {
 
-		// Used for translating the transform component
-        bPointF initial_pos;
-        bPointF delta_pos;
-
         // Component we want to grab
         PhysicsObject &obj = g_BlueBridgePtr -> GetComponent<PhysicsObject>(entity);
         Transform &trans = g_BlueBridgePtr -> GetComponent<Transform>(entity);
 
-		// Storing the initial position
-        initial_pos.x = obj.position.x;
-        initial_pos.y = obj.position.y;
-        
-		// Update the objects position
+		// Update the objects bounding_box
         update_obj_positions(obj, dt);
 
 		// Check for collisions
         check_collisions(entity, dt);
 
-		// Find the change in position
-		delta_pos.x = obj.position.x - initial_pos.x;
-		delta_pos.y = obj.position.y - initial_pos.y;
-
-		// Apply that change to the transform component
-		trans.position.x += static_cast<Uint32>(round(delta_pos.x));
-		trans.position.y += static_cast<Uint32>(round(delta_pos.y));
+		// Update Transform Position Using Offset
+		trans.position.x = obj.bounding_box.x - obj.offset.x;
+		trans.position.y = obj.bounding_box.y - obj.offset.y;
 
 
     }
@@ -90,7 +83,7 @@ void PhysicsSystem::Render(std::weak_ptr<bRenderer> _context) {
 
         auto context = _context.lock();
         context -> drawRect(
-            g_BlueBridgePtr -> GetComponent<PhysicsObject>(entity).position,
+            g_BlueBridgePtr -> GetComponent<PhysicsObject>(entity).bounding_box,
             g_BlueBridgePtr -> GetComponent<PhysicsObject>(entity).render_color
         );
 
@@ -212,7 +205,7 @@ void PhysicsSystem::SnapToFloor(BlueEnt &ent) {
 		if (normal.y == 1.0f) {
 
 			// Snap to the floor
-			obj.position.y = contact.position.y - obj.position.height;
+			obj.bounding_box.y = contact.bounding_box.y - obj.bounding_box.height;
 
 			// We only need one contact
 			break;
@@ -248,11 +241,11 @@ void PhysicsSystem::SnapToWall(BlueEnt &ent) {
 
 			if (normal.x == 1.0f) {
 				// Snap to the wall
-				obj.position.x = contact.position.x - obj.position.width;
+				obj.bounding_box.x = contact.bounding_box.x - obj.bounding_box.width;
 			}
 			else {
 				// Snap to the wall
-				obj.position.x = contact.position.x + contact.position.width;
+				obj.bounding_box.x = contact.bounding_box.x + contact.bounding_box.width;
 			}
 
 			break;
@@ -295,7 +288,7 @@ float PhysicsSystem::GetWallNormal(BlueEnt &ent) {
 }
 
 
-// Takes and object and updates their position
+// Takes and object and updates their bounding_box
 void PhysicsSystem::update_obj_positions(PhysicsObject &obj, float dt) {
 
     // Cap the acceleration
@@ -314,9 +307,9 @@ void PhysicsSystem::update_obj_positions(PhysicsObject &obj, float dt) {
     obj.velocity.x = fmax(fmin(obj.velocity.x, obj.maxVelocity.x), -obj.maxVelocity.x);
     obj.velocity.y = fmax(fmin(obj.velocity.y, obj.maxVelocity.y), -obj.maxVelocity.y);
 
-    // Update the position
-    obj.position.x += obj.velocity.x * dt;
-    obj.position.y += obj.velocity.y * dt;
+    // Update the bounding_box
+    obj.bounding_box.x += obj.velocity.x * dt;
+    obj.bounding_box.y += obj.velocity.y * dt;
 
 
 }
@@ -349,10 +342,10 @@ void PhysicsSystem::snap(PhysicsObject &obj) {
 
 			if (normal.x == 1.0f) {
 				// Snap to the wall
-				obj.position.x = contact.position.x - obj.position.width;
+				obj.bounding_box.x = contact.bounding_box.x - obj.bounding_box.width;
 			} else {
 				// Snap to the wall
-				obj.position.x = contact.position.x + contact.position.width;
+				obj.bounding_box.x = contact.bounding_box.x + contact.bounding_box.width;
 			}
 
 		}
@@ -361,7 +354,7 @@ void PhysicsSystem::snap(PhysicsObject &obj) {
 		if (normal.y == 1.0f) {
 
 			// Snap to the floor
-			obj.position.y = contact.position.y - obj.position.height;
+			obj.bounding_box.y = contact.bounding_box.y - obj.bounding_box.height;
 
 		}
 
@@ -369,7 +362,7 @@ void PhysicsSystem::snap(PhysicsObject &obj) {
 		if (normal.y == -1.0f) {
 
 			// Snap to the floor
-			obj.position.y = contact.position.y + contact.position.height;
+			obj.bounding_box.y = contact.bounding_box.y + contact.bounding_box.height;
 
 		}
 
@@ -420,13 +413,9 @@ bool PhysicsSystem::check_collision(PhysicsObject &ent1, PhysicsObject &ent2, fl
     int iterations = 0;
 	bool hadCollision = false;
     // run until the two objects are no longer colliding or we've tried to resolve the collision 10 times
-    while ( ent1.position.intersects(ent2.position)) {
-		// printf("====================================\n");
-        //if (strcmp(ent1.name, "Player") && strcmp(ent2.name, "Player"))
-		// printf("Collision between %s and %s\n", ent1.name.c_str(), ent2.name.c_str());
-        resolve_collision(ent1, ent2, dt);
-        // printf("====================================\n");
-        ent2.render_color = {255, 0, 0, 50};
+    while ( ent1.bounding_box.intersects(ent2.bounding_box)) {
+		resolve_collision(ent1, ent2, dt);
+
         iterations++;
         if (iterations > 10) {
             // printf("Could not resolve collision between %s and %s\n", ent1.name, ent2.name);
@@ -444,17 +433,21 @@ void PhysicsSystem::check_contact(PhysicsObject &ent1, PhysicsObject &ent2) {
 	const float tolerance = 0.1f;
 
 	// Make bRect for ent2 adding a tolerance
-	bRectF ent2_expanded = ent2.position;
+	bRectF ent2_expanded = ent2.bounding_box;
 	ent2_expanded.x -= tolerance;
 	ent2_expanded.y -= tolerance;
 	ent2_expanded.width += tolerance * 2;
 	ent2_expanded.height += tolerance * 2;
 
 	// Check if ent1 is inside ent2_expanded
-	if (ent2_expanded.intersects(ent1.position)) {
+	if (ent2_expanded.intersects(ent1.bounding_box)) {
 
 		ent1.contacts.push_back(ent2.id);
 		ent2.contacts.push_back(ent1.id);
+
+		// Set the color of entities with contacts to red
+		ent1.render_color = {255, 0, 0, 50};
+		ent2.render_color = {255, 0, 0, 50};
 
 	} else {
 		// printf("No contact between %s and %s\n", ent1.name, ent2.name);
@@ -464,6 +457,10 @@ void PhysicsSystem::check_contact(PhysicsObject &ent1, PhysicsObject &ent2) {
 		// Remove ent2 from ent1's contacts
 		ent1.contacts.erase(std::remove(ent1.contacts.begin(), ent1.contacts.end(), ent2.id), ent1.contacts.end());
 
+		// Set the color of entities with no contacts to blue
+		ent1.render_color = {0, 0, 255, 50};
+		ent2.render_color = {0, 0, 255, 50};
+
 		// Trusting Copilot with this one :3
 	}
 
@@ -472,13 +469,13 @@ void PhysicsSystem::check_contact(PhysicsObject &ent1, PhysicsObject &ent2) {
 // Finds the collision normal between two objects
 bPointF PhysicsSystem::find_collision_normal(const PhysicsObject &ent1, const PhysicsObject &ent2) {
 
-	bRectF intersection = ent1.position.intersection(ent2.position);
+	bRectF intersection = ent1.bounding_box.intersection(ent2.bounding_box);
 
 	// Find the difference in coordinates between the two objects
-    float left_diff = abs(intersection.x + intersection.width - ent1.position.x);
-    float right_diff = abs(ent1.position.x + ent1.position.width - intersection.x);
-    float up_diff = abs(intersection.y + intersection.height - ent1.position.y);
-    float down_diff = abs(ent1.position.y + ent1.position.height - intersection.y);
+    float left_diff = abs(intersection.x + intersection.width - ent1.bounding_box.x);
+    float right_diff = abs(ent1.bounding_box.x + ent1.bounding_box.width - intersection.x);
+    float up_diff = abs(intersection.y + intersection.height - ent1.bounding_box.y);
+    float down_diff = abs(ent1.bounding_box.y + ent1.bounding_box.height - intersection.y);
 
 	// Find the smallest difference
     float min_diff = std::min({left_diff, right_diff, up_diff, down_diff});
@@ -563,7 +560,7 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
         ent1.acceleration = {0, 0};
 
         // Step backwards until the two objects are no longer colliding
-		ent1.position -= ent1.velocity * dt;
+		ent1.bounding_box -= ent1.velocity * dt;
 
         ent1.velocity -= deltaV1;
 		update_obj_positions(ent1, dt);
@@ -579,7 +576,7 @@ void PhysicsSystem::resolve_collision(PhysicsObject &ent1, PhysicsObject &ent2, 
         ent2.acceleration = {0, 0};
 
         // Step backwards until the two objects are no longer colliding
-		ent2.position -= ent2.velocity * dt;
+		ent2.bounding_box -= ent2.velocity * dt;
 
         ent2.velocity += deltaV2;
 		update_obj_positions(ent2, dt);

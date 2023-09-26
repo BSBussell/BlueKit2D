@@ -9,3 +9,7 @@ build/*
 cmake-build-debug/*
 *.a
 bin/BlueKit2D
+.idea/workspace.xml
+.idea/workspace.xml
+.idea/workspace.xml
+TestGame/Game

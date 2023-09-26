@@ -21,8 +21,11 @@ struct PhysicsObject {
 
 	BlueEnt id;
 
-    // @brief The position of the object
-    bRectF position;
+    // @brief The bounding_box of the object
+    bRectF bounding_box;
+
+	// @brief The Offset of the object(used to handle differences in transform and physics)
+	bPointF offset = {0, 0};
 
     // @brief The velocity of the object
     bPointF velocity = {0, 0};

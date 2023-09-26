@@ -60,13 +60,13 @@ public:
 	// @brief Snaps an entity to the wall
 	void SnapToWall(BlueEnt &ent);
 
-	// Pretty much find our relative position
+	// Pretty much find our relative bounding_box
 	// Will be needed for things like wall jumping
 	float GetWallNormal(BlueEnt &ent);
 
 protected:
 
-    // Applies velocity to position and acceleration to velocity
+    // Applies velocity to bounding_box and acceleration to velocity
     void update_obj_positions(PhysicsObject &obj, float dt);
 
 	// Snaps object for colliders
