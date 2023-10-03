@@ -69,7 +69,7 @@ public:
 
             PhysicsObject object;
             object.name = "Player";
-            object.position = {static_cast<float>(loc.position.x+100), static_cast<float>(loc.position.y+50), 150, 250};
+            object.bounding_box = {static_cast<float>(loc.position.x+100), static_cast<float>(loc.position.y+50), 150, 250};
             object.maxVelocity = {5000, 5000};
             object.maxAcceleration = {1000000000, 1000000000};
             object.friction = 0.25f;
@@ -97,7 +97,7 @@ public:
 
             PhysicsObject object;
             object.name = "Big Block";
-            object.position = loc.position;
+            object.bounding_box = loc.position;
             object.maxVelocity = {10000, 10000};
             object.maxAcceleration = {20, 20};
             object.friction = 0.05f;
@@ -122,7 +122,7 @@ public:
 
             PhysicsObject object;
             object.name = "Box";
-            object.position = loc.position;
+            object.bounding_box = loc.position;
             object.maxVelocity = {10000, 10000};
             object.maxAcceleration = {200000, 2000000};
             object.friction = 0.05f;
@@ -146,7 +146,7 @@ public:
 
             PhysicsObject object;
             object.name = "Sponge";
-            object.position = loc.position;
+            object.bounding_box = loc.position;
             object.friction = 0.05f;
             object.restitution = 0.0f;
             object.mass = 0.25f;
@@ -168,7 +168,7 @@ public:
 
             PhysicsObject object;
             object.name = "Rect";
-            object.position = loc.position;
+            object.bounding_box = loc.position;
             object.friction = 0.5f;
             object.restitution = 0.0f;
             object.mass = 0.1f;
@@ -190,7 +190,7 @@ public:
 
             PhysicsObject object;
             object.name = "Floor";
-            object.position = loc.position;
+            object.bounding_box = loc.position;
             object.maxVelocity = {0, 0};
             object.maxAcceleration = {20, 20};
             object.friction = 0.0000004f;
